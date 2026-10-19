@@ -139,8 +139,9 @@ def driver_hint() -> str:
     if IS_MAC:
         return "Install the AirSpy HF+ driver with Homebrew:  brew install airspyhf"
     if IS_WIN:
-        return ("Put airspyhf.dll (from the AirSpy HF+ software package, e.g. SDR#) next to "
-                "NightDX or in PATH, and install the WinUSB driver with Zadig (see README).")
+        folder = os.path.join(os.environ.get("LOCALAPPDATA", ""), "NightDX")
+        return ("Download SDR# x64 (sdrsharp-x64.zip) from airspy.com/download and copy "
+                f"airspyhf.dll, libusb-1.0.dll and pthreadVC2.dll into {folder}")
     return "Install libairspyhf (e.g. sudo apt install libairspyhf-dev airspyhf) "
 
 

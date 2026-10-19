@@ -55,10 +55,12 @@ button that remembers which stations you have already written to:
 ### 2. Install the AirSpy HF+ driver
 
 * **macOS**: `brew install airspyhf` (install [Homebrew](https://brew.sh) first if needed).
-* **Windows**: download `airspyhf.dll` from the
-  [airspyhf releases](https://github.com/airspy/airspyhf/releases) (or copy it from your SDR#
-  folder) into `%LOCALAPPDATA%\NightDX\`. Windows 10/11 normally installs the HF+'s USB driver
-  automatically; if the radio isn't found, install the WinUSB driver with [Zadig](https://zadig.akeo.ie).
+* **Windows**: download **SDR# x64** (`sdrsharp-x64.zip`) from
+  [airspy.com/download](https://airspy.com/download/), open the zip and copy these three files
+  into `%LOCALAPPDATA%\NightDX\` (create the folder if needed): `airspyhf.dll`,
+  `libusb-1.0.dll` and `pthreadVC2.dll`. (If you already use SDR#, copy them from its folder.)
+  Windows 10/11 normally installs the HF+'s USB driver automatically; if the radio isn't found,
+  install the *WinUSB Compatibility Driver* from the same airspy.com page.
 * **Linux**: `sudo apt install libairspyhf-dev airspyhf` (or build
   [airspyhf](https://github.com/airspy/airspyhf)), plus `libportaudio2` for audio playback.
 

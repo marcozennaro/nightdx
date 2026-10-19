@@ -28,6 +28,12 @@ _CB = ctypes.CFUNCTYPE(ctypes.c_int, ctypes.POINTER(_Transfer))
 def _lib():
     for p in airspyhf_library_candidates():
         if p and (os.path.exists(p) or os.sep not in p):
+            if os.name == "nt" and os.path.isabs(p):
+                # airspyhf.dll needs libusb-1.0.dll and pthreadVC2.dll from the same folder
+                try:
+                    os.add_dll_directory(os.path.dirname(p))
+                except (OSError, AttributeError):
+                    pass
             try:
                 lib = ctypes.CDLL(p)
             except OSError:          # e.g. an Intel build on Apple Silicon
