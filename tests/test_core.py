@@ -150,3 +150,9 @@ def test_recording_through_library_stream(monkeypatch):
     peak_hz = np.argmax(spec[10:]) + 10
     assert abs(peak_hz * cap.rate / len(cap.audio) - 1000) < 20
     assert cap.carrier_db > 40 and cap.modulation_db > 20
+
+
+def test_radio_tags_drop_noise_guesses():
+    from nightdx.classify import radio_tags
+    assert radio_tags("Fart, Music, Insect, Fly, housefly, Cacophony") == ["Music"]
+    assert radio_tags(["Speech", "Vehicle", "Female singing"]) == ["Speech", "Female singing"]

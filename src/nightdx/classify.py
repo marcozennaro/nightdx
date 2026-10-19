@@ -70,6 +70,20 @@ def _fold(windows: list[str], backend: str, conf: float, tags: list[str]) -> Res
     return Result(label, v, m, z, backend, conf, windows, tags)
 
 
+def radio_tags(tags: str | list) -> list[str]:
+    """Only the AudioSet labels that mean something for radio (speech, music, genres,
+    instruments, static...). Noisy shortwave audio also triggers labels like 'Vehicle' or
+    'Insect', which are just the model's guess at the noise."""
+    items = [t.strip() for t in (tags.split(",") if isinstance(tags, str) else tags) if t.strip()]
+    keep = []
+    for t in items:
+        lt = t.lower()
+        if (t in VOICE_LABELS or t in NOISE_LABELS or any(h in lt for h in MUSIC_HINTS)
+                or lt in ("speech", "music", "static", "hum", "mains hum", "radio")):
+            keep.append(t)
+    return keep
+
+
 # --------------------------------------------------------------------------- AST
 
 _pipe = None
@@ -133,7 +147,8 @@ def classify_ast(audio: np.ndarray, rate: int, model: str, window_s: float) -> R
     for w in wins:
         for label, score in w["tags"][:3]:
             tag_score[label] = tag_score.get(label, 0) + score
-    tags = [t for t, _ in sorted(tag_score.items(), key=lambda x: -x[1])[:5]]
+    ranked = [t for t, _ in sorted(tag_score.items(), key=lambda x: -x[1])]
+    tags = radio_tags(ranked)[:5]            # drop 'Vehicle', 'Insect'... guesses at the noise
     confs = [w["conf"] for w in wins]
     return _fold([w["label"] for w in wins], "ast", float(np.mean(confs)) if confs else 0, tags)
 

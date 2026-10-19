@@ -1178,7 +1178,8 @@ class NightDX(App):
 
     def _why_mw(self, key, e, p) -> str:
         s = self.sched
-        src = "MWLIST" if e.source == "MWLIST" else "guessed (EiBi has no power)"
+        src = ("MWLIST" if e.source == "MWLIST" else "AOKI list" if e.power_kw
+               else "guessed - no schedule lists it")
         return (
             f"{e.station}  {e.khz:g} kHz  (medium wave)\n"
             f"{s.country_name(e.itu)} - {s.language_name(e.lang) or '?'}\n"

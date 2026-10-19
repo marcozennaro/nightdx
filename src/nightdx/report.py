@@ -10,6 +10,7 @@ from datetime import datetime, timedelta
 from pathlib import Path
 
 from . import config, logbook
+from .classify import radio_tags
 
 ICON = {"voice": "VOICE", "music": "MUSIC", "voice+music": "V+M", "noise": "noise", None: "?"}
 
@@ -208,7 +209,7 @@ def _html(name, rows, settings, out_dir: Path, nav: str = "", title: str = "") -
 &middot; to {esc(r['target'] or '')}</small></td>
 <td class="num">{r['distance_km'] or 0:.0f}</td><td class="num">{r['predicted_score'] or 0}%</td>
 <td class="num">{'' if r['modulation_db'] is None else f"{r['modulation_db']:.0f} dB"}</td>
-<td><span class="tag">{esc(label)}</span>{bar}<small>{esc(r['class_tags'] or '')}</small></td>
+<td><span class="tag">{esc(label)}</span>{bar}<small>{esc(', '.join(radio_tags(r['class_tags'] or '')))}</small></td>
 <td>{player}{_qsl_cell(r, settings, known, got)}</td></tr>""")
     heard = sum(1 for r in ok if r["label"] and r["label"] != "noise")
     return f"""<!doctype html><html><head><meta charset="utf-8">
