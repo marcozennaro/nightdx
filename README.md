@@ -20,6 +20,22 @@ players, ready-made reception reports for the stations, and a log of the QSL car
   - as a Gmail draft with the recording attached, or in any mail program.
 * **Day-by-day log** in the browser, **QSL card collection** with "already received" tracking.
 
+## Screenshots
+
+**Main screen** - countries ranked by what the band scan actually hears ("Heard dB") next to the
+propagation prediction, with the radio, schedules and space weather at the top:
+
+![Main screen](docs/images/main-screen.webp)
+
+**Night mission** - choose the hours and (optionally) targets, then arm it for tonight:
+
+![Night mission dialog](docs/images/night-mission.png)
+
+**Morning report** - every recording with the AI verdict, an audio player and a reception-report
+button that remembers which stations you have already written to:
+
+![Morning report](docs/images/morning-report.webp)
+
 ## Requirements
 
 * An **AirSpy HF+** (Discovery or Dual Port) and an antenna.
