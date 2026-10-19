@@ -301,6 +301,7 @@ class RecordDialog(Dialog):
         self.app.radio_busy = True
         self.recording = True
         self.row: dict = {}
+        self._watch = None
         self.go()
 
     def _ui(self, fn, *args, **kw) -> None:
@@ -340,6 +341,20 @@ class RecordDialog(Dialog):
             play.disabled = False
             play.focus()
 
+    def _show_playing(self, playing: bool) -> None:
+        """Play is greyed out while the recording plays; Stop only then."""
+        if self.recording or not self.is_attached:
+            return
+        self.query_one("#play", Button).disabled = playing or not self.row.get("file")
+        stop = self.query_one("#stopnow", Button)
+        stop.disabled = not playing
+        if not playing and self._watch:
+            self._watch.stop()
+            self._watch = None
+
+    def _check_playing(self) -> None:
+        self._show_playing(self.app.player.is_playing())
+
     @on(Button.Pressed, "#stopnow")
     def stop_now(self) -> None:
         if self.recording:
@@ -348,12 +363,16 @@ class RecordDialog(Dialog):
             self.query_one(RichLog).write("  stopping early - saving what we have...")
         else:
             self.app.action_stop_play()
-            self.query_one("#stopnow", Button).disabled = True
+            self._show_playing(False)
 
     @on(Button.Pressed, "#play")
     def play(self) -> None:
         self.app.play(self.row["file"])
-        self.query_one("#stopnow", Button).disabled = False
+        self._show_playing(True)
+        if self.app.player.is_playing():          # re-enable Play when it ends by itself
+            self._watch = self.set_interval(0.5, self._check_playing)
+        else:                                     # opened in an external player
+            self._show_playing(False)
 
     @on(Button.Pressed, "#close")
     def close_(self) -> None:

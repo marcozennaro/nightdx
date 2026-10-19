@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.9.2 - 2026-10-19
+
+* **Recording window:** while a recording plays, *Play* is greyed out and *Stop* is active;
+  *Play* becomes available again when playback ends or is stopped.
+* **Windows:** arming a night mission no longer opens a second console window - the mission
+  runs hidden in the background (and keeps running if you close NightDX). Stop it with
+  *Night > Stop running mission*.
+
 ## 0.9.1 - 2026-10-19
 
 First fixes from testing on Windows with a real AirSpy HF+.

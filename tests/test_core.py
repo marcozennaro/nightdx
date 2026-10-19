@@ -156,3 +156,21 @@ def test_radio_tags_drop_noise_guesses():
     from nightdx.classify import radio_tags
     assert radio_tags("Fart, Music, Insect, Fly, housefly, Cacophony") == ["Music"]
     assert radio_tags(["Speech", "Vehicle", "Female singing"]) == ["Speech", "Female singing"]
+
+
+def test_player_state(tmp_path, monkeypatch):
+    """Play/Stop state used by the recording window."""
+    import sys, types
+    import numpy as np
+    import soundfile as sf
+    from nightdx import osutil
+    f = tmp_path / "a.flac"
+    sf.write(f, np.zeros(16000, dtype="float32"), 16000)          # 1 s of silence
+    fake = types.SimpleNamespace(play=lambda d, r: None, stop=lambda: None)
+    monkeypatch.setitem(sys.modules, "sounddevice", fake)          # no audio device in CI
+    p = osutil.Player()
+    assert not p.is_playing()
+    p.play(str(f))
+    assert p.is_playing()
+    p.stop()
+    assert not p.is_playing()

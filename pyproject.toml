@@ -1,6 +1,6 @@
 [project]
 name = "nightdx"
-version = "0.9.1"
+version = "0.9.2"
 description = "Unattended shortwave and medium-wave listening with the AirSpy HF+: schedules, propagation, band scans, AI classification, reception reports and a QSL log - in a 90s-style terminal UI."
 readme = "README.md"
 license = "MIT"

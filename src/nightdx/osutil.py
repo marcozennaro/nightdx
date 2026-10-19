@@ -70,14 +70,17 @@ class Player:
 
     def __init__(self):
         self._proc = None
+        self._until = 0.0                     # end time of in-process (sounddevice) playback
 
     def play(self, path: str) -> None:
         self.stop()
         try:
+            import time
             import sounddevice as sd
             import soundfile as sf
             data, rate = sf.read(path, dtype="float32")
             sd.play(data, rate)
+            self._until = time.time() + len(data) / rate
             return
         except Exception:
             pass                                          # no audio device / library
@@ -92,8 +95,16 @@ class Player:
             sd.stop()
         except Exception:
             pass
+        self._until = 0.0
         if self._proc and self._proc.poll() is None:
             self._proc.terminate()
+
+    def is_playing(self) -> bool:
+        """True while a recording is playing (unknown for an external player: False)."""
+        import time
+        if time.time() < self._until:
+            return True
+        return bool(self._proc and self._proc.poll() is None)
 
 
 # --------------------------------------------------------------------------- images
@@ -176,7 +187,10 @@ def spawn_detached(cmd: list[str], log_path: Path) -> int:
     """Start a background process that survives closing the terminal."""
     with open(log_path, "a") as f:
         if IS_WIN:
-            flags = 0x00000008 | 0x00000200          # DETACHED_PROCESS | CREATE_NEW_PROCESS_GROUP
+            # CREATE_NO_WINDOW | CREATE_NEW_PROCESS_GROUP: a hidden console that child programs
+            # inherit. (DETACHED_PROCESS made Windows open a visible console window for the
+            # interpreter that uv's python.exe launcher starts.)
+            flags = 0x08000000 | 0x00000200
             p = subprocess.Popen(cmd, stdout=f, stderr=subprocess.STDOUT,
                                  stdin=subprocess.DEVNULL, creationflags=flags)
         else:
