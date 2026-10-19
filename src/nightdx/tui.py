@@ -372,7 +372,7 @@ class NightDialog(Dialog):
         with Vertical(classes="dialog") as d:
             d.border_title = " Night mission "
             yield Label("Records unattended between the two local times, cycling through the\n"
-                        "targets and picking whatever propagation favours. The Mac is kept awake;\n"
+                        "targets and picking whatever propagation favours. The computer is kept awake;\n"
                         "the mission keeps running if you quit NightDX.")
             with Horizontal(classes="row"):
                 yield Label("Start (local HH:MM)")
