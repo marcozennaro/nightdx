@@ -1,0 +1,52 @@
+[project]
+name = "nightdx"
+version = "0.9.0"
+description = "Unattended shortwave and medium-wave listening with the AirSpy HF+: schedules, propagation, band scans, AI classification, reception reports and a QSL log - in a 90s-style terminal UI."
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{ name = "Marco Zennaro", email = "marcozennaro@gmail.com" }]
+requires-python = ">=3.11"
+keywords = ["shortwave", "swl", "dx", "sdr", "airspy", "qsl", "radio"]
+classifiers = [
+    "Environment :: Console",
+    "Operating System :: MacOS",
+    "Operating System :: Microsoft :: Windows",
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: Python :: 3",
+    "Topic :: Communications :: Ham Radio",
+]
+dependencies = [
+    "textual>=8.0",
+    "numpy>=2.0",
+    "scipy>=1.13",
+    "soundfile>=0.12",
+    "sounddevice>=0.5",
+    "mutagen>=1.47",
+    "platformdirs>=4.0",
+]
+
+[project.optional-dependencies]
+# Speech/music/noise classification and programme transcription (~2 GB with PyTorch)
+ai = ["torch>=2.4", "transformers>=4.45"]
+# Gmail drafts with the recording attached
+gmail = ["google-api-python-client>=2.100", "google-auth-oauthlib>=1.2"]
+# HEIC (iPhone) photos of QSL cards on Windows/Linux (macOS converts them natively)
+images = ["pillow>=10", "pillow-heif>=0.16"]
+all = ["nightdx[ai,gmail,images]"]
+
+[project.scripts]
+nightdx = "nightdx.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/marcozennaro/nightdx"
+
+[dependency-groups]
+dev = ["pytest>=8"]
+
+[build-system]
+requires = ["uv_build>=0.9.5,<0.10.0"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-name = "nightdx"

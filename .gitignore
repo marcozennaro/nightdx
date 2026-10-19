@@ -1,0 +1,27 @@
+# Python / uv
+__pycache__/
+*.pyc
+.venv/
+dist/
+build/
+*.egg-info/
+
+# Never commit personal data (NightDX keeps it outside this folder, but just in case)
+config.toml
+logbook.sqlite
+gmail_credentials.json
+gmail_token.json
+.server_token
+qsl_history.json
+qsl_cards.json
+qsl_cards/
+recordings/
+reports/
+data/
+mwlist/
+*.flac
+*.wav
+mission.json
+mission.log
+mission.stop
+.DS_Store

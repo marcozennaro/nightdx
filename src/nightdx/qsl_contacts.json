@@ -1,0 +1,2044 @@
+[
+ {
+  "alt_emails": [],
+  "web_form": null,
+  "language": "English",
+  "match": [
+   "4DX"
+  ],
+  "itu": "AUS",
+  "name": "Radio 4DX (South Johnstone, Qld)",
+  "email": null,
+  "qsl_status": "unknown",
+  "notes": "New station on 5055 kHz run by Al Kirton (tests Aug 2026). No 4DX-specific address found; al@nqradio.com.au is Al Kirton's address from the former 4KZ shortwave operation (2017) - unconfirmed for 4DX.",
+  "source": "https://swling.com/blog/tag/al-kirton/",
+  "confidence": "low"
+ },
+ {
+  "match": [
+   "Adventist World Radio",
+   "AWR",
+   "KSDA"
+  ],
+  "itu": "USA",
+  "name": "Adventist World Radio (KSDA Guam and relays)",
+  "email": "qsl@awr.org",
+  "alt_emails": [],
+  "web_form": null,
+  "language": "English",
+  "qsl_status": "eQSL only",
+  "notes": "2025: full-data eQSLs in ~2 days from qsl@awr.org; address also given in AWR's own frequency schedule.",
+  "source": "https://naswa.net/newsite/wp-content/uploads/journal_archive/2020-2029_Journal/2025_Journal/202504_e-Journal.pdf",
+  "confidence": "medium"
+ },
+ {
+  "match": [
+   "AIR Akashvani",
+   "Akashvani",
+   "All India Radio",
+   "AIR "
+  ],
+  "itu": "IND",
+  "name": "Akashvani External Services (All India Radio)",
+  "email": "spectrummanager@prasarbharati.gov.in",
+  "alt_emails": [],
+  "web_form": null,
+  "language": "English",
+  "qsl_status": "issues QSLs",
+  "notes": "Many 2025 full-data paper QSL cards (7-15 weeks) for reports to the Spectrum Manager; address also announced with External Services schedules.",
+  "source": "https://naswa.net/newsite/wp-content/uploads/journal_archive/2020-2029_Journal/2025_Journal/202503_e-Journal.pdf",
+  "confidence": "medium"
+ },
+ {
+  "match": [
+   "Alcaravan",
+   "Alcaraván"
+  ],
+  "itu": "CLM",
+  "name": "Alcaraván Radio (Puerto Lleras)",
+  "email": "rafaelcoldx@yahoo.com",
+  "alt_emails": [],
+  "web_form": null,
+  "language": "Spanish",
+  "qsl_status": "eQSL only",
+  "notes": "QSL manager Rafael Rodríguez R. eQSL, e-sticker and antenna photo in about 1-12 days. Spanish report with audio clips recommended.",
+  "source": "https://naswa.net/newsite/wp-content/uploads/journal_archive/2020-2029_Journal/2024_Journal/202405_e-Journal.pdf",
+  "confidence": "medium"
+ },
+ {
+  "match": [
+   "Algerienne",
+   "Algerie",
+   "Algeria",
+   "Algiers",
+   "Ifrikya"
+  ],
+  "itu": "ALG",
+  "name": "Radio Algérienne / Ifrikya FM",
+  "email": "ifrikyafm@gmail.com",
+  "alt_emails": [],
+  "web_form": null,
+  "language": "French",
+  "qsl_status": "unknown",
+  "notes": "Ifrikya FM profile (NASWA Jul 2023): 21 Boulevard des Martyrs, 16000 Algiers. A DXer's report to contact@radioalgerie.dz bounced (Aug 2023); a report sent to ifrikyafm@gmail.com (Oct 2023) got no reply he recorded. No verifications seen 2024-26. Write in French.",
+  "source": "https://vk5pas.com/ifrikya-fm.html",
+  "confidence": "low"
+ },
+ {
+  "match": [
+   "Amhara"
+  ],
+  "itu": "ETH",
+  "name": "Amhara Media Corporation (Amhara State Radio)",
+  "email": "amaharaweb@gmail.com",
+  "alt_emails": [],
+  "web_form": null,
+  "language": "English",
+  "qsl_status": "unknown",
+  "notes": "General contact from the corporation's background page; spelled 'amaharaweb' there. No QSL policy found.",
+  "source": "https://www.ameco.et/english/?p=138",
+  "confidence": "medium"
+ },
+ {
+  "match": [
+   "Argentina al Exterior",
+   "RAE",
+   "Argentina al Mundo"
+  ],
+  "itu": "ARG",
+  "name": "RAE Argentina al Mundo (relayed via WRMI)",
+  "email": "qslrae@gmail.com",
+  "alt_emails": [],
+  "web_form": null,
+  "language": "Spanish",
+  "qsl_status": "eQSL only",
+  "notes": "Same address for all language services. English-service reports are also welcome. Now aired via WRMI Okeechobee; no transmitters in Argentina.",
+  "source": "https://cdn.radionacional.com.ar/?p=1557084",
+  "confidence": "high"
+ },
+ {
+  "match": [
+   "Augusta"
+  ],
+  "itu": "CTI",
+  "name": "Radio Augusta International",
+  "email": "radioaugustainternational@gmail.com",
+  "alt_emails": [],
+  "web_form": null,
+  "language": "French",
+  "qsl_status": "eQSL only",
+  "notes": "Shortwave 6140 kHz goes out via Radio Onda / Junglinster, Luxembourg, not from Ivory Coast. Fast eQSL (minutes to a day), signed by Didier Petit. Reports in French or English. Email is on the station's own site.",
+  "source": "https://radioaugusta.com/",
+  "confidence": "high"
+ },
+ {
+  "match": [
+   "BBC"
+  ],
+  "itu": "G",
+  "name": "BBC World Service",
+  "email": null,
+  "alt_emails": [],
+  "web_form": null,
+  "language": "English",
+  "qsl_status": "no longer verifies",
+  "notes": "BBC World Service no longer issues QSLs (no staff to verify); interference reports may be forwarded to engineers.",
+  "source": "https://www.oocities.org/ysrc_india/QSL_Desk.htm",
+  "confidence": "low"
+ },
+ {
+  "match": [
+   "Beibu Bay",
+   "Beibu"
+  ],
+  "itu": "CHN",
+  "name": "Beibu Bay Radio / Voice of Beibu Bay (Nanning)",
+  "email": null,
+  "alt_emails": [],
+  "web_form": null,
+  "language": "English",
+  "qsl_status": "eQSL only",
+  "notes": "VK5PAS got a QSL for Beibu Bay Radio 5050 kHz in July 2024 from Ying Lian of CRI English Service, who also verified CNR stations at yinglian@cri.com.cn (NASWA Feb 2023). The address itself was not shown on the VK5PAS page. (Public list: a staff member's personal address was left out - see DX bulletins, and add it to your own qsl_contacts.json.)",
+  "source": "https://vk5pas.org/2024/07/19/beibu-bay-radio-qsl-card/",
+  "confidence": "medium"
+ },
+ {
+  "match": [
+   "Bible Voice",
+   "BVB"
+  ],
+  "itu": "CAN",
+  "name": "Bible Voice Broadcasting",
+  "email": "mail@bvbroadcasting.org",
+  "alt_emails": [],
+  "web_form": null,
+  "language": "English",
+  "qsl_status": "issues QSLs",
+  "notes": "BVB's own B25 schedule announcement asks for reports to mail@bvbroadcasting.org (postal: P.O. Box 95561, Newmarket ON L3Y 8J8, Canada).",
+  "source": "https://naswa.net/newsite/wp-content/uploads/journal_archive/2020-2029_Journal/2025_Journal/202512_e-Journal.pdf",
+  "confidence": "medium"
+ },
+ {
+  "alt_emails": [
+   "blacksmith.knoll@gmail.com"
+  ],
+  "web_form": "https://rbsk6120.radio.am",
+  "language": "English",
+  "match": [
+   "Blacksmith Knoll",
+   "Radio Blacksmith"
+  ],
+  "itu": "FIN",
+  "name": "Radio Blacksmith Knoll (Pori)",
+  "email": "rbsk6120@rbsk6120.radio.am",
+  "qsl_status": "eQSL only",
+  "notes": "6120 kHz. eQSL in 18 days (Nov 2025) to rbsk6120@rbsk6120.radio.am; earlier (Aug 2025) eQSL via blacksmith.knoll@gmail.com.",
+  "source": "https://naswa.net/newsite/wp-content/uploads/journal_archive/2020-2029_Journal/2025_Journal/202511_e-Journal.pdf",
+  "confidence": "medium"
+ },
+ {
+  "match": [
+   "Channel 292"
+  ],
+  "itu": "D",
+  "name": "Radio Channel 292 (intermedicom)",
+  "email": "info@intermedicom.de",
+  "alt_emails": [],
+  "web_form": null,
+  "language": "English",
+  "qsl_status": "unknown",
+  "notes": "Site asks for reception reports via its contact form, and warns that its mails may not reach hotmail/yahoo users. Programmes relayed via Channel 292 often have their own QSL emails, listed at channel292.de/stations-contact-data/. Form URL is inferred from the site menu.",
+  "source": "https://www.channel292.de/",
+  "confidence": "high"
+ },
+ {
+  "match": [
+   "China National Radio",
+   "CNR",
+   "CNR5"
+  ],
+  "itu": "CHN",
+  "name": "China National Radio (CNR 1/2/5/6/7/11/13 ...)",
+  "email": null,
+  "alt_emails": [],
+  "web_form": null,
+  "language": "English or Chinese",
+  "qsl_status": "eQSL only",
+  "notes": "Babul Gupta (Asian DX Review) got full-data eQSLs from CNR 1, 2, 7 and 13 in 2-7 days by emailing reports with audio file to this CRI/CMG address (2022-23). Ying Lian was still verifying Chinese domestic stations in July 2024 (Beibu Bay, per VK5PAS). (Public list: a staff member's personal address was left out - see DX bulletins, and add it to your own qsl_contacts.json.)",
+  "source": "https://naswa.net/newsite/wp-content/uploads/journal_archive/2020-2029_Journal/2023_Journal/202302_e-Journal.pdf",
+  "confidence": "low"
+ },
+ {
+  "match": [
+   "China Radio Int",
+   "CRI ",
+   "CGTN Radio"
+  ],
+  "itu": "CHN",
+  "name": "China Radio International / CGTN Radio (English Service)",
+  "email": "crieng@cri.com.cn",
+  "alt_emails": [],
+  "web_form": null,
+  "language": "English",
+  "qsl_status": "unknown",
+  "notes": "English Service email per web search summary of Wikipedia; not confirmed on english.cri.cn. CRI Japanese verified eQSL in 2025 via nihao2180@cri.com.cn (Japanese only). Postal: English Service, CRI, P.O. Box 4216, Beijing 100040.",
+  "source": "https://en.wikipedia.org/wiki/China_Radio_International",
+  "confidence": "low"
+ },
+ {
+  "match": [
+   "Clube do Para",
+   "Clube do Pará",
+   "R. Clube do Para"
+  ],
+  "itu": "B",
+  "name": "Rádio Clube do Pará (Belém)",
+  "email": null,
+  "alt_emails": [],
+  "web_form": null,
+  "language": "Portuguese",
+  "qsl_status": "unknown",
+  "notes": "No station email found. Still on 4885 kHz (2 kW) per NASWA Oct 2025. dol.com.br (owner group RBA/Diário do Pará) lists only newsroom redacao@diarioonline.com.br, not a QSL route.",
+  "source": "https://naswa.net/newsite/wp-content/uploads/journal_archive/2020-2029_Journal/2025_Journal/202510_e-Journal.pdf",
+  "confidence": "low"
+ },
+ {
+  "match": [
+   "ELWA"
+  ],
+  "itu": "LBR",
+  "name": "ELWA Radio (Monrovia)",
+  "email": "elwaradio54@gmail.com",
+  "alt_emails": [],
+  "web_form": null,
+  "language": "English",
+  "qsl_status": "eQSL only",
+  "notes": "2025: partial-data eQSL in ~60 days.",
+  "source": "https://naswa.net/newsite/wp-content/uploads/journal_archive/2020-2029_Journal/2025_Journal/202510_e-Journal.pdf",
+  "confidence": "medium"
+ },
+ {
+  "match": [
+   "Estación 4940",
+   "Estacion 4940",
+   "Est. 4940"
+  ],
+  "itu": "CLM",
+  "name": "Estación 4940 (believed SW Venezuela, airs Fuerza de Paz)",
+  "email": "estacion4940@gmail.com",
+  "alt_emails": [],
+  "web_form": null,
+  "language": "Spanish",
+  "qsl_status": "no longer verifies",
+  "notes": "Replies to email reports with a thank-you note and transmitter photo, but no genuine QSL card. 'Radio La Montaña' eQSLs (radiolamontana@gmail.com) are considered fake. Programme contact: contacto@fuerzadepaz.com.",
+  "source": "https://bdxc.org.uk/estacion4940.pdf",
+  "confidence": "medium"
+ },
+ {
+  "match": [
+   "Fana"
+  ],
+  "itu": "ETH",
+  "name": "Fana Broadcasting Corporate / Fana Media Corporation",
+  "email": "info@fanabc.com",
+  "alt_emails": [],
+  "web_form": "https://www.fanamc.com/english/contact-us/",
+  "language": "English",
+  "qsl_status": "unknown",
+  "notes": "General contact address from the station's own contact page. No QSL policy found; replies are unlikely.",
+  "source": "https://www.fanamc.com/english/contact-us/",
+  "confidence": "high"
+ },
+ {
+  "match": [
+   "FEBC",
+   "Far East Broadcasting"
+  ],
+  "itu": "PHL",
+  "name": "FEBC Manila (Far East Broadcasting Co.)",
+  "email": "info@febc.ph",
+  "alt_emails": [],
+  "web_form": null,
+  "language": "English",
+  "qsl_status": "eQSL only",
+  "notes": "2025: eQSLs in 4-21 days; replies from shiena.ruiz@febc.ph.",
+  "source": "https://naswa.net/newsite/wp-content/uploads/journal_archive/2020-2029_Journal/2025_Journal/202507_e-Journal.pdf",
+  "confidence": "medium"
+ },
+ {
+  "match": [
+   "FEBC Radio Liangyou",
+   "Radio Liangyou",
+   "Liangyou"
+  ],
+  "itu": "PHL",
+  "name": "FEBC Radio Liangyou (Chinese)",
+  "email": "report@liangyou.net",
+  "alt_emails": [
+   "febc@febchk.org"
+  ],
+  "web_form": null,
+  "language": "English",
+  "qsl_status": "issues QSLs",
+  "notes": "2025: paper QSL after ~6 months for email report to report@liangyou.net or febc@febchk.org.",
+  "source": "https://naswa.net/newsite/wp-content/uploads/journal_archive/2020-2029_Journal/2025_Journal/202507_e-Journal.pdf",
+  "confidence": "medium"
+ },
+ {
+  "match": [
+   "Follow the Bible"
+  ],
+  "itu": "USA",
+  "name": "Follow the Bible Ministries (Weimar, CA)",
+  "email": "followthebibleministries@yahoo.com",
+  "alt_emails": [],
+  "web_form": null,
+  "language": "English",
+  "qsl_status": "issues QSLs",
+  "notes": "NASWA Nov 2024 and Dec 2025: reports via Ascension 17880 and 11660 verified by David Hoff with e-QSL/email and picture card.",
+  "source": "https://naswa.net/newsite/wp-content/uploads/journal_archive/2020-2029_Journal/2025_Journal/202512_e-Journal.pdf",
+  "confidence": "medium"
+ },
+ {
+  "match": [
+   "Free Radio Service",
+   "FRS Holland",
+   "FRS-Holland"
+  ],
+  "itu": "HOL",
+  "name": "Free Radio Service Holland (FRS-Holland)",
+  "email": "frs@frsholland.nl",
+  "alt_emails": [],
+  "web_form": "https://www.frsholland.nl/contact",
+  "language": "English",
+  "qsl_status": "issues QSLs",
+  "notes": "Station QSL policy: email reports get an e-QSL, a personal reply and the newsletter. For a paper QSL, post to PO Box 2702, 6049 ZG Herten, NL with 3 EUR/USD return postage (no IRCs). Name audio files with date, time and frequency.",
+  "source": "https://frsholland.nl/qsl-policy/",
+  "confidence": "high"
+ },
+ {
+  "match": [
+   "Furusato no Kaze",
+   "Nippon no Kaze"
+  ],
+  "itu": "J",
+  "name": "Furusato no Kaze / Nippon no Kaze (Headquarters for the Abduction Issue, Govt of Japan)",
+  "email": null,
+  "alt_emails": [],
+  "web_form": null,
+  "language": "Japanese",
+  "qsl_status": "unknown",
+  "notes": "Not found. The rachi.go.jp radio page has schedules and YouTube links but no reception-report email. The only email in an HFU thread was a listener's signature, not the station's.",
+  "source": "https://www.rachi.go.jp/jp/shisei/radio/index.html",
+  "confidence": "low"
+ },
+ {
+  "match": [
+   "HCJB"
+  ],
+  "itu": "EQA",
+  "name": "HCJB La Voz de los Andes (Quito; 6050 kHz Pichincha)",
+  "email": "la-radio@hcjb.org",
+  "alt_emails": [],
+  "web_form": null,
+  "language": "Spanish",
+  "qsl_status": "unknown",
+  "notes": "General contact email on the official hcjb.org site. Postal: Oe2 Vozandes N39-85 y Juan Diguja, Quito 170508. Not a dedicated QSL desk; 6050 kHz (1 kW) runs intermittently. Do not confuse with HCJB Deutschland or Reach Beyond Australia.",
+  "source": "https://hcjb.org/",
+  "confidence": "medium"
+ },
+ {
+  "match": [
+   "HCJB Germany",
+   "HCJB Deutschland",
+   "HCJB Deutsch",
+   "Weenermoor"
+  ],
+  "itu": "D",
+  "name": "HCJB Deutschland (Weenermoor)",
+  "email": null,
+  "alt_emails": [],
+  "web_form": null,
+  "language": "German",
+  "qsl_status": "issues QSLs",
+  "notes": "2024: full-data QSL card after 2 months for an email report to this address (Arbeitsgemeinschaft HCJB). hcjb.de unreachable during research. Write in German or English. (Public list: a staff member's personal address was left out - see DX bulletins, and add it to your own qsl_contacts.json.)",
+  "source": "https://naswa.net/newsite/wp-content/uploads/journal_archive/2020-2029_Journal/2024_Journal/202410_e-Journal.pdf",
+  "confidence": "medium"
+ },
+ {
+  "match": [
+   "HCJB Voice of the Andes",
+   "HCJB Quito",
+   "HCJB Ecuador",
+   "Voz de los Andes"
+  ],
+  "itu": "EQA",
+  "name": "HCJB Voice of the Andes (Pichincha, Ecuador)",
+  "email": null,
+  "alt_emails": [],
+  "web_form": null,
+  "language": "Spanish",
+  "qsl_status": "unknown",
+  "notes": "No current reception-report address found; 6050 kHz operates intermittently (Spanish/Quichua).",
+  "source": null,
+  "confidence": "low"
+ },
+ {
+  "match": [
+   "Hope Radio"
+  ],
+  "itu": "PLW",
+  "name": "Hope Radio (hoperadio.net; Palau/KHBN operator)",
+  "email": "contact@hoperadio.net",
+  "alt_emails": [],
+  "web_form": "https://www.hoperadio.net/reception.html",
+  "language": "English",
+  "qsl_status": "eQSL only",
+  "notes": "Station reception page: electronic reports get an e-QSL; for a paper card, print and post the form to the US office. NASWA 2024-25: Hope Radio 9965/9930, e-QSL in 3-11 days from contact@hoperadio.net. CAUTION: this site is Hope Radio Palau (Joe Perozich, since 2020). WHRI Cypress Creek (World Harvest Radio, sold to Allan Weiner/WBCQ ~2020) may need a different contact; not verified.",
+  "source": "https://www.hoperadio.net/reception.html",
+  "confidence": "high"
+ },
+ {
+  "match": [
+   "Huanta 2000"
+  ],
+  "itu": "PRU",
+  "name": "Radio Huanta 2000",
+  "email": null,
+  "alt_emails": [],
+  "web_form": null,
+  "language": "Spanish",
+  "qsl_status": "unknown",
+  "notes": "No email address found. Station is irregular on 4752.5v kHz (schedule last confirmed 2023).",
+  "source": null,
+  "confidence": "low"
+ },
+ {
+  "match": [
+   "IBRA",
+   "Radio Sama",
+   "R. Sama"
+  ],
+  "itu": "S",
+  "name": "IBRA Radio / IBRA Media (Radio Sama)",
+  "email": "info@ibramedia.se",
+  "alt_emails": [],
+  "web_form": "https://radiosama.net/contact-us",
+  "language": "English or Swedish",
+  "qsl_status": "unknown",
+  "notes": "General contact address on the official IBRA Media contact page (Sweden); not a dedicated QSL desk. ibra.se/ibra.org are not IBRA's. Radio Sama (Arabic) has its own contact form. No 2024-26 IBRA verifications seen.",
+  "source": "https://ibramedia.se/kontakt",
+  "confidence": "medium"
+ },
+ {
+  "match": [
+   "Iran International",
+   "Iran Int"
+  ],
+  "itu": "CLN",
+  "name": "Iran International (London)",
+  "email": null,
+  "alt_emails": [],
+  "web_form": null,
+  "language": "English or Persian",
+  "qsl_status": "unknown",
+  "notes": "No email or reception-report route found; iranintl.com pages list none. HFU (May 2024) notes its SW relays had not been heard for months; a claimed 17630 log was likely CRI.",
+  "source": "https://www.hfunderground.com/board/index.php/topic,129880.0.html",
+  "confidence": "low"
+ },
+ {
+  "match": [
+   "IRRS",
+   "NEXUS"
+  ],
+  "itu": "I",
+  "name": "IRRS Milano / NEXUS-IBA",
+  "email": "info@nexus.org",
+  "alt_emails": [],
+  "web_form": "https://www.nexus.org/qsl/",
+  "language": "English",
+  "qsl_status": "eQSL only",
+  "notes": "Station says to send reception reports through its online e-QSL request form, not the general contact form.",
+  "source": "https://www.nexus.org/contact-us/",
+  "confidence": "high"
+ },
+ {
+  "match": [
+   "KBS Hanminjok",
+   "Hanminjok"
+  ],
+  "itu": "KOR",
+  "name": "KBS Hanminjok Radio",
+  "email": null,
+  "alt_emails": [],
+  "web_form": null,
+  "language": "Korean",
+  "qsl_status": "unknown",
+  "notes": "No reception-report email found. Station page radio.kbs.co.kr/list01.html?section_id=6565 not fetchable. NASWA Sep 2025 reports South Korea may drop Hanminjok broadcasts to North Korea. KBS World Radio (separate service) takes reports via its own online form/email; could be a fallback.",
+  "source": "https://en.wikipedia.org/wiki/KBS_Hanminjok_Radio",
+  "confidence": "low"
+ },
+ {
+  "match": [
+   "KBS World",
+   "KBS WR"
+  ],
+  "itu": "KOR",
+  "name": "KBS World Radio (English)",
+  "email": "english@kbs.co.kr",
+  "alt_emails": [],
+  "web_form": "https://world.kbs.co.kr/service/about_report.htm?lang=e",
+  "language": "English",
+  "qsl_status": "issues QSLs",
+  "notes": "Official online Reception Report form preferred; English section email on official contact page. QSL cards still sent (also eQSL on request).",
+  "source": "https://world.kbs.co.kr/service/about_contact.htm?lang=e",
+  "confidence": "high"
+ },
+ {
+  "match": [
+   "KCBS",
+   "Korean Central",
+   "Chosun Jungang",
+   "Pyongyang BS",
+   "Pyongyang Broadcasting"
+  ],
+  "itu": "KRE",
+  "name": "Korean Central Broadcasting Station (KCBS), Pyongyang",
+  "email": null,
+  "alt_emails": [],
+  "web_form": null,
+  "language": "English",
+  "qsl_status": "unknown",
+  "notes": "No email. A DXer's postal report to Pyongyang came back marked 'blocked postal route'; some send reports via the DPRK embassy in Beijing. Verifications are very rare. Voice of Korea (the external service) has its own address.",
+  "source": "https://vk5pas.com/pyongyang-broadcasting-station-north-korea.html",
+  "confidence": "low"
+ },
+ {
+  "match": [
+   "KNLS",
+   "New Life Station"
+  ],
+  "itu": "ALS",
+  "name": "KNLS New Life Station (Anchor Point, Alaska)",
+  "email": "knlsradio@gmail.com",
+  "alt_emails": [],
+  "web_form": null,
+  "language": "English",
+  "qsl_status": "issues QSLs",
+  "notes": "Station invited reports to knlsradio@gmail.com for paper QSLs (Jan 2025); replies may come from its St. Petersburg office. KNLS QSL received in late 2025.",
+  "source": "https://naswa.net/newsite/wp-content/uploads/journal_archive/2020-2029_Journal/2025_Journal/202501_e-Journal.pdf",
+  "confidence": "medium"
+ },
+ {
+  "match": [
+   "La Voz de tu Conciencia",
+   "LV de tu Conciencia",
+   "Voz de tu Conciencia"
+  ],
+  "itu": "CLM",
+  "name": "La Voz de tu Conciencia (Puerto Lleras)",
+  "email": "rafaelcoldx@yahoo.com",
+  "alt_emails": [],
+  "web_form": null,
+  "language": "Spanish",
+  "qsl_status": "eQSL only",
+  "notes": "QSL manager Rafael Rodríguez R. Full-data eQSL plus antenna photos, often within hours. The same manager handles Alcaraván Radio.",
+  "source": "http://mt-shortwave.blogspot.com/2026/03/qsl-report-20-march-2026.html",
+  "confidence": "medium"
+ },
+ {
+  "alt_emails": [
+   "knlsradio@gmail.com",
+   "mainoffice@worldchristian.org"
+  ],
+  "web_form": null,
+  "language": "English",
+  "match": [
+   "Madagascar World Voice",
+   "MWV"
+  ],
+  "itu": "MDG",
+  "name": "Madagascar World Voice (World Christian Broadcasting)",
+  "email": "mwvradio@gmail.com",
+  "qsl_status": "issues QSLs",
+  "notes": "Paper QSL cards; replies slow (75-196 days reported). Station posted in 2025 that reports go to knlsradio@gmail.com and mwvradio@gmail.com. mwv.mg does not resolve. Palavra Alegre (Portuguese) programmes via MWV verify separately via contato@palavraalegre.com.br.",
+  "source": "https://naswa.net/newsite/wp-content/uploads/journal_archive/2020-2029_Journal/2025_Journal/202504_e-Journal.pdf",
+  "confidence": "medium"
+ },
+ {
+  "match": [
+   "Marconi"
+  ],
+  "itu": "I",
+  "name": "Marconi Radio International",
+  "email": "marconiradiointernational@gmail.com",
+  "alt_emails": [],
+  "web_form": null,
+  "language": "Italian or English",
+  "qsl_status": "eQSL only",
+  "notes": "Monthly broadcasts from Feb 2025. Full-data eQSL only if you used your own receiver; web-SDR reports get an acknowledgement letter. Best reports may get a paper card. eQSL in 21 days for an Italian report (2025).",
+  "source": "https://naswa.net/newsite/wp-content/uploads/journal_archive/2020-2029_Journal/2025_Journal/202503_e-Journal.pdf",
+  "confidence": "medium"
+ },
+ {
+  "alt_emails": [],
+  "web_form": null,
+  "language": "English",
+  "match": [
+   "Mi Amigo"
+  ],
+  "itu": "E",
+  "name": "Radio Mi Amigo International",
+  "email": "studio@radiomiamigo.international",
+  "qsl_status": "issues QSLs",
+  "notes": "Station contact page lists this address; postal: Avda. de Europa 85, Urb. La Marina, 03177 San Fulgencio, Alicante, Spain. 6085 kHz via Kall. Not to be confused with Dutch pirate 'Radio Mi Amigo' (radiomiamigo@hotmail.com).",
+  "source": "https://www.radiomiamigo.international/english/contact.html",
+  "confidence": "high"
+ },
+ {
+  "match": [
+   "Mosoj Chaski",
+   "Mosoj Chasqui"
+  ],
+  "itu": "BOL",
+  "name": "Radio Mosoj Chaski (Cochabamba)",
+  "email": "radiomosojchaski@hotmail.com",
+  "alt_emails": [],
+  "web_form": null,
+  "language": "Spanish",
+  "qsl_status": "unknown",
+  "notes": "Email letter replies in about 2-3 weeks were reported in 2019; no newer QSL report found. Still on air on 3310 kHz (2026). mosojchaski.org did not resolve.",
+  "source": "https://bclnews.blogspot.com/2019/09/radio-mosoj-chaski-and-radio-tarma-qsl.html",
+  "confidence": "low"
+ },
+ {
+  "match": [
+   "Myanma Radio",
+   "Myanmar Radio",
+   "Myanma R"
+  ],
+  "itu": "MYA",
+  "name": "Myanma Radio (MRTV, Nay Pyi Taw)",
+  "email": "nptradio.eng@gmail.com",
+  "alt_emails": [],
+  "web_form": null,
+  "language": "English",
+  "qsl_status": "eQSL only",
+  "notes": "NASWA Dec 2024 and Oct/Nov 2025: 5985 kHz, full-data e-QSL within 24h to 2 days in reply to reports sent to nptradio.eng@gmail.com.",
+  "source": "https://naswa.net/newsite/wp-content/uploads/journal_archive/2020-2029_Journal/2025_Journal/202511_e-Journal.pdf",
+  "confidence": "medium"
+ },
+ {
+  "alt_emails": [],
+  "web_form": null,
+  "language": "English",
+  "match": [
+   "Mystery for Joy",
+   "Mystery 4 Joy"
+  ],
+  "itu": "F",
+  "name": "Mystery for Joy",
+  "email": "mysteryforjoy@gmx.net",
+  "qsl_status": "eQSL only",
+  "notes": "Monthly eQSL designs shown on site's QSL gallery; contact mailto on station site. Facebook: facebook.com/mysteryforjoy.",
+  "source": "https://www.mysteryforjoy.fr/qsl.html",
+  "confidence": "high"
+ },
+ {
+  "match": [
+   "Ndarason"
+  ],
+  "itu": "TCD",
+  "name": "Radio Ndarason Internationale",
+  "email": "David@okapi.cc",
+  "alt_emails": [],
+  "web_form": "https://www.ndarason.com/contact",
+  "language": "French",
+  "qsl_status": "unknown",
+  "notes": "General contact on the station's own page (Okapi Consulting). No QSL policy found. English is probably OK too.",
+  "source": "https://www.ndarason.com/contact",
+  "confidence": "high"
+ },
+ {
+  "match": [
+   "New Korea Hope",
+   "NKHB"
+  ],
+  "itu": "KOR",
+  "name": "New Korea Hope Broadcasting (via Tamsui, Taiwan)",
+  "email": "nkhb316@gmail.com",
+  "alt_emails": [],
+  "web_form": null,
+  "language": "English",
+  "qsl_status": "eQSL only",
+  "notes": "Full-data eQSL in 3 days for email report (2026).",
+  "source": "http://mt-shortwave.blogspot.com/2026/04/",
+  "confidence": "medium"
+ },
+ {
+  "match": [
+   "NHK World",
+   "Radio Japan",
+   "NHK R.Japan"
+  ],
+  "itu": "J",
+  "name": "NHK World-Japan (Radio Japan)",
+  "email": null,
+  "alt_emails": [],
+  "web_form": "https://www3.nhk.or.jp/nhkworld/en/contact/",
+  "language": "English",
+  "qsl_status": "no longer verifies",
+  "notes": "NHK stopped issuing verification cards for broadcasts after 20 March 2025; comments still welcome via Contact Us form.",
+  "source": "https://swling.com/blog/2025/02/nhk-world-to-end-qsl-card-confirmations-in-march-2025",
+  "confidence": "high"
+ },
+ {
+  "alt_emails": [],
+  "web_form": null,
+  "language": "English",
+  "match": [
+   "Northern Star"
+  ],
+  "itu": "NOR",
+  "name": "Radio Northern Star (Bergen)",
+  "email": "1000@northernstar.no",
+  "qsl_status": "issues QSLs",
+  "notes": "Fast replies (e-QSL/letter, 1-11 days) per 2025 logs. Postal: Box 100, N-5331 Rong, Norway. Older address report@bergenkringkaster.no (2013).",
+  "source": "https://www.northernstar.no/",
+  "confidence": "high"
+ },
+ {
+  "match": [
+   "Oromia",
+   "Oromiya",
+   "OBN"
+  ],
+  "itu": "ETH",
+  "name": "Oromia Broadcasting Network / Radio Oromiya",
+  "email": null,
+  "alt_emails": [],
+  "web_form": null,
+  "language": "English",
+  "qsl_status": "unknown",
+  "notes": "Not found. obn.net and obn.net.et show no email, and the contact page was unreachable.",
+  "source": null,
+  "confidence": "low"
+ },
+ {
+  "match": [
+   "Oromiya",
+   "Oromia",
+   "OBN"
+  ],
+  "itu": "ETH",
+  "name": "Radio Oromiya / Oromia Broadcasting Network",
+  "email": null,
+  "alt_emails": [],
+  "web_form": null,
+  "language": "English",
+  "qsl_status": "unknown",
+  "notes": "Not found. obn.net / obn.net.et are behind bot protection; no verifications seen in NASWA 2023-25 (only loggings on 6030 kHz).",
+  "source": null,
+  "confidence": "low"
+ },
+ {
+  "match": [
+   "Overcomer",
+   "Brother Stair"
+  ],
+  "itu": "USA",
+  "name": "Overcomer Ministry (Brother Stair)",
+  "email": "lastime@overcomerministry.org",
+  "alt_emails": [],
+  "web_form": null,
+  "language": "English",
+  "qsl_status": "issues QSLs",
+  "notes": "NASWA Jan 2025: 5900 via Spaceline, emailed report answered with a full-data QSL card by post after 3 weeks. NASWA Aug 2024 also cites this address (misspelled there as 'oercomerministry').",
+  "source": "https://naswa.net/newsite/wp-content/uploads/journal_archive/2020-2029_Journal/2025_Journal/202501_e-Journal.pdf",
+  "confidence": "medium"
+ },
+ {
+  "alt_emails": [],
+  "web_form": null,
+  "language": "Dutch",
+  "match": [
+   "Piepzender"
+  ],
+  "itu": "HOL",
+  "name": "Radio Piepzender (Zwolle)",
+  "email": "radioqsl@hotmail.com",
+  "qsl_status": "unknown",
+  "notes": "Address listed under Contact on station site; English likely fine.",
+  "source": "https://www.piepzender.nl",
+  "confidence": "high"
+ },
+ {
+  "match": [
+   "Polskie Radio",
+   "Polish Radio",
+   "Radio Poland"
+  ],
+  "itu": "POL",
+  "name": "Polskie Radio (Radio Poland, external)",
+  "email": null,
+  "alt_emails": [],
+  "web_form": null,
+  "language": "English",
+  "qsl_status": "unknown",
+  "notes": "No own SW transmissions (heard only via WRN/WRMI relays); no reception-report address found (polskieradio.pl unreachable).",
+  "source": null,
+  "confidence": "low"
+ },
+ {
+  "alt_emails": [],
+  "web_form": null,
+  "language": "English",
+  "match": [
+   "Radio 567"
+  ],
+  "itu": "AUS",
+  "name": "Radio 567 (X Radio Network, Wee Waa NSW)",
+  "email": "thexradionetwork@gmail.com",
+  "qsl_status": "eQSL only",
+  "notes": "4970 kHz. eQSL/verification reply reported within hours (NASWA Oct 2023). radio567.com.au now redirects to xrn.com.au; no email on that page.",
+  "source": "https://naswa.net/newsite/wp-content/uploads/journal_archive/2020-2029_Journal/2023_Journal/202310_e-Journal.pdf",
+  "confidence": "medium"
+ },
+ {
+  "match": [
+   "Radio Algiers",
+   "Radio Algerie",
+   "Ifrikya",
+   "Radio Algerienne"
+  ],
+  "itu": "ALG",
+  "name": "Radio Algérie Internationale / Ifrikya FM",
+  "email": null,
+  "alt_emails": [],
+  "web_form": null,
+  "language": "French",
+  "qsl_status": "unknown",
+  "notes": "No current reception-report address found. Write in French or Arabic.",
+  "source": null,
+  "confidence": "low"
+ },
+ {
+  "alt_emails": [],
+  "web_form": "https://www.facebook.com/kuolimosound/",
+  "language": "English",
+  "match": [
+   "Radio Ambience"
+  ],
+  "itu": "FIN",
+  "name": "Radio Ambience (Lappeenranta)",
+  "email": "tesla18@hotmail.com",
+  "qsl_status": "unknown",
+  "notes": "6095 kHz, 35 W. Email cited from WRTH via NASWA Feb 2025; no verification reports found. Facebook page per BDXC DX Guides.",
+  "source": "https://naswa.net/newsite/wp-content/uploads/journal_archive/2020-2029_Journal/2025_Journal/202502_e-Journal.pdf",
+  "confidence": "medium"
+ },
+ {
+  "match": [
+   "Radio Betania",
+   "R. Betania"
+  ],
+  "itu": "BOL",
+  "name": "Radio Betania (Santa Cruz)",
+  "email": null,
+  "alt_emails": [],
+  "web_form": null,
+  "language": "Spanish",
+  "qsl_status": "unknown",
+  "notes": "No email address found. Shortwave on 6145 kHz was heard for a few days in July 2024 and not since; the transmitter is reported unreliable. Not listed in the BDXC Latin America guide (Oct 2026). Contact may be possible via facebook.com/radiobetania.oficial.",
+  "source": null,
+  "confidence": "low"
+ },
+ {
+  "match": [
+   "Radio Cairo",
+   "Egyptian Radio",
+   "ERTU"
+  ],
+  "itu": "EGY",
+  "name": "Radio Cairo",
+  "email": "freqmeg@yahoo.com",
+  "alt_emails": [],
+  "web_form": null,
+  "language": "English",
+  "qsl_status": "eQSL only",
+  "notes": "Radio Cairo asked for reports from target areas to this frequency-management address (Jan 2025); eQSLs in 10-27 days (2025).",
+  "source": "https://naswa.net/newsite/wp-content/uploads/journal_archive/2020-2029_Journal/2025_Journal/202511_e-Journal.pdf",
+  "confidence": "medium"
+ },
+ {
+  "match": [
+   "Radio DARC",
+   "DARC"
+  ],
+  "itu": "D",
+  "name": "Radio DARC",
+  "email": "radio@darc.de",
+  "alt_emails": [],
+  "web_form": null,
+  "language": "German",
+  "qsl_status": "issues QSLs",
+  "notes": "Special QSL card for reception reports; English is fine too. Address is shown as radio(at)darc.de on DARC pages.",
+  "source": "https://www.darc.de/der-club/distrikte/c/ortsverbaende/18/sonstiges/radio-darc/",
+  "confidence": "high"
+ },
+ {
+  "match": [
+   "Radio Educaci",
+   "R. Educaci",
+   "XEPPM"
+  ],
+  "itu": "MEX",
+  "name": "Radio Educación (XEPPM-OC, Cultura México Señal Internacional)",
+  "email": "contactore@cultura.gob.mx",
+  "alt_emails": [
+   "ondacorta@radioeducacion.edu.mx"
+  ],
+  "web_form": null,
+  "language": "Spanish",
+  "qsl_status": "issues QSLs",
+  "notes": "Full-data eQSL (centenary designs), usually 1-3.5 months. Reports are sent to contactore@; replies come from pcruz@cultura.gob.mx (P. Cruz Luis). Postal QSL letters also reported (vk5pas, 2025).",
+  "source": "https://naswa.net/newsite/wp-content/uploads/journal_archive/2020-2029_Journal/2025_Journal/202507_e-Journal.pdf",
+  "confidence": "medium"
+ },
+ {
+  "alt_emails": [],
+  "web_form": "https://radioergo.org/contact",
+  "language": "English",
+  "match": [
+   "Radio Ergo"
+  ],
+  "itu": "KEN",
+  "name": "Radio Ergo",
+  "email": "info@radioergo.org",
+  "qsl_status": "unknown",
+  "notes": "Humanitarian Somali-language broadcaster (Copenhagen/Nairobi). Site lists info@radioergo.org for queries; no QSL policy found. Contact form is in Somali.",
+  "source": "https://radioergo.org/en/about-radio-ergo/",
+  "confidence": "high"
+ },
+ {
+  "match": [
+   "Radio Europa"
+  ],
+  "itu": "HOL",
+  "name": "Radio Europa (Alphen aan den Rijn)",
+  "email": "radioeuropa@hotmail.com",
+  "alt_emails": [],
+  "web_form": null,
+  "language": "English",
+  "qsl_status": "eQSL only",
+  "notes": "Fast eQSL reply (24-48 h) reported in 2022-2023. Small private station on 6130/7280 kHz.",
+  "source": "https://swli05639fr.blogspot.com/2023/05/qsl-card-from-radio-europa-6130-khz.html",
+  "confidence": "medium"
+ },
+ {
+  "match": [
+   "Radio Exterior Espana",
+   "Radio Exterior de Espana",
+   "REE",
+   "RNE"
+  ],
+  "itu": "E",
+  "name": "Radio Exterior de España (RNE)",
+  "email": "secretariatecnica.ree@rtve.es",
+  "alt_emails": [
+   "english@rtve.es"
+  ],
+  "web_form": null,
+  "language": "English",
+  "qsl_status": "issues QSLs",
+  "notes": "2025 reports addressed to secretariatecnica.ree@rtve.es; full-data QSL card in 14 days (2025). English programme (now weekly) gives english@rtve.es on air. Spanish also fine.",
+  "source": "https://naswa.net/newsite/wp-content/uploads/journal_archive/2020-2029_Journal/2025_Journal/202506_e-Journal.pdf",
+  "confidence": "medium"
+ },
+ {
+  "match": [
+   "Radio Farda",
+   "R. Farda"
+  ],
+  "itu": "USA",
+  "name": "Radio Farda (RFE/RL Persian)",
+  "email": "qsl@rferl.org",
+  "alt_emails": [],
+  "web_form": null,
+  "language": "English",
+  "qsl_status": "unknown",
+  "notes": "No Farda-specific address found. RFE/RL verified via qsl@rferl.org in 2024 (paper QSL after 8 months). Farda resumed SW Jan 2026 via commercial relays; RFE/RL funding uncertain.",
+  "source": "https://naswa.net/newsite/wp-content/uploads/journal_archive/2020-2029_Journal/2024_Journal/202408_e-Journal.pdf",
+  "confidence": "low"
+ },
+ {
+  "alt_emails": [],
+  "web_form": null,
+  "language": "English",
+  "match": [
+   "Radio for Peace International",
+   "RFPI"
+  ],
+  "itu": "F",
+  "name": "Radio for Peace International (Auros, France)",
+  "email": null,
+  "qsl_status": "unknown",
+  "notes": "Not found. French NGO led by Sylvain Clament, airs via WRMI; its programmes could be reported to WRMI (info@wrmi.net, seen on swling.com) instead. Do not use old info@rfpi.org (former Costa Rica RFPI).",
+  "source": null,
+  "confidence": "low"
+ },
+ {
+  "match": [
+   "Radio France Int",
+   "RFI"
+  ],
+  "itu": "F",
+  "name": "Radio France Internationale",
+  "email": null,
+  "alt_emails": [],
+  "web_form": null,
+  "language": "French",
+  "qsl_status": "unknown",
+  "notes": "No reception-report address found (rfi.fr blocked fetch); no 2024-25 verifications seen in DX bulletins.",
+  "source": null,
+  "confidence": "low"
+ },
+ {
+  "match": [
+   "Radio Free Asia",
+   "RFA"
+  ],
+  "itu": "USA",
+  "name": "Radio Free Asia",
+  "email": "qsl@rfa.org",
+  "alt_emails": [],
+  "web_form": "https://www.rfa.org/english/about/contact-us/",
+  "language": "English",
+  "qsl_status": "no longer verifies",
+  "notes": "RFA announced 26 March 2025: 'unable to confirm any more reception reports' after losing its grant. Official contact page still has a form with topic 'Receptions Reports (QSL)'. Some RFA SW (e.g. Khmer) heard again in 2026; resumption of QSLs not confirmed.",
+  "source": "https://naswa.net/newsite/wp-content/uploads/journal_archive/2020-2029_Journal/2025_Journal/202505_e-Journal.pdf",
+  "confidence": "medium"
+ },
+ {
+  "match": [
+   "Radio Habana Cuba",
+   "Radio Havana",
+   "RHC"
+  ],
+  "itu": "CUB",
+  "name": "Radio Habana Cuba",
+  "email": "radiohc@enet.cu",
+  "alt_emails": [],
+  "web_form": "https://www.radiohc.cu/en/contact-form/",
+  "language": "English",
+  "qsl_status": "eQSL only",
+  "notes": "2025: full-data eQSL in 22 days for report to radiohc@enet.cu. Official site has only a contact form (no email shown).",
+  "source": "https://naswa.net/newsite/wp-content/uploads/journal_archive/2020-2029_Journal/2025_Journal/202511_e-Journal.pdf",
+  "confidence": "medium"
+ },
+ {
+  "match": [
+   "Radio Horizon"
+  ],
+  "itu": "HOL",
+  "name": "Radio Horizon (Netherlands, 5900 kHz)",
+  "email": null,
+  "alt_emails": [],
+  "web_form": null,
+  "language": "Dutch or English",
+  "qsl_status": "unknown",
+  "notes": "Not found. radiohorizon.nl (FM station in Heeze; link to SW unconfirmed) is behind bot protection.",
+  "source": null,
+  "confidence": "low"
+ },
+ {
+  "match": [
+   "Radio Liberty",
+   "RFE/RL",
+   "Radio Svoboda",
+   "R. Liberty",
+   "Radio Free Europe"
+  ],
+  "itu": "USA",
+  "name": "Radio Free Europe / Radio Liberty",
+  "email": "qsl@rferl.org",
+  "alt_emails": [],
+  "web_form": null,
+  "language": "English",
+  "qsl_status": "unknown",
+  "notes": "2024 report: full-data paper QSL received by post after 8 months for a report to qsl@rferl.org. Not confirmed on rferl.org.",
+  "source": "https://naswa.net/newsite/wp-content/uploads/journal_archive/2020-2029_Journal/2024_Journal/202408_e-Journal.pdf",
+  "confidence": "medium"
+ },
+ {
+  "match": [
+   "Radio Mali",
+   "ORTM"
+  ],
+  "itu": "MLI",
+  "name": "Radio Mali (ORTM)",
+  "email": null,
+  "alt_emails": [],
+  "web_form": null,
+  "language": "French",
+  "qsl_status": "unknown",
+  "notes": "No email found; ortm.ml blocked fetch. Write in French.",
+  "source": null,
+  "confidence": "low"
+ },
+ {
+  "match": [
+   "Radio Marti",
+   "R. Marti",
+   "Radio Martí"
+  ],
+  "itu": "USA",
+  "name": "Radio Martí (via Greenville)",
+  "email": null,
+  "alt_emails": [],
+  "web_form": null,
+  "language": "English",
+  "qsl_status": "issues QSLs",
+  "notes": "2025: two full-data eQSLs from Macon Dail, Greenville transmitter plant supervisor (cannot post cards currently). Earlier address mdail@bbg.gov. Station reduced/uncertain since 2025. (Public list: a staff member's personal address was left out - see DX bulletins, and add it to your own qsl_contacts.json.)",
+  "source": "https://naswa.net/newsite/wp-content/uploads/journal_archive/2020-2029_Journal/2025_Journal/202510_e-Journal.pdf",
+  "confidence": "medium"
+ },
+ {
+  "match": [
+   "Radio Nacional da Amazonia",
+   "Radio Nacional Amazonia",
+   "R. Nacional da Amazonia",
+   "Nacional da Amaz"
+  ],
+  "itu": "B",
+  "name": "Rádio Nacional da Amazônia (EBC)",
+  "email": "ouvidoria@ebc.com.br",
+  "alt_emails": [
+   "centraldoouvinte@ebc.com.br"
+  ],
+  "web_form": null,
+  "language": "Portuguese",
+  "qsl_status": "eQSL only",
+  "notes": "Many 2024-25 full-data eQSLs in 1-14 days via EBC Ouvidoria; English/Spanish accepted.",
+  "source": "https://naswa.net/newsite/wp-content/uploads/journal_archive/2020-2029_Journal/2025_Journal/202509_e-Journal.pdf",
+  "confidence": "medium"
+ },
+ {
+  "match": [
+   "Radio Nikkei",
+   "R. Nikkei"
+  ],
+  "itu": "J",
+  "name": "Radio Nikkei",
+  "email": null,
+  "alt_emails": [],
+  "web_form": "https://www.radionikkei.jp/help/inquiry/",
+  "language": "Japanese",
+  "qsl_status": "issues QSLs",
+  "notes": "No reception-report email found. Listener Services answered reports in 2025 and issues QSL cards for off-air (not Internet) reception; inquiry form only. Postal reports in Japanese are traditional.",
+  "source": "https://naswa.net/newsite/wp-content/uploads/journal_archive/2020-2029_Journal/2025_Journal/202504_e-Journal.pdf",
+  "confidence": "low"
+ },
+ {
+  "alt_emails": [
+   "info@radioonda.be"
+  ],
+  "web_form": null,
+  "language": "English",
+  "match": [
+   "Radio Onda"
+  ],
+  "itu": "BEL",
+  "name": "Radio Onda (via Junglinster, Luxembourg)",
+  "email": "ondaasbl@hotmail.com",
+  "qsl_status": "issues QSLs",
+  "notes": "6140/9530 kHz. Sept 2025: QSL card in 14 days for report to ondaasbl@hotmail.com; 2024 eQSL/QSL via info@radioonda.be. Relays (Radio Gloria etc.) verify separately (QSL@radiogloria.eu). radioonda.be unreachable from here.",
+  "source": "https://naswa.net/newsite/wp-content/uploads/journal_archive/2020-2029_Journal/2025_Journal/202509_e-Journal.pdf",
+  "confidence": "medium"
+ },
+ {
+  "alt_emails": [],
+  "web_form": null,
+  "language": "English",
+  "match": [
+   "Radio Payam"
+  ],
+  "itu": "IRN",
+  "name": "Radio Payam (anti-government Persian, via Woofferton)",
+  "email": null,
+  "qsl_status": "unknown",
+  "notes": "Not found. New 2026 clandestine on 15615 kHz via Woofferton; not IRIB Radio Payam. Could try transmitter operator Encompass (address not verified).",
+  "source": null,
+  "confidence": "low"
+ },
+ {
+  "match": [
+   "Radio Prague",
+   "Radio Prague Int",
+   "Cesky Rozhlas",
+   "Czech Radio"
+  ],
+  "itu": "CZE",
+  "name": "Radio Prague International (English)",
+  "email": "english@radio.cz",
+  "alt_emails": [],
+  "web_form": "https://english.radio.cz/reception-report",
+  "language": "English",
+  "qsl_status": "eQSL only",
+  "notes": "Official: since Jan 2025 QSLs sent electronically for reports; printed QSL only for postal reports. Online reception-report form available.",
+  "source": "https://english.radio.cz/radio-pragues-qsl-cards-8701722",
+  "confidence": "high"
+ },
+ {
+  "match": [
+   "Radio Rebelde",
+   "R. Rebelde"
+  ],
+  "itu": "CUB",
+  "name": "Radio Rebelde",
+  "email": "web.radiorebelde@icrt.cu",
+  "alt_emails": [],
+  "web_form": null,
+  "language": "Spanish",
+  "qsl_status": "unknown",
+  "notes": "Address 'found on the Internet' by a DXer in 2024; not confirmed. Write in Spanish.",
+  "source": "https://naswa.net/newsite/wp-content/uploads/journal_archive/2020-2029_Journal/2024_Journal/202403_e-Journal.pdf",
+  "confidence": "low"
+ },
+ {
+  "alt_emails": [
+   "info@directorio.org"
+  ],
+  "web_form": null,
+  "language": "Spanish",
+  "match": [
+   "Radio Republica",
+   "Radio República"
+  ],
+  "itu": "CUB",
+  "name": "Radio República (Directorio Democrático Cubano)",
+  "email": "radiorepublica@gmail.com",
+  "qsl_status": "issues QSLs",
+  "notes": "Verifies with letter (non-data) from María Antonieta Lima, often within 24-48 h (2023-2024).",
+  "source": "https://naswa.net/newsite/wp-content/uploads/journal_archive/2020-2029_Journal/2024_Journal/202412_e-Journal.pdf",
+  "confidence": "medium"
+ },
+ {
+  "match": [
+   "Radio Romania Int",
+   "RRI"
+  ],
+  "itu": "ROU",
+  "name": "Radio Romania International (English)",
+  "email": "engl@rri.ro",
+  "alt_emails": [
+   "eng@rri.ro",
+   "rritheenglishservice@gmail.com"
+  ],
+  "web_form": "https://www.rri.ro/en/reception-form",
+  "language": "English",
+  "qsl_status": "eQSL only",
+  "notes": "Official contact page lists eng@rri.ro, engl@rri.ro and a reception form; 2026 QSL series is electronic. 2025 eQSL took ~195 days. Include programme details.",
+  "source": "https://www.rri.ro/en/contact",
+  "confidence": "high"
+ },
+ {
+  "match": [
+   "Radio Slovakia Int",
+   "RSI"
+  ],
+  "itu": "SVK",
+  "name": "Radio Slovakia International (English)",
+  "email": "englishsection@stvr.sk",
+  "alt_emails": [],
+  "web_form": null,
+  "language": "English",
+  "qsl_status": "issues QSLs",
+  "notes": "Official contacts page (STVR). QSL series continues (2025, 2026). German/French sections: rsi_german@rtvs.sk, rsi_french@rtvs.sk (older domain).",
+  "source": "https://enrsi.stvr.sk/contacts",
+  "confidence": "high"
+ },
+ {
+  "match": [
+   "Radio Taiwan Int",
+   "RTI"
+  ],
+  "itu": "TWN",
+  "name": "Radio Taiwan International (English)",
+  "email": "English@rti.org.tw",
+  "alt_emails": [],
+  "web_form": "https://www.rti.org.tw/en/content?uid=11",
+  "language": "English",
+  "qsl_status": "issues QSLs",
+  "notes": "Official English site gives English@rti.org.tw; dedicated 'Mediumwave and Shortwave Reception Report' web form. Paper QSL cards sent (not to some African countries due to postal issues).",
+  "source": "https://en.rti.org.tw/",
+  "confidence": "high"
+ },
+ {
+  "match": [
+   "Radio Tamazuj",
+   "Tamazuj"
+  ],
+  "itu": "HOL",
+  "name": "Radio Tamazuj",
+  "email": "radiotamazuj@gmail.com",
+  "alt_emails": [
+   "info@freepressunlimited.org"
+  ],
+  "web_form": null,
+  "language": "English",
+  "qsl_status": "issues QSLs",
+  "notes": "A 2023 report sent to these addresses got an answer from the Radio Dabanga team (shared operation), and a paper QSL followed. Some other listeners got no reply.",
+  "source": "https://swling.com/blog/2023/02/radio-tamazul-and-radio-dabanga-broadcast-coordination",
+  "confidence": "medium"
+ },
+ {
+  "match": [
+   "Radio Tarma",
+   "R. Tarma"
+  ],
+  "itu": "PRU",
+  "name": "Radio Tarma",
+  "email": "gerenciageneral@grupomonteverde.com",
+  "alt_emails": [],
+  "web_form": null,
+  "language": "Spanish",
+  "qsl_status": "issues QSLs",
+  "notes": "Email letter signed by Mario Monteverde Pomareda, Gerente General. Long-standing address; the most recent confirmation found is from 2019. No email on radiotarma.com.",
+  "source": "https://bclnews.blogspot.com/2019/09/radio-mosoj-chaski-and-radio-tarma-qsl.html",
+  "confidence": "low"
+ },
+ {
+  "match": [
+   "Radio Vanuatu",
+   "R Vanuatu"
+  ],
+  "itu": "VUT",
+  "name": "Radio Vanuatu (VBTC)",
+  "email": "admin@vbtc.vu",
+  "alt_emails": [
+   "radiovanuatu@vbtc.vu"
+  ],
+  "web_form": null,
+  "language": "English",
+  "qsl_status": "eQSL only",
+  "notes": "NASWA Aug/Oct/Dec 2024: 9960 kHz, full-data e-QSL in 2-3 days signed by Warren Robert (robertw@vbtc.vu; one report also cc'd admin@vbtc.vu). radiovanuatu@vbtc.vu appears on vbtc.vu/contact as 'Email us'. Postal reports to PMB 9049 Port Vila reportedly go unanswered. (Public list: a staff member's personal address was left out - see DX bulletins, and add it to your own qsl_contacts.json.)",
+  "source": "https://naswa.net/newsite/wp-content/uploads/journal_archive/2020-2029_Journal/2024_Journal/202410_e-Journal.pdf",
+  "confidence": "medium"
+ },
+ {
+  "match": [
+   "Radio Vaticana",
+   "Vatican Radio",
+   "Radio Vatican"
+  ],
+  "itu": "VTC",
+  "name": "Vatican Radio",
+  "email": null,
+  "alt_emails": [],
+  "web_form": null,
+  "language": "English",
+  "qsl_status": "unknown",
+  "notes": "2024-25 reports verified by e-mail letter (full data incl. transmitter site) from Sergio Salvatori. A 2026 SWLing comment says Vatican Radio has stopped sending QSL cards; expect e-mail verification at most. (Public list: a staff member's personal address was left out - see DX bulletins, and add it to your own qsl_contacts.json.)",
+  "source": "https://naswa.net/newsite/wp-content/uploads/journal_archive/2020-2029_Journal/2024_Journal/202409_e-Journal.pdf",
+  "confidence": "medium"
+ },
+ {
+  "match": [
+   "Radyo Pilipinas",
+   "Radio Pilipinas"
+  ],
+  "itu": "PHL",
+  "name": "Radyo Pilipinas World Service (PBS)",
+  "email": "dzrp.radyopilipinas@gmail.com",
+  "alt_emails": [
+   "pbsinfo.ph@gmail.com",
+   "dzrp_pbs@yahoo.com"
+  ],
+  "web_form": "https://www.facebook.com/DZRPRadyoPilipinas/",
+  "language": "English",
+  "qsl_status": "eQSL only",
+  "notes": "Shortwave service resumed 1 Dec 2025 (Tinang). Listeners in Dec 2025 report eQSL within 24 h, but nobody stated the current address. The listed emails come from a 2016 post (the gmail one was given on the station's Facebook page). A Facebook inbox message is reported to work best.",
+  "source": "https://swling.com/blog/2016/07/dzrp-radyo-pilipinas-advice-on-obtaining-a-qsl",
+  "confidence": "low"
+ },
+ {
+  "match": [
+   "Reach Beyond Australia",
+   "Reach Beyond",
+   "HCJB Australia"
+  ],
+  "itu": "AUS",
+  "name": "Reach Beyond Australia (Kununurra)",
+  "email": "radio@reachbeyond.org.au",
+  "alt_emails": [
+   "hcjbjapan.office2@gmail.com"
+  ],
+  "web_form": null,
+  "language": "English",
+  "qsl_status": "eQSL only",
+  "notes": "Many 2025 full-data eQSLs in 1-4 days. Use the Japanese office address only for Japanese programme reports.",
+  "source": "https://naswa.net/newsite/wp-content/uploads/journal_archive/2020-2029_Journal/2025_Journal/202503_e-Journal.pdf",
+  "confidence": "medium"
+ },
+ {
+  "alt_emails": [],
+  "web_form": "https://www.realmix.fi/",
+  "language": "English",
+  "match": [
+   "RealMix"
+  ],
+  "itu": "FIN",
+  "name": "RealMix Radio (Raasepori)",
+  "email": "realmix.sw@gmail.com",
+  "qsl_status": "eQSL only",
+  "notes": "Station site asks for reports by its form or email; eQSL, replies take days to months. 6005/6185/6195 kHz and 1485 AM.",
+  "source": "https://www.realmix.fi/",
+  "confidence": "high"
+ },
+ {
+  "match": [
+   "RNZ Pacific",
+   "Radio New Zealand",
+   "RNZI"
+  ],
+  "itu": "NZL",
+  "name": "RNZ Pacific",
+  "email": null,
+  "alt_emails": [],
+  "web_form": "https://www.rnz.co.nz/qsl",
+  "language": "English",
+  "qsl_status": "eQSL only",
+  "notes": "Reports only via the official QSL web form; eQSLs in 3-15 days (2025).",
+  "source": "https://www.rnz.co.nz/qsl",
+  "confidence": "high"
+ },
+ {
+  "match": [
+   "Sabah V",
+   "Sabah VFM",
+   "RTM Sabah"
+  ],
+  "itu": "MLA",
+  "name": "RTM Sabah V FM (via Kajang transmitting station)",
+  "email": "pnk_rtmkajang@rtm.gov.my",
+  "alt_emails": [],
+  "web_form": null,
+  "language": "English",
+  "qsl_status": "eQSL only",
+  "notes": "Address belongs to the RTM Kajang transmitter station, which sends eQSLs (confirmed for Wai FM 11665 kHz, Jan 2025; Nasional FM eQSL Mar 2026). Sabah V FM goes out from Kajang on 11885 kHz, so Kajang should verify it. No Sabah V-specific QSL seen.",
+  "source": "http://mt-shortwave.blogspot.com/2025/01/qsl-report-20-january-2025.html",
+  "confidence": "medium"
+ },
+ {
+  "match": [
+   "Scalla"
+  ],
+  "itu": "B",
+  "name": "Rádio Scalla (free radio, São Paulo)",
+  "email": null,
+  "alt_emails": [],
+  "web_form": null,
+  "language": "Portuguese",
+  "qsl_status": "unknown",
+  "notes": "No email found. Listed (NASWA May 2025) as one of four Brazilian free radios, on 6135 kHz.",
+  "source": "https://naswa.net/newsite/wp-content/uploads/journal_archive/2020-2029_Journal/2025_Journal/202505_e-Journal.pdf",
+  "confidence": "low"
+ },
+ {
+  "match": [
+   "Scandinavian Weekend",
+   "SWR Finland"
+  ],
+  "itu": "FIN",
+  "name": "Scandinavian Weekend Radio",
+  "email": "info@swradio.net",
+  "alt_emails": [],
+  "web_form": "https://www.swradio.net/raporttisivu.htm",
+  "language": "English",
+  "qsl_status": "issues QSLs",
+  "notes": "Email reports get an e-QSL (often within 1-2 days per NASWA 2024-25). Postal reports (SWR Reports, Hollitie 1025, FI-34930 Liedenpohja) get a paper card. The station's web report form submits by mailto to info@swradio.net.",
+  "source": "https://www.swradio.net/raporttisivu.htm",
+  "confidence": "high"
+ },
+ {
+  "alt_emails": [],
+  "web_form": null,
+  "language": "German",
+  "match": [
+   "SE-TA",
+   "Se-Ta"
+  ],
+  "itu": "D",
+  "name": "Radio SE-TA2 (Waldheim)",
+  "email": "se-ta@web.de",
+  "qsl_status": "eQSL only",
+  "notes": "Electronic QSL card; reports in German verified in 2-3 days (2023).",
+  "source": "https://drm.org/drm-shortwave-from-germany/",
+  "confidence": "medium"
+ },
+ {
+  "match": [
+   "Shiokaze",
+   "Sea Breeze"
+  ],
+  "itu": "J",
+  "name": "Shiokaze (Sea Breeze), COMJAN / Chosa-kai",
+  "email": null,
+  "alt_emails": [],
+  "web_form": null,
+  "language": "Japanese",
+  "qsl_status": "issues QSLs",
+  "notes": "No email given. Station page: a thank-you letter is sent only for postal-transfer donations of 1000 yen or more that carry reception data in the memo field. Postal address: Chosa-kai, 2-3-8 Koraku, Bunkyo-ku, Tokyo (6th Matsuya Bldg 301).",
+  "source": "https://www.chosa-kai.jp/siokaze",
+  "confidence": "low"
+ },
+ {
+  "alt_emails": [],
+  "web_form": null,
+  "language": "English",
+  "match": [
+   "Shortwave Australia",
+   "VL8K"
+  ],
+  "itu": "AUS",
+  "name": "Shortwave Australia (VL8K)",
+  "email": "vl8k@outlook.com",
+  "qsl_status": "unknown",
+  "notes": "2310/4835 kHz, operated by Dave (VK3ASE) near Bendigo. Address heard in on-air contact info as logged in NASWA Dec 2024; no verification reports found.",
+  "source": "https://naswa.net/newsite/wp-content/uploads/journal_archive/2020-2029_Journal/2024_Journal/202412_e-Journal.pdf",
+  "confidence": "medium"
+ },
+ {
+  "match": [
+   "Shortwave Radio Gold",
+   "Shortwave Gold"
+  ],
+  "itu": "D",
+  "name": "Shortwave Radio / Shortwave Gold (Winsen/Aller)",
+  "email": null,
+  "alt_emails": [],
+  "web_form": "https://www.shortwaveradio.de/en/contact",
+  "language": "English",
+  "qsl_status": "issues QSLs",
+  "notes": "Paper QSL by post only, via World Wide DX Club, P.O. Box 1214, D-61282 Bad Homburg. Needs at least 30 min of programme details and 3 EUR return postage. Online feedback form exists; no email published.",
+  "source": "https://www.shortwaveradio.de/en/donate",
+  "confidence": "high"
+ },
+ {
+  "alt_emails": [],
+  "web_form": null,
+  "language": "German",
+  "match": [
+   "SM Radio Dessau"
+  ],
+  "itu": "D",
+  "name": "SM Radio Dessau",
+  "email": null,
+  "qsl_status": "eQSL only",
+  "notes": "eQSL in 2-4 days (2025). Postal: c/o Max Berger, Saalestrasse 44, 06846 Dessau. (Public list: a staff member's personal address was left out - see DX bulletins, and add it to your own qsl_contacts.json.)",
+  "source": "https://www.smradio-dessau.de/about/",
+  "confidence": "high"
+ },
+ {
+  "match": [
+   "Sound of Hope"
+  ],
+  "itu": "TWN",
+  "name": "Sound of Hope (Xiwang zhi Sheng)",
+  "email": "sohchinabrocast@gmail.com",
+  "alt_emails": [
+   "info@soundofhope.org"
+  ],
+  "web_form": null,
+  "language": "English or Chinese",
+  "qsl_status": "eQSL only",
+  "notes": "NASWA Jan 2024 (DX Fanzine): 15290 kHz, full-data e-QSL in 4 days from sohchinabrocast@gmail.com. info@soundofhope.org is the general contact on the station's website.",
+  "source": "https://naswa.net/newsite/wp-content/uploads/journal_archive/2020-2029_Journal/2024_Journal/202401_e-Journal.pdf",
+  "confidence": "medium"
+ },
+ {
+  "alt_emails": [],
+  "web_form": null,
+  "language": "English",
+  "match": [
+   "Squeaky Wheel"
+  ],
+  "itu": "RUS",
+  "name": "The Squeaky Wheel (Russian military channel marker)",
+  "email": null,
+  "qsl_status": "no longer verifies",
+  "notes": "Not a broadcaster: Russian military network channel marker (5474/3828.9 kHz USB). No QSL possible.",
+  "source": "https://www.numbers-stations.com/russia/the-squeaky-wheel/",
+  "confidence": "low"
+ },
+ {
+  "match": [
+   "SunDance",
+   "Sundance"
+  ],
+  "itu": "HOL",
+  "name": "SunDance Radio (Dutch free radio)",
+  "email": null,
+  "alt_emails": [],
+  "web_form": null,
+  "language": "English or Dutch",
+  "qsl_status": "unknown",
+  "notes": "Not found. No email in NASWA 2023-2025 or web searches; sundanceradio.nl returned nothing.",
+  "source": null,
+  "confidence": "low"
+ },
+ {
+  "match": [
+   "Thazin"
+  ],
+  "itu": "MYA",
+  "name": "Thazin Radio (MRTV, Pyin Oo Lwin)",
+  "email": null,
+  "alt_emails": [
+   "nptradio.eng@gmail.com"
+  ],
+  "web_form": null,
+  "language": "English",
+  "qsl_status": "unknown",
+  "notes": "No Thazin-specific address. The alt is Myanma Radio (MRTV, same state broadcaster), which sent full-data eQSLs within hours in Oct 2025; it has not been tried for Thazin.",
+  "source": "https://naswa.net/newsite/wp-content/uploads/journal_archive/2020-2029_Journal/2025_Journal/202510_e-Journal.pdf",
+  "confidence": "low"
+ },
+ {
+  "match": [
+   "Tibet",
+   "Xizang",
+   "Holy Tibet"
+  ],
+  "itu": "CHN",
+  "name": "Xizang PBS / Holy Tibet (China Tibet Radio & TV, English programme)",
+  "email": "holytibetprogram@163.com",
+  "alt_emails": [],
+  "web_form": null,
+  "language": "English",
+  "qsl_status": "issues QSLs",
+  "notes": "Full-data paper QSL cards confirmed in 2024 for email reports, but very slow (15 months to 853 days). Postal: 41 Beijing Middle Road, Lhasa, Tibet.",
+  "source": "https://naswa.net/newsite/wp-content/uploads/journal_archive/2020-2029_Journal/2024_Journal/202405_e-Journal.pdf",
+  "confidence": "medium"
+ },
+ {
+  "match": [
+   "Trans World Radio",
+   "KTWR"
+  ],
+  "itu": "GUM",
+  "name": "Trans World Radio Asia (KTWR Guam and Asian relays)",
+  "email": "asiafeedback@twr.org",
+  "alt_emails": [],
+  "web_form": null,
+  "language": "English",
+  "qsl_status": "eQSL only",
+  "notes": "2025: eQSLs and occasional paper cards for English reports to asiafeedback@twr.org (KTWR, Orzu relay).",
+  "source": "https://naswa.net/newsite/wp-content/uploads/journal_archive/2020-2029_Journal/2025_Journal/202503_e-Journal.pdf",
+  "confidence": "medium"
+ },
+ {
+  "match": [
+   "Trans World Radio Africa",
+   "TWR Africa",
+   "TWR Eswatini",
+   "TWR Swaziland",
+   "Trans World Radio"
+  ],
+  "itu": "SWZ",
+  "name": "Trans World Radio Africa (Manzini, Eswatini)",
+  "email": "info@twrafrica.org",
+  "alt_emails": [],
+  "web_form": null,
+  "language": "English",
+  "qsl_status": "eQSL only",
+  "notes": "Many 2025 full-data eQSLs (1-6 days) from Lorraine Stavropoulos. Put this entry before the generic TWR one. (Public list: a staff member's personal address was left out - see DX bulletins, and add it to your own qsl_contacts.json.)",
+  "source": "https://naswa.net/newsite/wp-content/uploads/journal_archive/2020-2029_Journal/2025_Journal/202503_e-Journal.pdf",
+  "confidence": "medium"
+ },
+ {
+  "match": [
+   "Ukrainian Radio",
+   "Ukraine Int",
+   "Ukrainian R",
+   "Radio Ukraine",
+   "RUI"
+  ],
+  "itu": "UKR",
+  "name": "Ukrainian Radio / Radio Ukraine International (Suspilne)",
+  "email": "ua.info@suspilne.media",
+  "alt_emails": [],
+  "web_form": null,
+  "language": "English or Ukrainian",
+  "qsl_status": "unknown",
+  "notes": "Official contacts page lists N. Kyshchuk as chief editor of the foreign-language programmes (covers RUI) and ua.info@suspilne.media as the press office. Neither is a dedicated QSL desk; no 2024-26 RUI verifications seen. (Public list: a staff member's personal address was left out - see DX bulletins, and add it to your own qsl_contacts.json.)",
+  "source": "https://ukr.radio/contacts.html",
+  "confidence": "medium"
+ },
+ {
+  "match": [
+   "United Nations",
+   "UN Radio"
+  ],
+  "itu": "UN",
+  "name": "United Nations Radio (Russian, via Al Dhabbaya UAE)",
+  "email": null,
+  "alt_emails": [],
+  "web_form": null,
+  "language": "Russian or English",
+  "qsl_status": "unknown",
+  "notes": "Not found. (The UN-Day SAQ VLF event is unrelated.)",
+  "source": null,
+  "confidence": "low"
+ },
+ {
+  "match": [
+   "Vesti FM"
+  ],
+  "itu": "RUS",
+  "name": "Vesti FM (via PRTC Grigoriopol, Transnistria)",
+  "email": "prtc@idknet.com",
+  "alt_emails": [],
+  "web_form": null,
+  "language": "English",
+  "qsl_status": "eQSL only",
+  "notes": "Full-data eQSL in 1-2 days in 2025 for reports in English sent to this address (Pridnestrovian Radio & TV Center, the transmitter operator for Vesti FM on 12160).",
+  "source": "https://naswa.net/newsite/wp-content/uploads/journal_archive/2020-2029_Journal/2025_Journal/202506_e-Journal.pdf",
+  "confidence": "medium"
+ },
+ {
+  "match": [
+   "VoA Radio Ashna",
+   "Radio Ashna",
+   "Voice of America",
+   "VoA"
+  ],
+  "itu": "USA",
+  "name": "Voice of America (incl. Dari/Pashto ex-Radio Ashna)",
+  "email": "qsl@usagm.gov",
+  "alt_emails": [],
+  "web_form": null,
+  "language": "English",
+  "qsl_status": "unknown",
+  "notes": "Official VOA page: 'To request a QSL card or to submit a reception report: qsl [at] usagm.gov'. VOA heavily cut since March 2025 (USAGM shutdown); verification status uncertain. In 2025 Macon Dail (Greenville transmitter plant) sent eQSL copies by email for Greenville relays.",
+  "source": "https://www.insidevoa.com/p/5621.html",
+  "confidence": "medium"
+ },
+ {
+  "match": [
+   "Voice of I.R.Iran",
+   "Voice of IRI",
+   "IRIB",
+   "Pars Today",
+   "Radio Tehran"
+  ],
+  "itu": "IRN",
+  "name": "IRIB World Service / Pars Today (English radio)",
+  "email": "english@parstoday.com",
+  "alt_emails": [
+   "radiotehran1982@gmail.com"
+  ],
+  "web_form": null,
+  "language": "English",
+  "qsl_status": "unknown",
+  "notes": "English radio email from a third-party listing (parstoday.ir unreachable). radiotehran1982@gmail.com is the Bangla service, which sent eQSLs in 2025 (34-40 days).",
+  "source": "https://streema.com/radios/IRIB_World_Service_4_IRIB_WS",
+  "confidence": "low"
+ },
+ {
+  "match": [
+   "Voice of Indonesia",
+   "VoIndonesia",
+   "VOI"
+  ],
+  "itu": "INS",
+  "name": "Voice of Indonesia (RRI)",
+  "email": "voilisteners@gmail.com",
+  "alt_emails": [],
+  "web_form": null,
+  "language": "English",
+  "qsl_status": "issues QSLs",
+  "notes": "2025 full-data eQSLs (hours to months). RRI article (Apr 2026) confirms VOI still issues paper QSLs and e-QSLs by email.",
+  "source": "https://naswa.net/newsite/wp-content/uploads/journal_archive/2020-2029_Journal/2025_Journal/202503_e-Journal.pdf",
+  "confidence": "medium"
+ },
+ {
+  "match": [
+   "Voice of Korea",
+   "VoKorea"
+  ],
+  "itu": "PRK",
+  "name": "Voice of Korea (Pyongyang)",
+  "email": "vok@star-co.net.kp",
+  "alt_emails": [],
+  "web_form": null,
+  "language": "English",
+  "qsl_status": "unknown",
+  "notes": "Address listed in WRTH 2023 and on VOK website per hobbyist; replies very rare; postal mail to DPRK often returned.",
+  "source": "https://vk5pas.com/voice-of-korea-north-korea.html",
+  "confidence": "low"
+ },
+ {
+  "alt_emails": [],
+  "web_form": null,
+  "language": "English",
+  "match": [
+   "Voice of Martyrs",
+   "Voice of the Martyrs",
+   "VOM"
+  ],
+  "itu": "USA",
+  "name": "Voice of the Martyrs Korea (shortwave to North Korea)",
+  "email": null,
+  "qsl_status": "eQSL only",
+  "notes": "Shortwave VOM programmes are VOM Korea's (via Tashkent etc.); eQSL/letter signed by Pastor Dillmuth, 1-30 days (2023-2025). If EiBi entry is a US VOM program, address may differ. (Public list: a staff member's personal address was left out - see DX bulletins, and add it to your own qsl_contacts.json.)",
+  "source": "https://naswa.net/newsite/wp-content/uploads/journal_archive/2020-2029_Journal/2025_Journal/202502_e-Journal.pdf",
+  "confidence": "medium"
+ },
+ {
+  "match": [
+   "Voice of Mongolia",
+   "V of Mongolia"
+  ],
+  "itu": "MNG",
+  "name": "Voice of Mongolia (MNB)",
+  "email": "mnb_vom@yahoo.com",
+  "alt_emails": [
+   "contact@mnb.mn"
+  ],
+  "web_form": null,
+  "language": "English",
+  "qsl_status": "eQSL only",
+  "notes": "NASWA journals 2024-Dec 2025 report many full-data e-QSLs within 1 day from mnb_vom@yahoo.com. contact@mnb.mn is MNB's general address (mnb.mn).",
+  "source": "https://naswa.net/newsite/wp-content/uploads/journal_archive/2020-2029_Journal/2025_Journal/202512_e-Journal.pdf",
+  "confidence": "medium"
+ },
+ {
+  "match": [
+   "Voice of Tibet",
+   "V of Tibet"
+  ],
+  "itu": "NOR",
+  "name": "Voice of Tibet (Oslo)",
+  "email": null,
+  "alt_emails": [],
+  "web_form": null,
+  "language": "English",
+  "qsl_status": "unknown",
+  "notes": "Not found. vot.org is behind a bot check; archive.vot.org lists Kirkegata 5, 0153 Oslo, Norway and Dharamsala, India, but the email field is blank. Old addresses (lungtrin@yahoo.com, voti@online.no, from ~2008 press items) are unverified and not used here.",
+  "source": "https://archive.vot.org/about",
+  "confidence": "low"
+ },
+ {
+  "match": [
+   "Voice of Turkey",
+   "Voice of Turkiye",
+   "TRT"
+  ],
+  "itu": "TUR",
+  "name": "TRT Voice of Türkiye",
+  "email": "tsr@trt.net.tr",
+  "alt_emails": [
+   "englishdesk@trt.net.tr"
+  ],
+  "web_form": null,
+  "language": "English",
+  "qsl_status": "issues QSLs",
+  "notes": "2025: full-data QSL cards in about 6 weeks for reports to tsr@trt.net.tr. English shortwave by the VOT English Desk ended 1 Jan 2025; other languages continue.",
+  "source": "https://naswa.net/newsite/wp-content/uploads/journal_archive/2020-2029_Journal/2025_Journal/202509_e-Journal.pdf",
+  "confidence": "medium"
+ },
+ {
+  "match": [
+   "Voice of Vietnam",
+   "VoV",
+   "VOV"
+  ],
+  "itu": "VTN",
+  "name": "Voice of Vietnam / VOV World (English)",
+  "email": "englishsection@vov.vn",
+  "alt_emails": [
+   "vovworld@vov.vn"
+  ],
+  "web_form": null,
+  "language": "English",
+  "qsl_status": "issues QSLs",
+  "notes": "englishsection@vov.vn yielded full-data QSL cards in 2025 (41 days-3 months). vovworld@vov.vn is the general address on the official contact page.",
+  "source": "https://naswa.net/newsite/wp-content/uploads/journal_archive/2020-2029_Journal/2025_Journal/202510_e-Journal.pdf",
+  "confidence": "medium"
+ },
+ {
+  "match": [
+   "WBCQ"
+  ],
+  "itu": "USA",
+  "name": "WBCQ The Planet",
+  "email": "wbcq@wbcq.com",
+  "alt_emails": [],
+  "web_form": null,
+  "language": "English",
+  "qsl_status": "issues QSLs",
+  "notes": "Station site says QSL cards are sent by post: mail the report with an SASE to 274 Britton Road, Monticello ME 04760, USA. Email is the general contact.",
+  "source": "https://www.wbcq.com/",
+  "confidence": "high"
+ },
+ {
+  "match": [
+   "World Music Radio",
+   "WMR"
+  ],
+  "itu": "DNK",
+  "name": "World Music Radio (WMR)",
+  "email": "wmr@wmr.dk",
+  "alt_emails": [],
+  "web_form": null,
+  "language": "English",
+  "qsl_status": "eQSL only",
+  "notes": "Hobbyist got an eQSL for a 2024 report sent to this address. Replies can be slow (one report took about 6 months). Station website shows no email.",
+  "source": "https://www.myradiowaves.com/?s=WMR",
+  "confidence": "medium"
+ },
+ {
+  "match": [
+   "WRMI",
+   "Radio Miami Int"
+  ],
+  "itu": "USA",
+  "name": "WRMI Radio Miami International",
+  "email": "wrmiqsl@gmail.com",
+  "alt_emails": [
+   "info@wrmi.net"
+  ],
+  "web_form": "https://www.wrmi.net/index.php/reception-report-qsl/",
+  "language": "English",
+  "qsl_status": "eQSL only",
+  "notes": "Official: instant eQSL for reports to wrmiqsl@gmail.com; form reports get on-air acknowledgment only; paper QSL only for postal reports.",
+  "source": "https://www.wrmi.net/index.php/reception-report-qsl/",
+  "confidence": "high"
+ },
+ {
+  "match": [
+   "WRNO"
+  ],
+  "itu": "USA",
+  "name": "WRNO Worldwide (New Orleans)",
+  "email": "wrnoradio@mailup.net",
+  "alt_emails": [
+   "wrnoworldwide@mailup.net"
+  ],
+  "web_form": null,
+  "language": "English",
+  "qsl_status": "issues QSLs",
+  "notes": "Full-data QSL card in 16 days (2023) for reports to wrnoradio@mailup.net; another logger used wrnoworldwide@mailup.net (card in 3 weeks).",
+  "source": "https://naswa.net/newsite/wp-content/uploads/journal_archive/2020-2029_Journal/2023_Journal/202308_e-Journal.pdf",
+  "confidence": "low"
+ },
+ {
+  "match": [
+   "WTWW"
+  ],
+  "itu": "USA",
+  "name": "WTWW Lebanon TN",
+  "email": "email@wtww.us",
+  "alt_emails": [
+   "wtww@wtww.us"
+  ],
+  "web_form": null,
+  "language": "English",
+  "qsl_status": "unknown",
+  "notes": "Status is uncertain. wtww.us now redirects to wrmilegends.com, and owner Ted Randall died in May 2025. Listeners still logged it in 2024-25. Postal: P.O. Box 102, Lebanon TN 37088.",
+  "source": "https://swling.com/blog/2022/11/has-wtww-left-shortwave/",
+  "confidence": "low"
+ },
+ {
+  "match": [
+   "WWCR"
+  ],
+  "itu": "USA",
+  "name": "WWCR Nashville",
+  "email": "contact@wwcr.com",
+  "alt_emails": [],
+  "web_form": null,
+  "language": "English",
+  "qsl_status": "issues QSLs",
+  "notes": "General contact email from the station's contact page. The site has a QSL map (updated 2026), so it still verifies.",
+  "source": "https://www.wwcr.com/contact.html",
+  "confidence": "high"
+ },
+ {
+  "match": [
+   "Xinjiang"
+  ],
+  "itu": "CHN",
+  "name": "PBS Xinjiang (Urumqi)",
+  "email": null,
+  "alt_emails": [],
+  "web_form": null,
+  "language": "English or Chinese",
+  "qsl_status": "unknown",
+  "notes": "No address found. Unconfirmed idea: CRI's Ying Lian (yinglian@cri.com.cn) verifies other Chinese domestic stations (CNR, Beibu Bay).",
+  "source": null,
+  "confidence": "low"
+ }
+]
