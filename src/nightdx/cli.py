@@ -54,6 +54,9 @@ def main(argv=None) -> None:
     settings = config.load()
 
     if a.cmd in (None, "tui", "setup"):
+        # The first start after installing can take a while on Windows (antivirus scans,
+        # Python compiling the libraries) - say so instead of showing a blank window.
+        print("Starting NightDX... (the very first start can take a minute)", flush=True)
         from .tui import run
         run(setup=a.cmd == "setup")
         return
