@@ -80,7 +80,7 @@ MenuDrop > OptionList > .option-list--option-highlighted { background: #00aa00; 
 /* dialogs */
 .dialog { background: #aaaaaa; color: #000000; border: double #ffffff;
           border-title-color: #ffffff; border-title-background: #0000aa; border-title-style: bold;
-          padding: 1 2; width: 84; height: auto; max-height: 90%; }
+          padding: 1 2; width: 84; max-width: 96vw; height: auto; max-height: 92vh; }
 .modal { align: center middle; background: #000040 50%; }
 .dialog Label { color: #000000; }
 .dialog Input { background: #0000aa; color: #ffff55; border: tall #000080; height: 3; }
@@ -108,7 +108,7 @@ MenuDrop > OptionList > .option-list--option-highlighted { background: #00aa00; 
 .row Input { width: 1fr; }
 .cols { height: auto; }
 .cols > Vertical { width: 1fr; height: auto; margin: 0 1; }
-#settings_scroll { height: 30; }
+#settings_scroll { height: auto; max-height: 65vh; }
 """
 
 
