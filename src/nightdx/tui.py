@@ -1365,7 +1365,8 @@ class NightDX(App):
                                     f"Recordings:  {self.settings.recordings_dir}"))
 
     def do_about(self) -> None:
-        self.push_screen(MessageBox("About", "NightDX 0.1\n\nSchedules: EiBi (eibispace.de)\n"
+        from . import __version__
+        self.push_screen(MessageBox("About", f"NightDX {__version__}\n\nSchedules: EiBi (eibispace.de) + AOKI list\n"
                                     "Space weather: NOAA SWPC\nClassifier: AST fine-tuned on "
                                     "AudioSet (MIT)\nReceiver: AirSpy HF+ via libairspyhf"))
 

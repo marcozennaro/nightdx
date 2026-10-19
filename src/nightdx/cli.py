@@ -25,6 +25,8 @@ def _utc_at(hhmm: str | None) -> datetime:
 
 def main(argv=None) -> None:
     ap = argparse.ArgumentParser(prog="nightdx", description="Unattended shortwave listening with an AirSpy HF+")
+    from . import __version__
+    ap.add_argument("--version", action="version", version=f"NightDX {__version__}")
     sub = ap.add_subparsers(dest="cmd")
     sub.add_parser("tui", help="menu-driven interface (default)")
     sub.add_parser("setup", help="run the setup wizard (location, bands, radio, optional features)")

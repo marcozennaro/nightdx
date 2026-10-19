@@ -42,38 +42,70 @@ button that remembers which stations you have already written to:
 * macOS 12+, Windows 10/11, or Linux. Python is installed for you by `uv` (below).
 * Internet access for schedules and space weather.
 
-> **Status:** developed and used daily on macOS (Apple Silicon). Windows and Linux are supported
-> and covered by the automatic tests, but have not yet been tested with a real HF+ - reports welcome!
+> **Status:** developed and used daily on macOS (Apple Silicon). On Windows, installation and
+> first start have been confirmed with a real HF+; Linux is covered by the automatic tests.
+> Reports from other setups are very welcome!
 
-## Install
+## Install on macOS
 
-### 1. Install `uv` (the Python installer)
+1. Install the AirSpy HF+ driver with [Homebrew](https://brew.sh):
+   ```bash
+   brew install airspyhf
+   ```
+2. Install `uv`, the Python installer (it also installs Python for you):
+   ```bash
+   curl -LsSf https://astral.sh/uv/install.sh | sh
+   ```
+   Then close and reopen the Terminal window.
+3. Install NightDX:
+   ```bash
+   uv tool install "nightdx @ git+https://github.com/marcozennaro/nightdx"
+   ```
+4. Start it with `nightdx`.
 
-* **macOS / Linux**: `curl -LsSf https://astral.sh/uv/install.sh | sh`
-* **Windows** (PowerShell): `powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"`
+## Install on Windows 10/11
 
-### 2. Install the AirSpy HF+ driver
+Use **PowerShell** (Windows key, type `PowerShell`).
 
-* **macOS**: `brew install airspyhf` (install [Homebrew](https://brew.sh) first if needed).
-* **Windows**: download **SDR# x64** (`sdrsharp-x64.zip`) from
-  [airspy.com/download](https://airspy.com/download/), open the zip and copy these three files
-  into `%LOCALAPPDATA%\NightDX\` (create the folder if needed): `airspyhf.dll`,
-  `libusb-1.0.dll` and `pthreadVC2.dll`. (If you already use SDR#, copy them from its folder.)
-  Windows 10/11 normally installs the HF+'s USB driver automatically; if the radio isn't found,
-  install the *WinUSB Compatibility Driver* from the same airspy.com page.
-* **Linux**: `sudo apt install libairspyhf-dev airspyhf` (or build
-  [airspyhf](https://github.com/airspy/airspyhf)), plus `libportaudio2` for audio playback.
+1. **Git** (uv uses it to download NightDX). Its installer needs administrator rights: click
+   **Yes** when Windows asks, or run this one command in a PowerShell opened with
+   *right-click > Run as administrator*:
+   ```powershell
+   winget install --id Git.Git -e
+   ```
+2. **uv** - in a *normal* (not administrator) PowerShell:
+   ```powershell
+   powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
+   ```
+   Then **close PowerShell and open a new window** - otherwise Windows answers
+   *"the term 'uv' is not recognized"*.
+3. **AirSpy HF+ driver files.** They come with SDR#: download **SDR# x64**
+   (`sdrsharp-x64.zip`) from [airspy.com/download](https://airspy.com/download/) and copy
+   `airspyhf.dll`, `libusb-1.0.dll` and `pthreadVC2.dll` into `%LOCALAPPDATA%\NightDX\`
+   (with Explorer, or with these commands if the zip is in your Downloads folder):
+   ```powershell
+   New-Item -ItemType Directory -Force "$env:LOCALAPPDATA\NightDX"
+   Expand-Archive "$env:USERPROFILE\Downloads\sdrsharp-x64.zip" "$env:TEMP\sdrsharp" -Force
+   Copy-Item "$env:TEMP\sdrsharp\airspyhf.dll","$env:TEMP\sdrsharp\libusb-1.0.dll","$env:TEMP\sdrsharp\pthreadVC2.dll" "$env:LOCALAPPDATA\NightDX\"
+   ```
+   Windows normally installs the HF+'s USB driver by itself; if the radio is not found, install
+   the *WinUSB Compatibility Driver* from the same airspy.com page.
+4. **NightDX:**
+   ```powershell
+   uv tool install "nightdx @ git+https://github.com/marcozennaro/nightdx"
+   ```
+5. Start it with `nightdx`. **The very first start can take a minute** (Windows Defender scans
+   the newly installed files); later starts take a few seconds.
 
-Close other SDR programs while NightDX uses the radio - only one program can use it at a time.
+## Install on Linux
 
-### 3. Install NightDX
+`sudo apt install libairspyhf-dev airspyhf libportaudio2` (or build
+[airspyhf](https://github.com/airspy/airspyhf)), then steps 2-4 of the macOS instructions.
 
-```bash
-uv tool install "nightdx @ git+https://github.com/marcozennaro/nightdx"
-```
+## Optional features
 
-then start it with `nightdx`. To include the optional features from the start (they can also be
-installed later from the setup wizard):
+The setup wizard can install these later with one click, or include them from the start
+(`nightdx[all]` installs all three):
 
 ```bash
 uv tool install "nightdx[all] @ git+https://github.com/marcozennaro/nightdx"
@@ -84,6 +116,18 @@ uv tool install "nightdx[all] @ git+https://github.com/marcozennaro/nightdx"
 | `ai` | speech/music/noise classification, programme transcription | ~2 GB + models on first use |
 | `gmail` | Gmail drafts with the recording attached | ~15 MB |
 | `images` | iPhone (HEIC) photos of QSL cards on Windows/Linux | ~20 MB |
+
+## Updating
+
+```bash
+uv tool install --reinstall "nightdx @ git+https://github.com/marcozennaro/nightdx"
+```
+
+(add `[all]` after `nightdx` if you installed the extras that way). Your settings, log,
+recordings and QSL cards are kept - they live in the data folder, not in the program.
+See [CHANGELOG.md](CHANGELOG.md) for what's new.
+
+Close other SDR programs while NightDX uses the radio - only one program can use it at a time.
 
 ## First start
 
@@ -129,6 +173,19 @@ EiBi and AOKI cover international MW broadcasters. For the full picture, registe
 location, and download *Tools > Userlist for Perseus / ELAD / Winradio / SDR Console*
 (LW/MW/SW, CSV, separator Tab). Put the file in the `mwlist` folder inside the data folder and
 press Ctrl+U. MWLIST data is for personal, non-commercial use.
+
+## Troubleshooting
+
+* **"'uv' is not recognized"** (Windows) - close PowerShell and open a new window after
+  installing uv.
+* **Nothing happens after typing `nightdx`** - the first start after installing can take a
+  minute, especially on Windows. NightDX prints *"Starting NightDX..."* right away.
+* **"The HF+ was not found"** - check that the radio is plugged in and that no other SDR program
+  (SDR#, SDR++, HDSDR...) is running. On Windows, check that the three DLL files are in
+  `%LOCALAPPDATA%\NightDX\`, or install the WinUSB driver from airspy.com.
+* **Windows asks for administrator rights** - only the Git installation needs them; install
+  uv and NightDX in a normal PowerShell.
+* Something else? Open an issue with the message you see.
 
 ## Where your data lives
 
