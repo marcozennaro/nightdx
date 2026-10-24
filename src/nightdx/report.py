@@ -102,7 +102,7 @@ def _qsl_cell(r, settings, known: dict, got: dict | None = None) -> str:
     NightDX server), plus fallbacks that work without it. Its colour shows whether this
     station was already contacted (refreshed live by the page script)."""
     from . import qsl, server
-    if not r["file"] or r["error"] or r["label"] == "noise":
+    if not r["file"] or r["error"]:
         return ""
     items = []
     if "programme" in r.keys() and r["programme"]:
@@ -120,6 +120,8 @@ def _qsl_cell(r, settings, known: dict, got: dict | None = None) -> str:
         if c.get("confidence") == "low":
             note += " &middot; <b>unconfirmed address</b>"
         cls, label = "qsl", "&#9993; Send report"
+        if r["label"] == "noise":
+            note += " &middot; <b>AI heard mostly noise - send only if you could hear the station</b>"
     else:
         form = c.get("web_form")
         note = (f'no e-mail on file &middot; <a target="_blank" href="{html.escape(form)}">web form</a>'

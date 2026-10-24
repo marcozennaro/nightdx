@@ -271,6 +271,64 @@ class SelectTargets(Dialog):
         self.dismiss(None)
 
 
+class ConfirmDialog(Dialog):
+    """Yes / No question; dismisses with True or False."""
+
+    def __init__(self, title: str, text: str, yes: str = "Yes"):
+        super().__init__()
+        self.t, self.text, self.yes = title, text, yes
+
+    def compose(self) -> ComposeResult:
+        with Vertical(classes="dialog") as d:
+            d.border_title = f" {self.t} "
+            yield Static(self.text)
+            with Horizontal(classes="buttons"):
+                yield Button(self.yes, id="yes")
+                yield Button("Cancel", id="no", classes="cancel")
+
+    @on(Button.Pressed, "#yes")
+    def yes_(self) -> None:
+        self.dismiss(True)
+
+    @on(Button.Pressed, "#no")
+    def no_(self) -> None:
+        self.dismiss(False)
+
+    def action_close(self) -> None:
+        self.dismiss(False)
+
+
+def send_qsl_report(app, row) -> None:
+    """Prepare a reception report (Gmail draft with the recording attached) for a logged
+    recording - the same as the browser's 'Send report' button. Asks first if this station
+    was already reported to, or already sent a QSL card."""
+    import webbrowser
+    from . import cards, qsl, qslstate, server
+    if not row or not row["file"]:
+        app.notify("No recording to report.", severity="warning")
+        return
+    key = qsl.station_key(row)
+
+    def go(ok: bool = True) -> None:
+        if ok:
+            webbrowser.open(server.qsl_link(app.settings, row["id"]))
+            app.notify(f"Preparing the reception report for {row['station']} in your browser...")
+    have = cards.by_key().get(key)
+    sent = qslstate.states(check_gmail=False).get(key)
+    if have:
+        msg = (f"You already have a QSL card from {row['station']} "
+               f"(received {max(c['received'] for c in have)}).\n\nPrepare another report anyway?")
+    elif sent and sent["state"] == "contacted":
+        msg = f"You already reported to {row['station']} on {sent['date']}.\n\nPrepare another report?"
+    elif sent:
+        msg = (f"A report to {row['station']} is already waiting in your Gmail drafts "
+               f"({sent['date']}).\n\nPrepare another one?")
+    else:
+        go()
+        return
+    app.push_screen(ConfirmDialog("Reception report", msg, yes="Prepare report"), go)
+
+
 class RecordDialog(Dialog):
     """Records one entry in a worker thread, showing progress and the AI verdict."""
 
@@ -295,6 +353,7 @@ class RecordDialog(Dialog):
             with Horizontal(classes="buttons"):
                 yield Button("Stop now", id="stopnow")
                 yield Button("Play", id="play", disabled=True)
+                yield Button("QSL report", id="qslrep", disabled=True)
                 yield Button("Cancel", id="close", classes="cancel")
 
     def on_mount(self) -> None:
@@ -339,6 +398,7 @@ class RecordDialog(Dialog):
         if self.row.get("file"):
             play = self.query_one("#play", Button)
             play.disabled = False
+            self.query_one("#qslrep", Button).disabled = False
             play.focus()
 
     def _show_playing(self, playing: bool) -> None:
@@ -373,6 +433,10 @@ class RecordDialog(Dialog):
             self._watch = self.set_interval(0.5, self._check_playing)
         else:                                     # opened in an external player
             self._show_playing(False)
+
+    @on(Button.Pressed, "#qslrep")
+    def qsl_report(self) -> None:
+        send_qsl_report(self.app, self.row)
 
     @on(Button.Pressed, "#close")
     def close_(self) -> None:
@@ -448,17 +512,19 @@ class NightDialog(Dialog):
 
 class LogDialog(Dialog):
     BINDINGS = [Binding("escape", "close"), Binding("p", "play", "Play"),
-                Binding("s", "stop", "Stop"), Binding("c", "classify", "Classify")]
+                Binding("s", "stop", "Stop"), Binding("c", "classify", "Classify"),
+                Binding("q", "qsl", "QSL report")]
 
     def compose(self) -> ComposeResult:
         with Vertical(classes="dialog") as d:
             d.border_title = " Listening log "
             d.styles.width = 120
-            yield Label("Enter/P play   S stop   C re-classify   Esc close")
+            yield Label("Enter/P play   S stop   Q QSL report   C re-classify   Esc close")
             yield DataTable(id="logt", cursor_type="row", zebra_stripes=True)
             yield Static(id="logsum")
             with Horizontal(classes="buttons"):
                 yield Button("Play", id="play")
+                yield Button("QSL report", id="qslrep")
                 yield Button("Report", id="report")
                 yield Button("Close", id="close", classes="cancel")
 
@@ -501,6 +567,14 @@ class LogDialog(Dialog):
 
     def action_stop(self) -> None:
         self.app.action_stop_play()
+
+    @on(Button.Pressed, "#qslrep")
+    def action_qsl(self) -> None:
+        r = self._current()
+        if r and r["file"] and not r["error"]:
+            send_qsl_report(self.app, r)
+        else:
+            self.app.notify("Highlight a recording first.")
 
     @work(thread=True)
     def action_classify(self) -> None:

@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.9.3 - 2026-10-24
+
+* **Reception reports straight from the app:** a *QSL report* button in the recording window
+  (as soon as the recording is saved) and in the listening log (F7, key **Q**) prepares the
+  Gmail draft with the recording attached - no need to go through the browser report.
+* NightDX asks first if you already reported to that station, have a draft waiting, or already
+  received its QSL card.
+* Recordings the AI labelled "noise" can be reported too (with a note) - you decide, since you
+  listened.
+
 ## 0.9.2 - 2026-10-19
 
 * **Recording window:** while a recording plays, *Play* is greyed out and *Stop* is active;
