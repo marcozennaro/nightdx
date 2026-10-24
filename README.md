@@ -162,6 +162,12 @@ and a one-time setup, NightDX creates a real **Gmail draft with the recording at
    and save it as `gmail_credentials.json` in your NightDX data folder (see below).
 4. Run `nightdx gmail-setup` and approve. NightDX only asks to *create drafts*; it never reads
    your mail and never sends anything - you press Send.
+5. Back on the consent screen (*Google Auth Platform > Audience*), click **Publish app**. While
+   the app is in *Testing*, Google withdraws the permission every 7 days. Publishing needs no
+   review for personal use; Google just shows an "unverified app" warning you can accept.
+
+If the permission ever expires, the next click on **Send report** opens Google's consent page
+again; approve, and the draft is created as usual.
 
 Station addresses come from `qsl_contacts.json` (researched from station pages and DX-club QSL
 logs, with sources). Add your own in `qsl_contacts.json` in the data folder; yours take precedence.

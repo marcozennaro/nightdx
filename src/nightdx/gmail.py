@@ -53,7 +53,20 @@ def _creds(interactive: bool, account: str = ""):
     if creds and creds.valid:
         return creds
     if creds and creds.expired and creds.refresh_token:
-        creds.refresh(Request())
+        from google.auth.exceptions import RefreshError
+        try:
+            creds.refresh(Request())
+        except RefreshError:
+            # Expired or revoked. Google expires these after 7 days while the Cloud project
+            # is still in "Testing" (publish it to stop that). Forget the token; the next
+            # click on "Send report" asks for consent again.
+            token_path().unlink(missing_ok=True)
+            creds = None
+            if not interactive:
+                raise NotSetUp("Gmail access has expired - click 'Send report' to reconnect "
+                               "(or run: nightdx gmail-setup)")
+    if creds and creds.valid:
+        pass
     elif interactive:
         if not credentials_path().exists():
             raise NotSetUp(f"Missing {credentials_path()} - see README, 'Gmail drafts'.")
@@ -95,7 +108,8 @@ def create_draft(to: str, subject: str, text: str, html: str, attachment: Path |
                                                                  "octet-stream")
         msg.add_attachment(attachment.read_bytes(), maintype="audio", subtype=sub,
                            filename=attachment.name)
-    svc = build("gmail", "v1", credentials=_creds(False), cache_discovery=False)
+    # interactive: a click on "Send report" may (re)open Google's consent page if needed
+    svc = build("gmail", "v1", credentials=_creds(True, account), cache_discovery=False)
     media = MediaIoBaseUpload(io.BytesIO(msg.as_bytes()), mimetype="message/rfc822",
                               resumable=True)
     d = svc.users().drafts().create(userId="me", body={}, media_body=media).execute()

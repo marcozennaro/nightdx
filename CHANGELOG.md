@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.9.4 - 2026-10-24
+
+* **Gmail permission expired ("invalid_grant"):** NightDX no longer stops with an error. The
+  next click on *Send report* opens Google's consent page again; after you approve, the draft is
+  created as usual. Background status checks never open a consent page.
+* README: publish the Google Cloud app (*Audience > Publish app*) so the permission doesn't
+  expire every 7 days.
+
 ## 0.9.3 - 2026-10-24
 
 * **Reception reports straight from the app:** a *QSL report* button in the recording window
