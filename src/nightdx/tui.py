@@ -313,20 +313,28 @@ def send_qsl_report(app, row) -> None:
         if ok:
             webbrowser.open(server.qsl_link(app.settings, row["id"]))
             app.notify(f"Preparing the reception report for {row['station']} in your browser...")
+    from . import identify, logbook
+    full = logbook.connect().execute("SELECT * FROM log WHERE id=?", (row["id"],)).fetchone()
+    doubt = identify.assess(full or row)
     have = cards.by_key().get(key)
     sent = qslstate.states(check_gmail=False).get(key)
+    msgs = []
+    if doubt["status"] == "doubtful":
+        msgs.append(f"This recording may not be {row['station']}:\n- "
+                    + "\n- ".join(doubt["reasons"]) + "\nListen to it first.")
     if have:
-        msg = (f"You already have a QSL card from {row['station']} "
-               f"(received {max(c['received'] for c in have)}).\n\nPrepare another report anyway?")
+        msgs.append(f"You already have a QSL card from {row['station']} "
+                    f"(received {max(c['received'] for c in have)}).")
     elif sent and sent["state"] == "contacted":
-        msg = f"You already reported to {row['station']} on {sent['date']}.\n\nPrepare another report?"
+        msgs.append(f"You already reported to {row['station']} on {sent['date']}.")
     elif sent:
-        msg = (f"A report to {row['station']} is already waiting in your Gmail drafts "
-               f"({sent['date']}).\n\nPrepare another one?")
-    else:
+        msgs.append(f"A report to {row['station']} is already waiting in your Gmail drafts "
+                    f"({sent['date']}).")
+    if not msgs:
         go()
         return
-    app.push_screen(ConfirmDialog("Reception report", msg, yes="Prepare report"), go)
+    app.push_screen(ConfirmDialog("Reception report", "\n\n".join(msgs)
+                                  + "\n\nPrepare the report anyway?", yes="Prepare report"), go)
 
 
 class RecordDialog(Dialog):
@@ -380,6 +388,9 @@ class RecordDialog(Dialog):
             self.row = core.record_entry(self.entry, app.sched, app.settings, app.sw.flux,
                                          app.sw.kp, progress=prog, stop=self.stop,
                                          finish=self.finish, log=say)
+            if self.row.get("file"):
+                from . import identify
+                say("  " + identify.summary(identify.assess(self.row)))
         finally:
             app.radio_busy = False
         if self.row.get("file"):
@@ -540,16 +551,21 @@ class LogDialog(Dialog):
         self.rows = {str(r["id"]): r for r in logbook.rows(logbook.connect(), limit=500)}
         colors = {"voice": "bold #55ff55", "music": "bold #ff55ff", "voice+music": "bold #ffff55",
                   "noise": "#aaaaaa"}
+        from . import identify
         for k, r in self.rows.items():
             verdict = Text(r["error"][:24], style="#ff5555") if r["error"] else Text(
                 f"{r['label'] or 'pending'} {r['voice_pct'] or 0:.0f}/{r['music_pct'] or 0:.0f}/{r['noise_pct'] or 0:.0f}",
                 style=colors.get(r["label"], ""))
-            t.add_row(r["utc_start"][5:16].replace("T", " "), f"{r['khz']:g}", (r["station"] or "")[:24],
+            name = Text((r["station"] or "")[:24])
+            if r["file"] and identify.assess(r)["status"] == "doubtful":
+                name = Text("? ", style="bold #ff5555") + Text((r["station"] or "")[:22], style="#ff5555")
+            t.add_row(r["utc_start"][5:16].replace("T", " "), f"{r['khz']:g}", name,
                       (r["country"] or "")[:14], (r["language"] or "")[:10], f"{r['predicted_score'] or 0}%",
                       "" if r["modulation_db"] is None else f"{r['modulation_db']:.0f}",
                       verdict, r["mission"] or "", key=k)
         n = len(self.rows)
-        self.query_one("#logsum", Static).update(f"{n} recordings in the log (voice/music/noise %)")
+        self.query_one("#logsum", Static).update(f"{n} recordings in the log (voice/music/noise %). Station = scheduled "
+                                                  f"candidate; [#ff5555]?[/] = probably another station.")
 
     def _current(self):
         t = self.query_one(DataTable)

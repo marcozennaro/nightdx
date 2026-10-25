@@ -15,7 +15,8 @@ COLUMNS = """
     distance_km REAL, bearing REAL, predicted_score INTEGER, predicted_snr REAL, muf REAL,
     carrier_db REAL, modulation_db REAL, duration_s REAL, file TEXT, mission TEXT,
     label TEXT, voice_pct REAL, music_pct REAL, noise_pct REAL, class_backend TEXT,
-    class_tags TEXT, notes TEXT, error TEXT, fading_db REAL, programme TEXT
+    class_tags TEXT, notes TEXT, error TEXT, fading_db REAL, programme TEXT,
+    carriers TEXT, alternatives TEXT
 """
 
 
@@ -26,7 +27,8 @@ def connect(path: Path | None = None) -> sqlite3.Connection:
     db.row_factory = sqlite3.Row
     db.execute(f"CREATE TABLE IF NOT EXISTS log ({COLUMNS})")
     have = {r[1] for r in db.execute("PRAGMA table_info(log)")}
-    for col, kind in (("fading_db", "REAL"), ("programme", "TEXT")):
+    for col, kind in (("fading_db", "REAL"), ("programme", "TEXT"), ("carriers", "TEXT"),
+                      ("alternatives", "TEXT")):
         if col not in have:                           # logbooks from older versions
             db.execute(f"ALTER TABLE log ADD COLUMN {col} {kind}")
     return db

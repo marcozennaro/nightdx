@@ -172,6 +172,24 @@ again; approve, and the draft is created as usual.
 Station addresses come from `qsl_contacts.json` (researched from station pages and DX-club QSL
 logs, with sources). Add your own in `qsl_contacts.json` in the data folder; yours take precedence.
 
+## Station names are candidates, not identifications
+
+NightDX names each recording after the station the schedule lists on that frequency at that
+time, ranked by the propagation model. On a crowded channel - medium wave above all - what you
+actually hear may be another station. So the report shows, for every recording:
+
+* **the evidence**: the language Whisper heard vs the scheduled language, and the measured signal
+  vs the prediction. A recording is flagged *probably another station* when they disagree (e.g.
+  Italian speech at 40 dB on a channel where a Korean station 8,700 km away is scheduled);
+* **the other stations** scheduled on the same frequency at that time;
+* **the carriers** in the recording, measured to about 0.01 Hz (e.g. *carrier +10.35 Hz; also
+  -0.34 Hz (-17 dB)*). On MW these offsets are a fingerprint of each transmitter: compare them
+  with other DXers' logs. They are relative to your radio's frequency standard - if you know its
+  error, set `freq_correction_ppm` under `[receiver]` in `config.toml`.
+
+NightDX asks before preparing a reception report for a flagged recording. Listen first: the
+identification is yours to make.
+
 ## Medium wave and MWLIST
 
 EiBi and AOKI cover international MW broadcasters. For the full picture, register (free) at

@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.9.5 - 2026-10-25
+
+* **Station names are now clearly candidates.** The report and the log show whether the
+  evidence supports the scheduled station: *probably another station* (the language heard or the
+  signal strength doesn't fit), *consistent with the schedule* (the language matches), or
+  *candidate - not verified*. Thanks to the AirSpy group for the push.
+* **Other stations on the channel:** each new recording lists the other stations scheduled on
+  that frequency at that time, and points out the one whose language fits what was heard.
+* **Carrier offsets:** every recording measures the carriers within +-25 Hz to about 0.01 Hz -
+  a fingerprint of MW transmitters - and shows co-channel carriers. New setting
+  `receiver.freq_correction_ppm` for your radio's frequency error.
+* Reception reports for a flagged recording ask for confirmation first (browser and terminal).
+
 ## 0.9.4 - 2026-10-24
 
 * **Gmail permission expired ("invalid_grant"):** NightDX no longer stops with an error. The

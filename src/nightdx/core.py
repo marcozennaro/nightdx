@@ -39,6 +39,11 @@ def record_entry(entry: Entry, sched: Schedule, settings: Settings, flux: float,
     pred = propagation.predict(entry, loc.lat, loc.lon, utc, flux, kp, p.tx_power_kw,
                                p.rx_antenna_gain_dbi, p.noise_environment)
     meta = metadata(entry, sched, settings, pred, utc, mission)
+    try:                       # the other stations scheduled here: the name is only a candidate
+        from .identify import alternatives_for
+        meta["alternatives"] = alternatives_for(entry, sched, utc, settings, flux, kp)
+    except Exception:
+        meta["alternatives"] = []
     db = logbook.connect()
     log(f"Recording {entry.khz:g} kHz {entry.station} ({meta['country']}) "
         f"for {settings.recording.duration_s}s - predicted {pred.score}%")
@@ -57,8 +62,11 @@ def record_entry(entry: Entry, sched: Schedule, settings: Settings, flux: float,
         return row
 
     meta.update(carrier_db=round(cap.carrier_db, 1), modulation_db=round(cap.modulation_db, 1),
-                fading_db=round(cap.fading_db, 1),
+                fading_db=round(cap.fading_db, 1), carriers=cap.carriers or [],
+                identification="candidate from the schedule, not verified",
                 duration_s=round(len(cap.audio) / cap.rate, 1))
+    if cap.carriers:
+        meta["carrier_offset_hz"] = cap.carriers[0]["offset_hz"]
     path = storage.audio_path(settings.recordings_dir, utc, entry.khz, entry.station,
                               settings.recording.format)
     storage.save(path, cap.audio, cap.rate, meta)
@@ -66,6 +74,9 @@ def record_entry(entry: Entry, sched: Schedule, settings: Settings, flux: float,
     row["file"] = str(path)
     row["id"] = logbook.add(db, row)
     log(f"  saved {path.name}  carrier {cap.carrier_db:.0f} dB, modulation {cap.modulation_db:.0f} dB")
+    if cap.carriers:
+        from .identify import carrier_text
+        log(f"  {carrier_text(cap.carriers)}")
     if do_classify:
         row.update(classify_row(row["id"], settings, cap.audio, cap.rate, cap.modulation_db, log))
     return row
@@ -92,4 +103,4 @@ def classify_row(rid: int, settings: Settings, audio=None, rate=None, modulation
 _LOG_KEYS = ["utc_start", "khz", "station", "itu", "country", "region", "lang", "language",
              "target", "tx_site", "tx_lat", "tx_lon", "distance_km", "bearing", "predicted_score",
              "predicted_snr", "muf", "carrier_db", "modulation_db", "fading_db", "duration_s",
-             "mission"]
+             "mission", "carriers", "alternatives"]

@@ -174,3 +174,36 @@ def test_player_state(tmp_path, monkeypatch):
     assert p.is_playing()
     p.stop()
     assert not p.is_playing()
+
+
+def test_identify_language_and_strength():
+    from nightdx import identify
+    assert identify.language_matches("Chinese", "Mandarin") is True
+    assert identify.language_matches("Italian", "Korean") is False
+    assert identify.language_matches("Latin", "Korean") is None          # unreliable guess
+    assert identify.language_matches("English", "Hindi/Eng/Kasmir//") is True
+    row = {"station": "KBS Hanminjok", "language": "Korean", "carrier_db": 65.0,
+           "predicted_snr": -2.0, "distance_km": 8746,
+           "programme": '[{"kind": "speech", "language": "Italian", "text": "..."}]',
+           "alternatives": [{"station": "R. Capodistria", "itu": "SVN", "language": "Italian"}],
+           "carriers": [{"offset_hz": 10.35, "rel_db": 0, "snr_db": 70}]}
+    a = identify.assess(row)
+    assert a["status"] == "doubtful" and len(a["reasons"]) == 2
+    assert "R. Capodistria" in a["reasons"][0]
+    row.update(programme='[{"kind": "speech", "language": "Korean"}]', carrier_db=30.0)
+    assert identify.assess(row)["status"] == "consistent"
+
+
+def test_find_carriers_sub_hz():
+    import numpy as np
+    from nightdx.identify import find_carriers
+    rate = 16000
+    t = np.arange(rate * 60) / rate
+    rng = np.random.default_rng(0)
+    iq = (np.exp(2j * np.pi * 0.37 * t) + 0.1 * np.exp(2j * np.pi * -3.1 * t)
+          + 0.05 * (rng.standard_normal(len(t)) + 1j * rng.standard_normal(len(t))))
+    cs = find_carriers(iq, rate)
+    assert [round(c["offset_hz"], 1) for c in cs] == [0.4, -3.1]
+    assert abs(cs[0]["offset_hz"] - 0.37) < 0.02 and -22 < cs[1]["rel_db"] < -18
+    noise = (rng.standard_normal(rate * 30) + 1j * rng.standard_normal(rate * 30)).astype(np.complex64)
+    assert find_carriers(noise, rate) == []

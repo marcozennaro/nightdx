@@ -32,6 +32,7 @@ class Capture:
     modulation_db: float       # sideband (200-4500 Hz) power above noise floor
     carrier_dbfs: float
     fading_db: float = 0.0     # std-dev of the carrier level over the recording (for SINPO "P")
+    carriers: list | None = None   # [{offset_hz, rel_db, snr_db}], strongest first (identify.py)
 
 
 def find_rx(settings: Settings) -> str:
@@ -106,6 +107,7 @@ def record(khz: float, seconds: float, settings: Settings,
     w = 2 * np.pi * rx.tune_offset_hz / sr
     chunk = (sr // dec) * dec // 4                  # 0.25 s, multiple of `dec`
     out = []
+    base = []                                       # complex baseband at the audio rate
     levels: list[float] = []
     got = 0
     early = False
@@ -132,9 +134,11 @@ def record(khz: float, seconds: float, settings: Settings,
                 spec += np.abs(np.fft.fftshift(np.fft.fft(y[:nfft] * np.hanning(nfft)))) ** 2
                 nspec += 1
             y, zc = signal.sosfilt(chan, y, zi=zc)
-            env = np.abs(y[::dec])
+            yd = y[::dec]
+            env = np.abs(yd)
             if got > settle * sr:
                 levels.append(20 * np.log10(env.mean() + 1e-12))
+                base.append(yd.astype(np.complex64))
             a, zd = signal.sosfilt(dc, env, zi=zd)
             a, za = signal.sosfilt(aud, a, zi=za)
             out.append(a.astype(np.float32))
@@ -157,8 +161,16 @@ def record(khz: float, seconds: float, settings: Settings,
     noise = np.median(spec[(af > 6000) & (af < 60000)]) or 1e-20
     carrier = spec[af < 40].max()
     sideband = spec[(af > 200) & (af < 4500)].mean()
+    try:
+        from .identify import find_carriers
+        cs = find_carriers(np.concatenate(base), rate) if base else []
+        fix = getattr(rx, "freq_correction_ppm", 0.0) * khz / 1000   # ppm x MHz = Hz
+        for c in cs:
+            c["offset_hz"] = round(c["offset_hz"] + fix, 2)
+    except Exception:
+        cs = []
     return Capture(
-        audio=audio, rate=rate,
+        audio=audio, rate=rate, carriers=cs,
         carrier_db=float(10 * np.log10(carrier / noise)),
         modulation_db=float(10 * np.log10(sideband / noise)),
         carrier_dbfs=float(10 * np.log10(carrier / np.hanning(nfft).sum() ** 2 + 1e-20)),

@@ -44,9 +44,14 @@ def text_summary(rows) -> str:
         for g in regions:
             lines.append(f"  {g:<20} {by_region[(g, True)]:>3} / {by_region[(g, True)] + by_region[(g, False)]}")
     lines.append("")
+    lines.append("Station names are schedule candidates, not identifications.")
     lines.append("UTC    kHz      Station                    Country          Pred  Mod  Result")
     for r in rows:
         res = r["error"][:30] if r["error"] else ICON.get(r["label"], r["label"])
+        if r["file"] and not r["error"]:
+            from . import identify
+            if identify.assess(r)["status"] == "doubtful":
+                res = f"{res}  ? probably another station"
         mod = f"{r['modulation_db']:>4.0f}" if r["modulation_db"] is not None else "   -"
         lines.append(f"{r['utc_start'][11:16]}  {r['khz']:>7g}  {r['station'][:26]:<26} "
                      f"{(r['country'] or '')[:16]:<16} {r['predicted_score'] or 0:>3}%  {mod}  {res}")
@@ -97,6 +102,26 @@ def _cards_cell(r, settings, key: str, got: dict) -> str:
     return "".join(out)
 
 
+def _id_cell(r) -> str:
+    """Evidence for and against the scheduled station (identify.assess)."""
+    from . import identify
+    a = identify.assess(r)
+    esc = html.escape
+    badge = {"doubtful": '<span class="idbad">&#9888; probably another station</span>',
+             "consistent": '<span class="idok">consistent with the schedule</span>',
+             "unverified": '<span class="idcand">candidate &middot; not verified</span>'}[a["status"]]
+    lines = [esc(x) for x in a["reasons"]] + [esc(x) for x in a["support"] + a["notes"]]
+    ct = identify.carrier_text(a["carriers"])
+    if ct:
+        lines.append(esc(ct))
+    if a["alternatives"]:
+        lines.append("also scheduled: " + ", ".join(
+            esc(f"{x['station']} ({x.get('itu', '')}, {x.get('language', '')}"
+                + (f", {x['score']}%" if x.get("score") is not None else "") + ")")
+            for x in a["alternatives"][:4]))
+    return f'<div class="id">{badge}' + "".join(f"<small>&#8226; {x}</small>" for x in lines) + "</div>"
+
+
 def _qsl_cell(r, settings, known: dict, got: dict | None = None) -> str:
     """'Send report' button: a Gmail draft with the recording attached (via the local
     NightDX server), plus fallbacks that work without it. Its colour shows whether this
@@ -137,6 +162,10 @@ def _qsl_cell(r, settings, known: dict, got: dict | None = None) -> str:
         else:
             cls, label = "qsl pending", f"&#9993; Draft ready {html.escape(known[key]['date'])}"
     gotattr = ' data-got="1"' if key in got else ""
+    from . import identify
+    a = identify.assess(r)
+    if a["status"] == "doubtful":                 # asked before preparing the report
+        gotattr += f' data-doubt="{html.escape("; ".join(a["reasons"]))}"'
     return (f'<br><a class="{cls}" target="_blank" href="{url}" data-key="{html.escape(key)}" '
             f'data-station="{html.escape(r["station"])}"{gotattr}>{label}</a>'
             f'<span class="qslnote">{note}<br>without attachment: '
@@ -161,6 +190,8 @@ function paint(st) {
 function refresh() { fetch(STATUS).then(r => r.json()).then(paint).catch(() => {}); }
 document.addEventListener("click", e => {
   const a = e.target.closest("a.qsl");
+  if (a && a.dataset.doubt && !confirm("This recording may not be " + a.dataset.station + ":\n\n" +
+      a.dataset.doubt + "\n\nListen to it first. Prepare the report anyway?")) { e.preventDefault(); return; }
   if (a && a.dataset.got) {
     if (!confirm("You already have a QSL card from " + a.dataset.station + ". Prepare another report anyway?")) e.preventDefault();
     return;
@@ -208,7 +239,7 @@ def _html(name, rows, settings, out_dir: Path, nav: str = "", title: str = "") -
         trs.append(f"""<tr id="r{r['id']}" class="{esc(label.replace('+', '-'))}">
 <td>{esc(r['utc_start'][11:16])}</td><td class="num">{r['khz']:g}</td>
 <td><b>{esc(r['station'])}</b>{' <span class="new">&#9733; NEW</span>' if r['id'] in first else ''}<br><small>{esc(r['country'] or '')} &middot; {esc(r['language'] or '')}
-&middot; to {esc(r['target'] or '')}</small></td>
+&middot; to {esc(r['target'] or '')}</small>{_id_cell(r) if r['file'] else ''}</td>
 <td class="num">{r['distance_km'] or 0:.0f}</td><td class="num">{r['predicted_score'] or 0}%</td>
 <td class="num">{'' if r['modulation_db'] is None else f"{r['modulation_db']:.0f} dB"}</td>
 <td><span class="tag">{esc(label)}</span>{bar}<small>{esc(', '.join(radio_tags(r['class_tags'] or '')))}</small></td>
@@ -239,6 +270,10 @@ tr.voice-music .tag{{background:#aa5500}} tr.noise .tag{{background:#555}} tr.er
 .qsl.done{{background:#555555;border-color:#aaaaaa;color:#dddddd;font-weight:normal}}
 .qslnote{{display:block;color:#aaaaaa;font-size:12px}} .qslnote a{{color:#55ffff}}
 .qsl.got{{background:#ccaa00;border-color:#ffff55;color:#000}}
+.id{{margin-top:3px}} .id small{{display:block}}
+.idbad{{background:#aa0000;color:#fff;font-size:11px;padding:0 4px;font-weight:bold}}
+.idok{{background:#00aa00;color:#fff;font-size:11px;padding:0 4px}}
+.idcand{{background:#555;color:#ddd;font-size:11px;padding:0 4px}}
 .new{{background:#ff55ff;color:#000;font-size:11px;padding:0 4px;font-weight:bold}}
 .addcard{{display:inline-block;margin-top:4px;font-size:12px;color:#ffff55}}
 .qslcard{{margin-top:6px}} .qslcard img{{max-height:90px;max-width:160px;border:2px solid #ffff55;display:block}}
@@ -262,7 +297,9 @@ a{{color:#55ffff}} .gallery td a{{margin-right:8px}}
 <div class="card">voice<b>{c['voice']}</b></div><div class="card">music<b>{c['music']}</b></div>
 <div class="card">voice+music<b>{c['voice+music']}</b></div><div class="card">noise<b>{c['noise']}</b></div>
 </div>
-<table><tr><th>UTC</th><th>kHz</th><th>Station</th><th>km</th><th>Pred.</th><th>Mod.</th>
+<p><small>Station names come from the schedule: they are the most likely candidate on that
+frequency, not an identification. Listen to the recording before sending a report.</small></p>
+<table><tr><th>UTC</th><th>kHz</th><th>Station (candidate)</th><th>km</th><th>Pred.</th><th>Mod.</th>
 <th>AI verdict</th><th>Listen</th></tr>
 {''.join(trs)}
 </table>{status_js}</body></html>"""

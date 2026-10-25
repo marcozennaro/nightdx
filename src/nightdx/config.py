@@ -48,6 +48,9 @@ class Receiver:
     agc_threshold: str = "low"       # low | high
     lna: bool = False
     attenuation: int = 0             # 0..8, 6 dB steps (only when AGC is off)
+    # Frequency error of the radio, for the carrier offsets in the log. If a station known to be
+    # exactly on frequency reads +0.30 Hz on 1000 kHz, set -0.30.
+    freq_correction_ppm: float = 0.0
 
 
 @dataclass
