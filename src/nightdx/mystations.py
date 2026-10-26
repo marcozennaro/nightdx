@@ -73,7 +73,10 @@ def parse(text: str, codebook=None) -> tuple[list, list[str]]:
             continue
         row = [c.strip() for c in next(csv.reader([line], delimiter=";"))] + [""] * 10
         try:
-            khz = float(row[0].replace(",", "."))
+            try:
+                khz = float(row[0].replace(",", "."))
+            except ValueError:
+                raise ValueError(f"'{row[0][:20]}' is not a frequency in kHz")
             t0, t1 = (row[1] or "0000-2400").split("-")
             if not row[3]:
                 raise ValueError("the station name is missing")
