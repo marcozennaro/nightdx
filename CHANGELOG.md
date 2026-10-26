@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.9.6 - 2026-10-26
+
+* **Your own stations:** *Settings > My stations list* opens `my_stations.csv`, a simple list
+  (kHz; UTC; days; station; country; language; ...) that joins EiBi/AOKI/MWLIST in predictions,
+  scans, missions and reports. NightDX reloads it as soon as you save it and reports any line it
+  can't read.
+* **Choosing the radio with two or more HF+:** the setup wizard lists the connected radios by
+  serial number. The main screen shows which one is in use.
+* Fixed: a serial number written without quotes in `config.toml` was misread, and a radio that
+  wasn't connected could silently fall back to another one. Serial numbers are now accepted as
+  `0x3952C8F0A1B2C3D4`, `3952c8f0a1b2c3d4`, `S/N: 0x...`.
+* `config.toml` edited by hand while NightDX runs is picked up at once, so a later *Save* in a
+  dialog no longer overwrites your edit.
+
 ## 0.9.5 - 2026-10-25
 
 * **Station names are now clearly candidates.** The report and the log show whether the

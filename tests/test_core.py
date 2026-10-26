@@ -207,3 +207,33 @@ def test_find_carriers_sub_hz():
     assert abs(cs[0]["offset_hz"] - 0.37) < 0.02 and -22 < cs[1]["rel_db"] < -18
     noise = (rng.standard_normal(rate * 30) + 1j * rng.standard_normal(rate * 30)).astype(np.complex64)
     assert find_carriers(noise, rate) == []
+
+
+def test_serial_numbers(tmp_path):
+    from nightdx import config
+    from nightdx.hfdev import format_serial, parse_serial
+    for text in ("0x3952C8F0A1B2C3D4", "3952c8f0a1b2c3d4", "S/N: 0x3952C8F0A1B2C3D4",
+                 "AirSpy HF+ 0x3952C8F0A1B2C3D4", " 3952 C8F0 A1B2 C3D4 "):
+        assert format_serial(parse_serial(text)) == "0x3952C8F0A1B2C3D4", text
+    assert parse_serial("") is None
+    p = tmp_path / "config.toml"
+    p.write_text("[receiver]\nserial = 0x3952C8F0A1B2C3D4\n")     # TOML number, no quotes
+    assert config.load(p).receiver.serial == "0x3952C8F0A1B2C3D4"
+
+
+def test_my_stations():
+    from datetime import datetime, timezone
+    from nightdx import mystations
+    text = mystations.TEMPLATE + (
+        "1170;0000-2400;;Radio Capodistria;SVN;Italian\n"
+        "6070;0900-1500;Sa,Su;Radio Channel 292;D;English;Eu;48.61;11.56;10\n"
+        "abc;0000-2400;;Bad\n"
+        "9999;1900-2100;;;D\n"
+        "5000;0000-2400;;Half coords;I;;;45\n")
+    entries, problems = mystations.parse(text)
+    assert [e.station for e in entries] == ["Radio Capodistria", "Radio Channel 292"]
+    assert len(problems) == 3 and all(p.startswith("line ") for p in problems)
+    sat = datetime(2026, 10, 24, 10, 0, tzinfo=timezone.utc)
+    assert entries[0].on_air(sat) and entries[1].on_air(sat)
+    assert not entries[1].on_air(datetime(2026, 10, 26, 10, 0, tzinfo=timezone.utc))   # Monday
+    assert entries[1].tx_lat == 48.61 and entries[1].power_kw == 10 and entries[1].source == "own"

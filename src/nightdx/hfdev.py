@@ -9,6 +9,7 @@ from __future__ import annotations
 import ctypes
 import ctypes.util
 import os
+import re
 import threading
 
 import numpy as np
@@ -52,6 +53,39 @@ def _lib():
     raise RuntimeError("no usable AirSpy HF+ library. " + driver_hint())
 
 
+class SerialNotFound(RuntimeError):
+    """The HF+ chosen in the settings is not connected."""
+
+
+def parse_serial(value) -> int | None:
+    """The settings' serial number as written by people: '0x3952C8F0A1B2C3D4',
+    '3952c8f0a1b2c3d4', 'S/N: 0x...', or an unquoted TOML number. None = first radio."""
+    if value is None or value == "":
+        return None
+    if isinstance(value, int):
+        return value
+    m = re.search(r"(?:0x)?([0-9a-fA-F]{8,16})(?![0-9a-fA-F])", str(value).replace(" ", ""))
+    if not m:
+        raise ValueError(f"'{value}' is not an AirSpy HF+ serial number (e.g. 0x3952C8F0A1B2C3D4)")
+    return int(m[1], 16)
+
+
+def format_serial(n: int) -> str:
+    return f"0x{n:016X}"
+
+
+def list_serials() -> list[str]:
+    """Serial numbers of the connected HF+ radios ('0x...')."""
+    lib = _lib()
+    lib.airspyhf_list_devices.argtypes = [ctypes.POINTER(ctypes.c_uint64), ctypes.c_int]
+    n = lib.airspyhf_list_devices(None, 0)
+    if n <= 0:
+        return []
+    serials = (ctypes.c_uint64 * n)()
+    lib.airspyhf_list_devices(serials, n)
+    return [format_serial(x) for x in serials[:n]]
+
+
 class HFPlus:
     """with HFPlus(768000, settings.receiver) as hf: iq = hf.capture(9.6e6, 0.5)"""
 
@@ -69,9 +103,17 @@ class HFPlus:
         self._cb = _CB(self._on_samples)   # keep a reference: the C side calls it
 
     def __enter__(self):
-        sn = (self.rx.serial if self.rx else "") or ""
-        rc = (self.lib.airspyhf_open_sn(ctypes.byref(self.dev), int(sn, 16)) if sn
+        try:
+            sn = parse_serial(self.rx.serial if self.rx else None)
+        except ValueError as e:
+            raise SerialNotFound(str(e))
+        rc = (self.lib.airspyhf_open_sn(ctypes.byref(self.dev), sn) if sn is not None
               else self.lib.airspyhf_open(ctypes.byref(self.dev)))
+        if (rc != 0 or not self.dev) and sn is not None:
+            others = [x for x in list_serials() if x != format_serial(sn)]
+            raise SerialNotFound(f"cannot open the AirSpy HF+ {format_serial(sn)} chosen in the "
+                                 f"settings (not plugged in, or another program is using it)"
+                                 + (f". Connected: {', '.join(others)}" if others else ""))
         if rc != 0 or not self.dev:
             raise RuntimeError("cannot open the AirSpy HF+ (not plugged in, or another program is using it)")
         self.lib.airspyhf_set_samplerate(self.dev, self.sr)

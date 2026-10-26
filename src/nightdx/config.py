@@ -164,6 +164,8 @@ def load(path: Path = CONFIG_PATH) -> Settings:
             section = getattr(s, f.name)
             for k, v in data.get(f.name, {}).items():
                 if hasattr(section, k):
+                    if k == "serial" and isinstance(v, int):   # serial = 0x3952... without quotes
+                        v = f"0x{v:016X}"
                     setattr(section, k, type(getattr(section, k))(v))
     else:
         s.save(path)

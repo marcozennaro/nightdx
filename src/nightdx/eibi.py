@@ -256,6 +256,8 @@ class Schedule:
         self.codebook = codebook
         self.season = season
         self.mw_status = "MW: EiBi only"
+        self.own_count = 0
+        self.own_problems: list[str] = []
         self._resolve_sites()
 
     @classmethod
@@ -298,6 +300,15 @@ class Schedule:
         sched = cls(entries, codebook, code)
         sched.mw_status = mw_status
         sched.merge_aoki(settings, add_mw=not mw)
+        # your own list (my_stations.csv) comes last and wins over the same kHz + name
+        from . import mystations
+        own, sched.own_problems = mystations.load(codebook)
+        if own:
+            mine = {(round(e.khz), e.station.casefold()) for e in own}
+            sched.entries = [e for e in sched.entries
+                             if (round(e.khz), e.station.casefold()) not in mine] + own
+            sched._resolve_sites()                  # own lines without coordinates
+        sched.own_count = len(own)
         return sched
 
     def merge_aoki(self, settings, add_mw: bool = True) -> None:

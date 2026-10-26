@@ -14,7 +14,7 @@ from textual.app import App, ComposeResult
 from textual.binding import Binding
 from textual.containers import Container, Horizontal, Vertical, VerticalScroll
 from textual.screen import ModalScreen
-from textual.widgets import (Button, Checkbox, DataTable, Input, Label, OptionList,
+from textual.widgets import (Button, Checkbox, DataTable, Input, Label, OptionList, Select,
                              ProgressBar, RichLog, Static)
 from textual.widgets.option_list import Option
 
@@ -48,6 +48,7 @@ MENUS = {
             ("QSL cards received", "cards", "")],
     "Settings": [("Settings...", "settings", "F9"),
                  ("Setup wizard...", "setup", ""),
+                 ("My stations list...", "mystations", ""),
                  ("Edit config file", "edit_config", "")],
     "Help": [("Keys & help", "help", "F1"),
              ("About NightDX", "about", "")],
@@ -610,6 +611,13 @@ class LogDialog(Dialog):
         self.dismiss(None)
 
 
+def _mtime(p) -> float:
+    try:
+        return p.stat().st_mtime
+    except OSError:
+        return 0.0
+
+
 class SetupWizard(Dialog):
     """First-run setup: location, bands, radio, optional features, folders, QSL details."""
 
@@ -643,6 +651,8 @@ class SetupWizard(Dialog):
                                s.stations.medium_wave, id="w_mw")
                 yield Label("[ 3. RADIO ]", classes="section")
                 yield Label("checking for the AirSpy HF+...", id="w_radio")
+                yield Select([("First radio found", "")], value="", allow_blank=False,
+                             id="w_radiosel", compact=True)
                 yield Button("Check again", id="w_check")
                 yield Label("[ 4. OPTIONAL FEATURES ]", classes="section")
                 for key, f in extras.FEATURES.items():
@@ -668,15 +678,36 @@ class SetupWizard(Dialog):
 
     def on_mount(self) -> None:
         self.query_one("#w_log", RichLog).display = False
+        self.query_one("#w_radiosel", Select).display = False
         self.check_radio()
 
     @work(thread=True)
     def check_radio(self) -> None:
+        from .hfdev import format_serial, list_serials, parse_serial
         from .osutil import driver_hint
         info = receiver.device_info(self.app.settings)
         ok = info.startswith("AirSpy")
         text = f"Found: {info}" if ok else f"The HF+ was not found: {info}\n{driver_hint()}"
-        self.app.call_from_thread(self.query_one("#w_radio", Label).update, text)
+        try:
+            serials = list_serials()
+        except Exception:
+            serials = []
+        try:
+            want = parse_serial(self.app.settings.receiver.serial)
+            cur = format_serial(want) if want is not None else ""
+        except ValueError:
+            cur = ""
+
+        def show():
+            self.query_one("#w_radio", Label).update(text)
+            opts = [("First radio found", "")] + [(f"AirSpy HF+ {x}", x) for x in serials]
+            if cur and cur not in serials:
+                opts.append((f"AirSpy HF+ {cur} (not connected)", cur))
+            sel = self.query_one("#w_radiosel", Select)
+            sel.set_options(opts)
+            sel.value = cur
+            sel.display = len(opts) > 2              # a choice only with two or more radios
+        self.app.call_from_thread(show)
 
     @on(Button.Pressed, "#w_check")
     def recheck(self) -> None:
@@ -729,6 +760,9 @@ class SetupWizard(Dialog):
         s.location.name, s.location.country, s.location.lat, s.location.lon = (
             g("w_name") or "My QTH", g("w_country"), lat, lon)
         s.stations.medium_wave = self.query_one("#w_mw", Checkbox).value
+        sel = self.query_one("#w_radiosel", Select)
+        if sel.display:
+            s.receiver.serial = sel.value or ""
         s.recording.output_dir = g("w_rec") or s.recording.output_dir
         try:
             s.recording.duration_s = max(10, int(g("w_dur")))
@@ -1003,10 +1037,14 @@ class NightDX(App):
 
     # ---------------------------------------------------------------- status
     def tick(self) -> None:
+        self._watch_config()
+        self._watch_own_list()
         now = datetime.now(timezone.utc)
         st = eibi.status()
         loc = self.settings.location
         src = "EiBi+AOKI" if self.sched and getattr(self.sched, "aoki_status", "") else "EiBi"
+        if self.sched and getattr(self.sched, "own_count", 0):
+            src += f"+own({self.sched.own_count})"
         db = f"{src} {st['season']} ({len(self.sched.entries) if self.sched else '...'} bc)" if st else "EiBi: none"
         self.query_one("#info", Static).update(Text(
             f"{loc.name} {loc.lat:.2f}N {loc.lon:.2f}E  UTC {now:%H:%M:%S}  local "
@@ -1448,7 +1486,7 @@ class NightDX(App):
     def do_setup(self) -> None:
         def after(r):
             if r == "saved":
-                self.settings = config.load()
+                self._reload_settings()
                 self.notify("Setup saved.")
                 if self.sched:
                     self.sched = eibi.Schedule.load(self.settings)
@@ -1458,7 +1496,7 @@ class NightDX(App):
     def do_settings(self) -> None:
         def after(r):
             if r == "saved":
-                self.settings = config.load()
+                self._reload_settings()
                 self.notify("Settings saved.")
                 if self.sched:
                     self.sched = eibi.Schedule.load(self.settings)
@@ -1467,6 +1505,47 @@ class NightDX(App):
 
     def do_edit_config(self) -> None:
         osutil.edit_text(config.CONFIG_PATH)
+        self.notify("Edit and save the file: NightDX picks up the changes by itself.")
+
+    def do_mystations(self) -> None:
+        from . import mystations
+        osutil.edit_text(mystations.ensure_file())
+        self._own_mtime = _mtime(mystations.path())
+        self.notify("Add your stations (instructions at the top of the file) and save it: "
+                    "NightDX reloads it by itself.", timeout=8)
+
+    def _watch_own_list(self) -> None:
+        from . import mystations
+        m = _mtime(mystations.path())
+        if m != getattr(self, "_own_mtime", m) and self.sched:
+            self.sched = eibi.Schedule.load(self.settings)
+            self.render_view()
+            bad = self.sched.own_problems
+            self.notify(f"My stations list reloaded: {self.sched.own_count} broadcasts"
+                        + (". Skipped " + "; ".join(bad[:3]) + (" ..." if len(bad) > 3 else "")
+                           if bad else "."),
+                        severity="warning" if bad else "information", timeout=10 if bad else 5)
+        self._own_mtime = m
+
+    def _reload_settings(self) -> None:
+        self.settings = config.load()
+        self._cfg_mtime = _mtime(config.CONFIG_PATH)
+        self.run_worker(self._refresh_device, thread=True)
+
+    def _refresh_device(self) -> None:
+        self.device = receiver.device_info(self.settings)
+
+    def _watch_config(self) -> None:
+        """config.toml edited by hand while NightDX runs: load it, so a later Save in a dialog
+        doesn't overwrite the edit with the old values."""
+        m = _mtime(config.CONFIG_PATH)
+        if m != getattr(self, "_cfg_mtime", m) and config.load() != self.settings:
+            self._reload_settings()
+            if self.sched:
+                self.sched = eibi.Schedule.load(self.settings)
+                self.render_view()
+            self.notify("Settings file changed - reloaded.")
+        self._cfg_mtime = m
 
     def do_help(self) -> None:
         self.push_screen(MessageBox("Help", HELP.replace("{home}", str(config.HOME))

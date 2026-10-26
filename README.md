@@ -172,6 +172,31 @@ again; approve, and the draft is created as usual.
 Station addresses come from `qsl_contacts.json` (researched from station pages and DX-club QSL
 logs, with sources). Add your own in `qsl_contacts.json` in the data folder; yours take precedence.
 
+## Your own stations
+
+*Settings > My stations list* opens `my_stations.csv` (in the data folder) in a text editor, with
+instructions at the top. One broadcast per line:
+
+```
+# kHz ; UTC ; Days ; Station ; Country ; Language ; Target ; Latitude ; Longitude ; kW
+1170;0000-2400;;Radio Capodistria;SVN;Italian
+6070;0900-1500;Sa,Su;Radio Channel 292;D;English;Eu;48.61;11.56;10
+```
+
+Only kHz, time and station name are required. Country and language can be codes (as in EiBi) or
+names; without coordinates NightDX places the transmitter in that country. Save the file and
+NightDX reloads it by itself; lines it can't read are reported. Your lines take part in
+predictions, scans, night missions and reports like any other, and replace a schedule entry
+with the same frequency and name.
+
+## Two or more radios
+
+With more than one HF+ connected, *Settings > Setup wizard* shows a list of their serial
+numbers: pick the one NightDX should use. (Or set `serial` under `[receiver]` in
+`config.toml`, e.g. `serial = "0x3952C8F0A1B2C3D4"`.) The top line of the main screen shows
+which radio is in use. If the chosen radio is not connected, NightDX says so rather than using
+another one.
+
 ## Station names are candidates, not identifications
 
 NightDX names each recording after the station the schedule lists on that frequency at that

@@ -20,7 +20,7 @@ import time
 import numpy as np
 
 from . import config
-from .receiver import find_rx
+from .receiver import find_rx, serial_args
 
 SR = 768_000
 NFFT = 65536                      # 11.7 Hz bins
@@ -53,8 +53,7 @@ def _capture(center_hz: float, settings) -> np.ndarray:
     rx = settings.receiver
     cmd = [find_rx(settings), "-f", f"{center_hz / 1e6:.6f}", "-a", str(SR), "-n", str(n),
            "-r", "stdout", "-g", "on" if rx.agc else "off", "-m", "on" if rx.lna else "off"]
-    if rx.serial:
-        cmd += ["-s", rx.serial]
+    cmd += serial_args(rx)
     p = subprocess.run(cmd, capture_output=True, timeout=20)
     x = np.frombuffer(p.stdout, dtype=np.complex64)
     if len(x) < n * 0.8:
@@ -91,7 +90,8 @@ def scan(khz_list, settings, progress=None) -> dict:
                     progress(n, len(groups), center / 1e6)
                 carrier.update(_measure(hf.capture(center, CAPTURE_S), center, ks))
     except RuntimeError as e:
-        if "open" in str(e) or not groups:
+        from .hfdev import SerialNotFound
+        if isinstance(e, SerialNotFound) or "open" in str(e) or not groups:
             raise
         for n, (center, ks) in enumerate(groups):          # fallback: airspyhf_rx per tile
             if f"{ks[0]:g}" in carrier:

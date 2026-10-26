@@ -44,22 +44,36 @@ def find_rx(settings: Settings) -> str:
 
 
 def device_info(settings: Settings) -> str:
-    """'AirSpy HF+ <serial>' via the driver library, or via the airspyhf_info tool."""
+    """'AirSpy HF+ <serial>' (which radio NightDX will use), via the driver library or the
+    airspyhf_info tool."""
     try:
-        import ctypes
-        from .hfdev import _lib
-        lib = _lib()
-        lib.airspyhf_list_devices.argtypes = [ctypes.POINTER(ctypes.c_uint64), ctypes.c_int]
-        n = lib.airspyhf_list_devices(None, 0)
-        if n > 0:
-            serials = (ctypes.c_uint64 * n)()
-            lib.airspyhf_list_devices(serials, n)
-            return f"AirSpy HF+ 0x{serials[0]:016X}" + (f" (+{n - 1} more)" if n > 1 else "")
-        if n == 0:
-            return "not found - is the HF+ plugged in?"
+        from .hfdev import format_serial, list_serials, parse_serial
+        serials = list_serials()
     except Exception:
-        pass
-    return _device_info_tool(settings)
+        return _device_info_tool(settings)
+    if not serials:
+        return "not found - is the HF+ plugged in?"
+    try:
+        want = parse_serial(settings.receiver.serial)
+    except ValueError as e:
+        return f"{e} - fix it in Settings > Setup wizard"
+    if want is None:
+        return f"AirSpy HF+ {serials[0]}" + (
+            f" (first of {len(serials)} - choose one in Settings > Setup wizard)" if len(serials) > 1 else "")
+    if format_serial(want) in serials:
+        return f"AirSpy HF+ {format_serial(want)}" + (
+            f" (selected, {len(serials)} connected)" if len(serials) > 1 else "")
+    return f"the HF+ {format_serial(want)} chosen in the settings is not connected - found {', '.join(serials)}"
+
+
+def serial_args(rx) -> list[str]:
+    """'-s 0x...' for the airspyhf_rx tool (which reads bare digits as decimal)."""
+    from .hfdev import format_serial, parse_serial
+    try:
+        sn = parse_serial(rx.serial)
+    except ValueError as e:
+        raise ReceiverError(str(e))
+    return ["-s", format_serial(sn)] if sn is not None else []
 
 
 def _device_info_tool(settings: Settings) -> str:
@@ -188,9 +202,12 @@ class _Source:
         self.hf = None
         backend = getattr(settings.receiver, "backend", "auto")
         if backend in ("auto", "library"):
+            from .hfdev import SerialNotFound
             try:
                 from .hfdev import HFPlus
                 self.hf = HFPlus(settings.receiver.sample_rate, settings.receiver).__enter__()
+            except SerialNotFound as e:              # never fall back to "any radio"
+                raise ReceiverError(str(e))
             except Exception as e:
                 if backend == "library":
                     raise ReceiverError(str(e))
@@ -205,8 +222,7 @@ class _Source:
                "-n", str(self.total), "-r", "stdout",
                "-g", "on" if rx.agc else "off", "-m", "on" if rx.lna else "off"]
         cmd += ["-l", rx.agc_threshold] if rx.agc else ["-t", str(rx.attenuation)]
-        if rx.serial:
-            cmd += ["-s", rx.serial]
+        cmd += serial_args(rx)
         self.proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
     def blocks(self):
