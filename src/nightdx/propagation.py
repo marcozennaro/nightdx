@@ -41,6 +41,13 @@ SMALL_PRIVATE = {"HOL", "D", "DNK", "FIN", "NOR", "S", "BEL", "I", "IRL", "G", "
                  "GRC", "ISL", "CAN", "USA"}
 
 
+# Which HFCC details go into shortwave predictions (see eibi.merge_hfcc). Tested on 997
+# shortwave recordings from Trieste (A26 season): power + beam/antenna raised the ranking of
+# heard vs not heard (AUC) from 0.64 to 0.68 and the rank correlation of predicted vs
+# measured signal from 0.37 to 0.48 - unlike AOKI's power/beam, which made things worse.
+HFCC_USE = {"power", "beam"}
+
+
 def guess_power_kw(entry, default_kw: float) -> float:
     """EiBi has no power column, so guess from what kind of station it is."""
     # Known power is used for medium wave (MWLIST/AOKI), where it decides the range.
@@ -48,6 +55,8 @@ def guess_power_kw(entry, default_kw: float) -> float:
     # band scans from Trieste (Oct 2026: skill 0.77 without vs 0.74-0.75 with), so
     # the target-area guess plus the learned per-station corrections are kept.
     if getattr(entry, "power_kw", None) and (entry.khz < 1800 or entry.source == "MWLIST"):
+        return entry.power_kw
+    if getattr(entry, "hfcc", False) and entry.power_kw and "power" in HFCC_USE:
         return entry.power_kw
     name = entry.station.lower() + " "
     if any(k in name for k in MAJOR):
@@ -171,6 +180,12 @@ def absorption_db(f_mhz, zenith, sec_i, flux) -> float:
 # --------------------------------------------------------------------------- antennas
 
 def tx_gain_dbi(entry, bearing_to_rx: float) -> float:
+    if getattr(entry, "hfcc", False) and entry.ant_gain is not None and "beam" in HFCC_USE:
+        if entry.omni or entry.beam_width is None or entry.azimuth is None:
+            return entry.ant_gain
+        diff = abs((bearing_to_rx - entry.azimuth + 180) % 360 - 180)
+        # -3 dB at the half-power half-width, sidelobes/back ~20 dB down
+        return max(entry.ant_gain - 3 * (diff / entry.beam_width) ** 2, entry.ant_gain - 20)
     tgt = entry.target.strip()
     if not tgt or tgt == "Glo":
         return 8.0

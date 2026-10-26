@@ -73,6 +73,11 @@ def download(season: str = "auto") -> str:
             aoki.download(code)
         except Exception:
             pass
+        try:                                   # third: the broadcasters' technical data
+            from . import hfcc
+            hfcc.download(code)
+        except Exception:
+            pass
         (ddir / "eibi.json").write_text(json.dumps({
             "season": code,
             "downloaded": datetime.now(timezone.utc).isoformat(timespec="seconds"),
@@ -171,8 +176,11 @@ class Entry:
     tx_lon: float | None = None
     power_kw: float | None = None     # known power (MWLIST); None = guess
     source: str = "EiBi"
-    azimuth: float | None = None      # antenna beam, degrees (AOKI)
+    azimuth: float | None = None      # antenna beam, degrees (AOKI, HFCC)
     omni: bool = False                # non-directional antenna (AOKI "ND")
+    ant_gain: float | None = None     # transmitting antenna gain, dBi (HFCC)
+    beam_width: float | None = None   # half-power half-width, degrees (HFCC)
+    hfcc: bool = False                # power/beam/site from the HFCC data
 
     @property
     def time_str(self) -> str:
@@ -256,6 +264,7 @@ class Schedule:
         self.codebook = codebook
         self.season = season
         self.mw_status = "MW: EiBi only"
+        self.hfcc_status = ""
         self.own_count = 0
         self.own_problems: list[str] = []
         self._resolve_sites()
@@ -300,6 +309,9 @@ class Schedule:
         sched = cls(entries, codebook, code)
         sched.mw_status = mw_status
         sched.merge_aoki(settings, add_mw=not mw)
+        from . import hfcc
+        hfcc.ensure(code)
+        sched.merge_hfcc()
         # your own list (my_stations.csv) comes last and wins over the same kHz + name
         from . import mystations
         own, sched.own_problems = mystations.load(codebook)
@@ -357,6 +369,44 @@ class Schedule:
             by_khz.setdefault(round(khz), []).append(e)
             added += 1
         self.aoki_status = f"AOKI: +{added} broadcasts, {enriched} with power/beam"
+
+    def merge_hfcc(self) -> None:
+        """Add HFCC's site, power and beam to shortwave entries. A row is taken only when it
+        is the same transmission: same frequency, overlapping time, and the same site
+        (within 100 km of EiBi's) - or, when EiBi only knows the country, a site there."""
+        from . import hfcc
+        rows = hfcc.load(self.season)
+        self.hfcc_status = ""
+        if not rows:
+            return
+        by_khz: dict[int, list[dict]] = {}
+        for r in rows:
+            by_khz.setdefault(round(r["khz"]), []).append(r)
+        matched = 0
+        for e in self.entries:
+            if e.khz < 2300 or e.source == "own":
+                continue
+            cands = [r for k in (round(e.khz) - 1, round(e.khz), round(e.khz) + 1)
+                     for r in by_khz.get(k, []) if abs(r["khz"] - e.khz) < 0.6
+                     and _overlaps(e.start_min, e.end_min, r["t0"], r["t1"])]
+            exact = e.tx_lat is not None and "approx" not in (e.tx_site or "")
+            if exact:
+                cands = [r for r in cands
+                         if great_circle_km(e.tx_lat, e.tx_lon, r["lat"], r["lon"]) <= 100]
+            else:
+                cands = [r for r in cands if r["adm"] in (e.tx_itu, e.itu)]
+                if len({r["code"] for r in cands}) > 1:
+                    continue                  # several sites in that country: can't tell
+            if not cands:
+                continue
+            r = max(cands, key=lambda r: _overlap_min(e.start_min, e.end_min, r["t0"], r["t1"]))
+            e.power_kw, e.azimuth, e.omni = r["power_kw"], r["azimuth"], r["omni"]
+            e.ant_gain, e.beam_width, e.hfcc = r["gain_dbi"], r["beam_width"], True
+            if not exact:
+                e.tx_lat, e.tx_lon, e.tx_site = r["lat"], r["lon"], r["site"]
+            matched += 1
+        sw = sum(1 for e in self.entries if e.khz >= 2300)
+        self.hfcc_status = f"HFCC: {matched} of {sw} SW broadcasts with power/beam"
 
     def _resolve_sites(self) -> None:
         sites = self.codebook.sites
@@ -444,6 +494,14 @@ def _active(e: Entry, season: str) -> bool:
     if p == "8" or (p == "4" and season.startswith("A")) or (p == "5" and season.startswith("B")):
         return False
     return e.days.strip().lower() not in ("alt", "harm", "imod")
+
+
+def _overlap_min(s1: int, e1: int, s2: int, e2: int) -> int:
+    """Minutes two daily UTC intervals (end may wrap past midnight) have in common."""
+    def mins(s, e):
+        e = e if e > s else e + 1440
+        return {m % 1440 for m in range(s, e)}
+    return len(mins(s1, e1) & mins(s2, e2))
 
 
 def great_circle_km(lat1, lon1, lat2, lon2) -> float:

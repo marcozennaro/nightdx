@@ -9,7 +9,9 @@ recording holds speech, music or just noise, and in the morning gives you a repo
 players, ready-made reception reports for the stations, and a log of the QSL cards you receive.
 
 * **Schedules**: [EiBi](http://www.eibispace.de) + the [AOKI list](http://www1.s2.starcat.ne.jp/ndxc/)
-  (downloaded automatically), optionally your [MWLIST](https://www.mwlist.org) medium-wave list.
+  + the broadcasters' technical data from [HFCC](https://hfcc.org/data/) (power, beam, antenna)
+  (all downloaded automatically), optionally your [MWLIST](https://www.mwlist.org) medium-wave list
+  and your own list of stations.
 * **Propagation**: a compact VOACAP-like HF model and an ITU-R ground/sky-wave model for MW,
   with live solar flux and Kp from NOAA - plus **self-calibration** from your own band scans.
 * **Band scan**: the HF+ snapshots every band in ~10 s and measures what is really audible.
@@ -262,6 +264,10 @@ nightdx report
 
 ## How it works (short version)
 
+* **Transmitters** - for about two thirds of the shortwave broadcasts, the HFCC data gives
+  the real power, beam direction and antenna type (matched to EiBi by frequency, time and site).
+  Tested on ~1,000 recordings, it made the predictions clearly better; HFCC lines that EiBi
+  doesn't confirm are not added, as not everything registered goes on the air.
 * **Propagation** - great-circle path in F2 hops; foF2 follows local time, solar flux and Kp;
   MUF from hop geometry; George & Bradley D-layer absorption; ITU-R P.372 noise. MW uses an
   ITU-R P.368 ground-wave fit and the ITU-R P.1147 sky-wave formula. After every band scan the
@@ -275,7 +281,8 @@ nightdx report
 
 ## Credits
 
-Schedules: EiBi (Eike Bierwirth), AOKI list / Bi Newsletter (Nagoya DX Circle). Space weather:
+Schedules: EiBi (Eike Bierwirth), AOKI list / Bi Newsletter (Nagoya DX Circle), HFCC public
+data (High Frequency Coordination Conference). Space weather:
 NOAA SWPC. MW data: MWLIST / FMSCAN (personal use). Models: MIT AST, OpenAI Whisper.
 AirSpy HF+ driver: libairspyhf.
 

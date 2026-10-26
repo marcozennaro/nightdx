@@ -1043,6 +1043,8 @@ class NightDX(App):
         st = eibi.status()
         loc = self.settings.location
         src = "EiBi+AOKI" if self.sched and getattr(self.sched, "aoki_status", "") else "EiBi"
+        if self.sched and getattr(self.sched, "hfcc_status", ""):
+            src += "+HFCC"
         if self.sched and getattr(self.sched, "own_count", 0):
             src += f"+own({self.sched.own_count})"
         db = f"{src} {st['season']} ({len(self.sched.entries) if self.sched else '...'} bc)" if st else "EiBi: none"
@@ -1255,7 +1257,8 @@ class NightDX(App):
             self.call_from_thread(self.notify, f"Update failed: {e}", severity="error")
             return
         self.call_from_thread(self.notify, f"EiBi {season}: {len(self.sched.entries)} broadcasts "
-                              f"({self.sched.aoki_status or 'AOKI: not available'}). "
+                              f"({self.sched.aoki_status or 'AOKI: not available'}; "
+                              f"{self.sched.hfcc_status or 'HFCC: not available'}). "
                               f"{self.sched.mw_status}. {self.sw.summary}")
         self.call_from_thread(self.render_view)
 
@@ -1313,8 +1316,12 @@ class NightDX(App):
             f"   Max usable frequency on this path now: {p.muf_mhz:.1f} MHz\n"
             f"   Station frequency: {e.khz / 1000:.2f} MHz  ->  P(MUF) = {100 * p.p_muf:.0f}%\n\n"
             f"2) Will it be loud enough?\n"
-            f"   Assumed power {pw:g} kW, antenna gain towards you {p.tx_gain:+.0f} dBi\n"
-            f"   Daytime D-layer absorption: {p.absorption_db:.0f} dB\n"
+            + (f"   Power {pw:g} kW, antenna {e.ant_gain:.0f} dBi beamed to "
+               f"{'all directions' if e.omni or e.azimuth is None else f'{e.azimuth} deg'} (HFCC)\n"
+               f"   -> antenna gain towards you {p.tx_gain:+.0f} dBi\n"
+               if e.hfcc and e.ant_gain is not None else
+               f"   Assumed power {pw:g} kW, antenna gain towards you {p.tx_gain:+.0f} dBi\n")
+            + f"   Daytime D-layer absorption: {p.absorption_db:.0f} dB\n"
             f"   Predicted SNR: {p.snr_db:.0f} dB (need 15)  ->  P(SNR) = {100 * p.p_snr:.0f}%\n\n"
             f"Score = {100 * p.p_muf:.0f}% x {100 * p.p_snr:.0f}% = {p.score}%\n\n"
             f"Measured now: {self._measured_text(key)}\n"

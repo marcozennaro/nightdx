@@ -237,3 +237,24 @@ def test_my_stations():
     assert entries[0].on_air(sat) and entries[1].on_air(sat)
     assert not entries[1].on_air(datetime(2026, 10, 26, 10, 0, tzinfo=timezone.utc))   # Monday
     assert entries[1].tx_lat == 48.61 and entries[1].power_kw == 10 and entries[1].source == "own"
+
+
+def test_hfcc_parse_and_beam():
+    from types import SimpleNamespace
+    from nightdx import hfcc, propagation
+    sites = hfcc.parse_sites("AAR Alphen aan den Rijn            HOL 52N08 004E38\n"
+                             "KIM Kimjae                         KOR 35N50 126E50\n")
+    assert sites["KIM"][2:] == (35 + 50 / 60, 126 + 50 / 60)
+    ants = hfcc.parse_antennas("216 AHR(S)4/4/0.5\n700 CH1/1/0.3\n")
+    line = ("11810 0300 0400 12,13,14,15W                   KIM  250 81        0 216 1234567 "
+            "290326 251026 D       Kor        KOR KBS KBS   616                     ")   # A26 file
+    (r,) = hfcc.parse(line, sites, ants)
+    assert (r["khz"], r["t0"], r["t1"], r["power_kw"], r["azimuth"]) == (11810, 180, 240, 250, 81)
+    assert r["adm"] == "KOR" and r["site"] == "Kimjae"
+    assert round(r["gain_dbi"]) == 21 and not r["omni"]
+    assert hfcc.antenna("CH1/1/0.3") == (3.0, None) and hfcc.antenna("??") == (None, None)
+    e = SimpleNamespace(hfcc=True, ant_gain=21.0, beam_width=12.5, azimuth=304, omni=False,
+                        target="Eu", itu="KOR", tx_itu="KOR", tx_lat=35.8, tx_lon=126.8)
+    assert propagation.tx_gain_dbi(e, 304) == 21.0          # on the beam
+    assert propagation.tx_gain_dbi(e, 304 + 12.5) == 18.0   # -3 dB at the half-width
+    assert propagation.tx_gain_dbi(e, 124) == 1.0           # behind: 20 dB down

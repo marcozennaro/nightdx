@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.9.7 - 2026-10-26
+
+* **HFCC data for better shortwave predictions.** NightDX now also downloads the HFCC public
+  schedule - the broadcasters' own coordinated frequency list - and adds the real transmitter
+  power, beam direction and antenna type to the EiBi entries it matches (about 3,000 of 4,800
+  shortwave broadcasts). Tested on ~1,000 recordings from Trieste: the ranking of heard vs not
+  heard stations improved from 0.64 to 0.68 (AUC) and the correlation of predicted with measured
+  signal from 0.37 to 0.48.
+* *Why this score?* (key I) shows the HFCC power, antenna gain and beam direction.
+
 ## 0.9.6 - 2026-10-26
 
 * **Your own stations:** *Settings > My stations list* opens `my_stations.csv`, a simple list
