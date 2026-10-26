@@ -1325,7 +1325,9 @@ class NightDX(App):
             f"   Predicted SNR: {p.snr_db:.0f} dB (need 15)  ->  P(SNR) = {100 * p.p_snr:.0f}%\n\n"
             f"Score = {100 * p.p_muf:.0f}% x {100 * p.p_snr:.0f}% = {p.score}%\n\n"
             f"Measured now: {self._measured_text(key)}\n"
-            f"Learned correction for this transmitter: {calibration.offset(e):+.0f} dB "
+            f"Learned from your scans: {calibration.offset(e):+.0f} dB = your receiver and "
+            f"antenna {calibration.receiver_offset('sw'):+.0f} dB, this transmitter "
+            f"{calibration.offset(e) - calibration.receiver_offset('sw'):+.0f} dB "
             f"(included in the SNR above)\n"
             f"(space weather: {self.sw.summary})")
         self.push_screen(MessageBox("Why this score?", text))

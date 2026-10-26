@@ -271,7 +271,8 @@ nightdx report
 * **Propagation** - great-circle path in F2 hops; foF2 follows local time, solar flux and Kp;
   MUF from hop geometry; George & Bradley D-layer absorption; ITU-R P.372 noise. MW uses an
   ITU-R P.368 ground-wave fit and the ITU-R P.1147 sky-wave formula. After every band scan the
-  difference between prediction and measurement is learned per station and beam.
+  difference between prediction and measurement is learned: a receiver-wide part (antenna, local
+  noise) for all stations plus a limited per-station part on shortwave, per station on MW.
 * **Band scan** - 768 kHz snapshots (~0.5 s each) straight from libairspyhf; each scheduled
   carrier is compared with the local noise floor.
 * **Recording** - AM demodulation from the IQ stream, saved as FLAC with full station metadata.

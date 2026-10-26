@@ -321,6 +321,8 @@ class Schedule:
                              if (round(e.khz), e.station.casefold()) not in mine] + own
             sched._resolve_sites()                  # own lines without coordinates
         sched.own_count = len(own)
+        from . import calibration
+        calibration.annotate_bands(sched.entries)
         return sched
 
     def merge_aoki(self, settings, add_mw: bool = True) -> None:

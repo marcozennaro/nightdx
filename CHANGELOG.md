@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.9.8 - 2026-10-26
+
+* **Better self-calibration on shortwave.** The corrections NightDX learns from your band scans
+  are now split into a receiver-wide part (your antenna, your local noise, the model's bias -
+  about -33 dB in Trieste), applied to every station, and each station's own deviation, kept
+  within +-10 dB. Before, stations never scanned got no correction at all and so jumped ahead of
+  the calibrated ones, and a few wild values (up to +-40 dB) went straight into the predictions.
+  On ~800 shortwave recordings: AUC 0.68 -> 0.72, rank correlation 0.38 -> 0.48. Medium wave,
+  where the per-station corrections work well, is unchanged. Existing learned data is reused.
+* Every scan measurement used for learning is also kept in `scan_pairs.jsonl` (data folder,
+  max 20 MB), so future changes to the calibration can be tested on real history.
+* *Why this score?* shows both parts of the learned correction.
+
 ## 0.9.7 - 2026-10-26
 
 * **HFCC data for better shortwave predictions.** NightDX now also downloads the HFCC public

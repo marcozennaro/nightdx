@@ -258,3 +258,21 @@ def test_hfcc_parse_and_beam():
     assert propagation.tx_gain_dbi(e, 304) == 21.0          # on the beam
     assert propagation.tx_gain_dbi(e, 304 + 12.5) == 18.0   # -3 dB at the half-width
     assert propagation.tx_gain_dbi(e, 124) == 1.0           # behind: 20 dB down
+
+
+def test_calibration_receiver_wide(tmp_path, monkeypatch):
+    from types import SimpleNamespace as NS
+    from nightdx import calibration, config
+    monkeypatch.setattr(config, "HOME", tmp_path)
+    data = {f"S{i}|X|site|Eu": {"db": -30.0 + (i % 3), "n": 5, "band": "sw"} for i in range(30)}
+    data["Wild|X|site|Eu"] = {"db": 40.0, "n": 2, "band": "sw"}
+    data["Local|I||I"] = {"db": 12.0, "n": 9, "band": "mw"}
+    (config.data_dir() / "learned.json").write_text(__import__("json").dumps(data))
+    monkeypatch.setattr(calibration, "_cache", None)
+    monkeypatch.setattr(calibration, "_receiver", None)
+    e = lambda name, khz, site="site", tgt="Eu": NS(station=name, tx_itu="X", tx_site=site, target=tgt, khz=khz)
+    g = calibration.receiver_offset("sw")
+    assert -30 <= g <= -28
+    assert calibration.offset(e("Never scanned", 9500)) == g          # unknown: receiver-wide
+    assert calibration.offset(e("Wild", 9500)) == g + 10              # capped deviation
+    assert calibration.offset(NS(station="Local", tx_itu="I", tx_site="", target="I", khz=1170)) == 12.0
