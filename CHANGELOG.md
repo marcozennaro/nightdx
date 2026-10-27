@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.9.9 - 2026-10-27
+
+* **Listen live** (key L, or *Record > Listen live*): plays the highlighted frequency through
+  the computer's speakers without recording, with a signal meter and the stations scheduled
+  there. Tune with -/+ (PgUp/PgDn = 5 kHz) or type a frequency; *Record* switches to a normal
+  recording.
+* **Sort any list** by clicking a column title: stations, countries, the night plan and the
+  listening log. Click again to reverse, a third time for the default order.
+* **Skip stations in night missions** (key X on the night plan or a station list): on that
+  frequency only, or on all frequencies - for stations you're not interested in or that the
+  schedule gets wrong. *Night > Skipped stations* lists them; Enter puts one back. Station lists
+  mark them "skipped at night".
+* The template of `my_stations.csv` now describes the Station field too.
+
 ## 0.9.8 - 2026-10-26
 
 * **Better self-calibration on shortwave.** The corrections NightDX learns from your band scans

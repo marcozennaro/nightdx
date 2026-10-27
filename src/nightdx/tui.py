@@ -36,10 +36,13 @@ MENUS = {
                  ("Show at another UTC time...", "at_time", "")],
     "Record": [("Record selected station", "record", "F5"),
                ("Record a frequency...", "record_freq", ""),
+               ("Listen live", "listen", "L"),
                ("Play last recording", "play_last", ""),
                ("Stop playback", "stop_play", "")],
     "Night": [("Night mission...", "night", "F6"),
               ("Preview tonight's plan", "plan", "F4"),
+              ("Skip highlighted station at night", "skip", "X"),
+              ("Skipped stations...", "skipped", ""),
               ("Stop running mission", "stop_mission", "")],
     "Log": [("Listening log", "log", "F7"),
             ("Classify pending recordings", "classify", ""),
@@ -299,6 +302,253 @@ class ConfirmDialog(Dialog):
         self.dismiss(False)
 
 
+# Columns where "best first" is the useful first click; others sort A-Z / low-high first
+DESC_FIRST = {"Heard dB", "Pred", "Score", "Heard", "On air", "Mod dB"}
+ARROWS = " ▲▼"
+
+
+def _sort_value(cell) -> tuple:
+    """Numbers as numbers, text case-insensitive, empty / '?' / '-' last."""
+    s = (cell.plain if isinstance(cell, Text) else str(cell)).strip().lstrip("? ").rstrip("%*")
+    try:
+        return (0, float(s.replace(",", "")))
+    except ValueError:
+        return (2, "") if s in ("", "-", "?") else (1, s.lower())
+
+
+def column_label(label) -> str:
+    return str(label).rstrip(ARROWS)
+
+
+def sort_table(t: DataTable, state: tuple | None) -> None:
+    """Sort by state = (column label, descending); None leaves the order as added.
+    The sorted column's header gets an arrow."""
+    for col in t.columns.values():
+        col.label = Text(column_label(col.label))
+    if not state:
+        return
+    label, desc = state
+    key = next((k for k, c in t.columns.items() if column_label(c.label) == label), None)
+    if key is None:
+        return
+    vals = [_sort_value(c) for c in t.get_column(key)]
+    if sum(v[0] == 0 for v in vals) >= sum(v[0] == 1 for v in vals):
+        t.sort(key, key=lambda c: (lambda g, v: (g, -v if desc and g == 0 else v))(*_sort_value(c)))
+    else:
+        t.sort(key, key=lambda c: (_sort_value(c)[0] != 1, _sort_value(c)[1]), reverse=desc)
+        if desc:          # keep the empty cells at the bottom
+            t.sort(key, key=lambda c: _sort_value(c)[0] == 2)
+    t.columns[key].label = Text(f"{label} {'▼' if desc else '▲'}")
+
+
+def next_sort(state: tuple | None, label: str) -> tuple | None:
+    """Clicking a header: best/first order, then the reverse, then back to the default."""
+    first = label in DESC_FIRST
+    if not state or state[0] != label:
+        return (label, first)
+    return (label, not first) if state[1] == first else None
+
+
+class SkipDialog(Dialog):
+    """Never record a station at night: on this frequency only, or on all of them."""
+
+    def __init__(self, entry: eibi.Entry):
+        super().__init__()
+        self.entry = entry
+
+    def compose(self) -> ComposeResult:
+        e = self.entry
+        with Vertical(classes="dialog") as d:
+            d.border_title = " Skip at night "
+            yield Static(f"Night missions will no longer record {e.station}.\n"
+                         f"(Undo it in Night > Skipped stations.)")
+            with Horizontal(classes="buttons"):
+                yield Button(f"Only on {e.khz:g} kHz", id="one")
+                yield Button("On all frequencies", id="all")
+                yield Button("Cancel", id="no", classes="cancel")
+
+    @on(Button.Pressed, "#one")
+    def one(self) -> None:
+        self.dismiss(mission.skip_key(self.entry))
+
+    @on(Button.Pressed, "#all")
+    def all_(self) -> None:
+        self.dismiss(mission.skip_key(self.entry, any_freq=True))
+
+    @on(Button.Pressed, "#no")
+    def no_(self) -> None:
+        self.dismiss(None)
+
+
+class SkippedDialog(Dialog):
+    """The stations night missions skip; Enter puts one back."""
+
+    def compose(self) -> ComposeResult:
+        with Vertical(classes="dialog") as d:
+            d.border_title = " Skipped at night "
+            yield Label("Enter: record this station again.  Station@kHz = that frequency only.\n"
+                        "Add stations with X on the night plan (F4) or a station list.")
+            yield OptionList(id="skiplist")
+            with Horizontal(classes="buttons"):
+                yield Button("Close", id="close", classes="cancel")
+
+    def on_mount(self) -> None:
+        self._fill()
+
+    def _fill(self) -> None:
+        ol = self.query_one(OptionList)
+        ol.clear_options()
+        skip = self.app.settings.mission.skip
+        ol.add_options([Option(s, id=str(i)) for i, s in enumerate(skip)] or
+                       [Option("(none)", disabled=True)])
+        if skip:
+            ol.highlighted = 0
+        ol.focus()
+
+    @on(OptionList.OptionSelected)
+    def restore(self, ev: OptionList.OptionSelected) -> None:
+        s = self.app.settings
+        name = s.mission.skip.pop(int(ev.option.id))
+        s.save()
+        self.app.notify(f"{name} will be recorded again.")
+        self._fill()
+
+    @on(Button.Pressed, "#close")
+    def close_(self) -> None:
+        self.dismiss("changed")
+
+    def action_close(self) -> None:
+        self.dismiss("changed")
+
+
+class LiveDialog(Dialog):
+    """Listen to a frequency live through the computer's speakers, without recording."""
+
+    BINDINGS = [Binding("escape", "close"), Binding("pageup", "step(5)"),
+                Binding("pagedown", "step(-5)")]
+
+    def __init__(self, khz: float):
+        super().__init__()
+        self.khz = khz
+        self.stop = threading.Event()
+        self.retune = threading.Event()
+        self.want_record = False
+
+    def compose(self) -> ComposeResult:
+        with Vertical(classes="dialog") as d:
+            d.border_title = " Listen live "
+            yield Static(id="liveinfo")
+            yield Static("tuning...", id="lvl")
+            with Horizontal(classes="row"):
+                yield Label("Frequency kHz")
+                yield Input(f"{self.khz:g}", id="lfreq")
+            with Horizontal(classes="buttons"):
+                yield Button("-5", id="m5")
+                yield Button("-1", id="m1")
+                yield Button("+1", id="p1")
+                yield Button("+5", id="p5")
+                yield Button("Record", id="lrec")
+                yield Button("Close", id="close", classes="cancel")
+            yield Label("Type a frequency + Enter, or -/+ buttons (PgUp/PgDn = 5 kHz). "
+                        "Record: switch to a normal recording.")
+
+    def on_mount(self) -> None:
+        self.app.radio_busy = True
+        self._show_info()
+        self.run()
+
+    def _show_info(self) -> None:
+        app: NightDX = self.app
+        now = datetime.now(timezone.utc)
+        hits = [e for e in (app.sched.on_air(now) if app.sched else []) if abs(e.khz - self.khz) < 0.6]
+        if hits:
+            info = "\n".join(f"{e.station} - {app.sched.country_name(e.itu)} - "
+                             f"{app.sched.language_name(e.lang)} ({e.time_str})" for e in hits[:4])
+            if len(hits) > 4:
+                info += f"\n... and {len(hits) - 4} more"
+        else:
+            info = "Nothing scheduled on this frequency now."
+        self.query_one("#liveinfo", Static).update(Text(f"{self.khz:g} kHz, scheduled now:\n{info}"))
+
+    def _ui(self, fn, *args) -> None:
+        def safe():
+            if self.is_attached:
+                fn(*args)
+        self.app.call_from_thread(safe)
+
+    def _level(self, carrier: float, mod: float) -> None:
+        snr = carrier - 26                  # per-bin carrier -> SNR in a 5 kHz channel, as in scan.py
+        n = max(0, min(40, int(snr * 40 / 60)))
+        style = "bold #55ff55" if snr >= 20 else "bold #ffff55" if snr >= 5 else "#ff5555"
+        self.query_one("#lvl", Static).update(
+            Text("█" * n, style=style) + Text("░" * (40 - n), style="#5555aa")
+            + Text(f" {max(snr, 0):3.0f} dB  modulation {max(mod, 0):.0f} dB"))
+
+    @work(thread=True)
+    def run(self) -> None:
+        app: NightDX = self.app
+        try:
+            while not self.stop.is_set():
+                self.retune.clear()
+                receiver.listen(app.settings, self.khz, self.stop, self.retune,
+                                on_level=lambda c, m: self._ui(self._level, c, m))
+        except Exception as e:
+            msg = str(e).splitlines()[0] if str(e) else type(e).__name__
+            self._ui(lambda: self.query_one("#lvl", Static).update(
+                Text(f"Can't listen: {msg}", style="bold #ff5555")))
+        finally:
+            app.radio_busy = False
+            if self.want_record:
+                app.call_from_thread(self._to_record)
+
+    def _to_record(self) -> None:
+        if self.is_attached:
+            self.dismiss(None)
+        self.app.record_khz(self.khz)
+
+    def tune(self, khz: float) -> None:
+        lo, hi = 150, 31000                 # the HF+ covers LW to 31 MHz
+        if not lo <= khz <= hi:
+            self.app.notify(f"{khz:g} kHz is outside {lo:g}-{hi} kHz.", severity="warning")
+            return
+        self.khz = round(khz, 3)
+        self.query_one("#lfreq", Input).value = f"{self.khz:g}"
+        self.query_one("#lvl", Static).update("tuning...")
+        self._show_info()
+        self.retune.set()
+
+    def action_step(self, d: float) -> None:
+        self.tune(self.khz + d)
+
+    @on(Input.Submitted, "#lfreq")
+    def typed(self, ev: Input.Submitted) -> None:
+        try:
+            self.tune(float(ev.value.replace(",", ".")))
+        except ValueError:
+            self.app.notify("Type a frequency in kHz, e.g. 6070", severity="warning")
+
+    @on(Button.Pressed, "#m5")
+    @on(Button.Pressed, "#m1")
+    @on(Button.Pressed, "#p1")
+    @on(Button.Pressed, "#p5")
+    def step_btn(self, ev: Button.Pressed) -> None:
+        self.tune(self.khz + float(str(ev.button.label)))
+
+    @on(Button.Pressed, "#lrec")
+    def record(self) -> None:
+        self.want_record = True
+        self.query_one("#lrec", Button).disabled = True
+        self.stop.set()
+
+    @on(Button.Pressed, "#close")
+    def close_(self) -> None:
+        self.stop.set()
+        self.dismiss(None)
+
+    def action_close(self) -> None:
+        self.close_()
+
+
 def send_qsl_report(app, row) -> None:
     """Prepare a reception report (Gmail draft with the recording attached) for a logged
     recording - the same as the browser's 'Send report' button. Asks first if this station
@@ -531,7 +781,8 @@ class LogDialog(Dialog):
         with Vertical(classes="dialog") as d:
             d.border_title = " Listening log "
             d.styles.width = 120
-            yield Label("Enter/P play   S stop   Q QSL report   C re-classify   Esc close")
+            yield Label("Enter/P play   S stop   Q QSL report   C re-classify   Esc close   "
+                        "Click a column title to sort")
             yield DataTable(id="logt", cursor_type="row", zebra_stripes=True)
             yield Static(id="logsum")
             with Horizontal(classes="buttons"):
@@ -541,6 +792,7 @@ class LogDialog(Dialog):
                 yield Button("Close", id="close", classes="cancel")
 
     def on_mount(self) -> None:
+        self.sort: tuple | None = None
         t = self.query_one(DataTable)
         t.add_columns("UTC", "kHz", "Station", "Country", "Lang", "Pred", "Mod dB", "AI verdict", "Mission")
         self.refresh_rows()
@@ -564,9 +816,15 @@ class LogDialog(Dialog):
                       (r["country"] or "")[:14], (r["language"] or "")[:10], f"{r['predicted_score'] or 0}%",
                       "" if r["modulation_db"] is None else f"{r['modulation_db']:.0f}",
                       verdict, r["mission"] or "", key=k)
+        sort_table(t, self.sort)
         n = len(self.rows)
         self.query_one("#logsum", Static).update(f"{n} recordings in the log (voice/music/noise %). Station = scheduled "
                                                   f"candidate; [#ff5555]?[/] = probably another station.")
+
+    @on(DataTable.HeaderSelected)
+    def header(self, ev: DataTable.HeaderSelected) -> None:
+        self.sort = next_sort(self.sort, column_label(ev.label))
+        sort_table(self.query_one(DataTable), self.sort)
 
     def _current(self):
         t = self.query_one(DataTable)
@@ -790,7 +1048,10 @@ class SettingsDialog(Dialog):
               "qsl.years_collecting": "Years collecting QSLs", "qsl.receiver": "Receiver",
               "qsl.antenna": "Antenna", "mission.discovery": "Discovery: prefer stations I miss",
               "mission.discovery_min_snr": "Discovery: min. clarity (dB)",
-              "mission.rest_days": "Discovery: 'new' again after (days)"}
+              "mission.rest_days": "Discovery: 'new' again after (days)",
+              "mission.skip": "Skip at night (Station@kHz, ...)",
+              "receiver.tune_offset_hz": "Tune offset Hz (dodges DC spike)",
+              "receiver.freq_correction_ppm": "Frequency correction (ppm)"}
 
     def compose(self) -> ComposeResult:
         s = self.app.settings
@@ -855,6 +1116,9 @@ HELP = """NightDX - unattended shortwave listening with the AirSpy HF+
   Esc    back (stations -> countries), also stops playback
   I      why this score?     +  add country to night targets
   T      choose night targets
+  X      skip the highlighted station in night missions (Night > Skipped stations)
+  L      listen live to the highlighted frequency (no recording)
+  Click a column title to sort by it (again: reverse, third time: default order)
   Ctrl+R refresh the list (it also refreshes by itself every minute)
   Ctrl+U download a fresh EiBi schedule + space weather
   Alt+letter opens a menu (macOS Terminal: enable "Use Option as Meta key")
@@ -921,6 +1185,7 @@ class NightDX(App):
     BINDINGS = [
         Binding("f1", "do('help')"), Binding("f2", "do('best')"), Binding("f3", "do('countries')"),
         Binding("ctrl+r", "do('refresh')"), Binding("i", "do('why')"), Binding("t", "do('select')"),
+        Binding("x", "do('skip')"), Binding("l", "do('listen')"),
         Binding("plus", "do('add_target')"), Binding("escape", "do('back')"),
         Binding("backspace", "do('back')"),
         Binding("f4", "do('plan')"), Binding("f5", "do('record')"), Binding("f6", "do('night')"),
@@ -946,6 +1211,7 @@ class NightDX(App):
         self.player = osutil.Player()
         self.last_file: str | None = None
         self.device = "checking..."
+        self.sorts: dict[str, tuple] = {}   # column sort per kind of list (session only)
 
     # ---------------------------------------------------------------- layout
     def compose(self) -> ComposeResult:
@@ -1151,6 +1417,7 @@ class NightDX(App):
                       self._score(c["pmax"]), f"{c['heard']}" if measured else "?", str(c["n"]),
                       e.station[:22], f"{e.khz:g}", self.sched.language_name(e.lang)[:12], key=itu)
             self.rows[itu], self.preds[itu], self.meas[itu] = e, p, c["m"]
+        sort_table(t, self.sorts.get("countries"))
         t.focus()
 
     def show_stations(self, view: str) -> None:
@@ -1169,11 +1436,14 @@ class NightDX(App):
         self._title(f"On the air {when} - {what}", measured)
         for i, (e, p, m, primary) in enumerate(rows):
             note = p.note if primary or not scan.heard(m) else "shares freq."
+            if mission.skipped(e, self.settings.mission.skip):
+                note = "skipped at night"
             t.add_row(f"{e.khz:g}", self._heard(m, primary), self._score(p.score), e.station[:26],
                       self.sched.country_name(e.itu)[:16], self.sched.language_name(e.lang)[:12],
                       e.target, f"{p.distance_km:.0f}", e.time_str, e.days or "daily", note,
                       key=str(i))
             self.rows[str(i)], self.preds[str(i)], self.meas[str(i)] = e, p, m
+        sort_table(t, self.sorts.get("stations"))
         if not rows:
             self.notify("Nothing matching is on the air at this time.")
         t.focus()
@@ -1193,6 +1463,11 @@ class NightDX(App):
                       f"{pk.pred.score}%", e.station[:28], self.sched.country_name(e.itu)[:18],
                       self.sched.language_name(e.lang)[:14], pk.target, key=str(len(self.rows)))
             self.rows[str(len(self.rows))] = e
+        sort_table(t, self.sorts.get("plan"))
+        skip = len(m.skip)
+        if skip:
+            title = str(self.query_one("#main").border_title).rstrip()
+            self.query_one("#main").border_title = f"{title}, {skip} skipped (X to skip more) "
         self.view = "plan"
 
     def selected_key(self) -> str | None:
@@ -1203,6 +1478,12 @@ class NightDX(App):
 
     def selected_entry(self) -> eibi.Entry | None:
         return self.rows.get(self.selected_key() or "")
+
+    @on(DataTable.HeaderSelected, "#table")
+    def header_click(self, ev: DataTable.HeaderSelected) -> None:
+        kind = "countries" if self.view == "countries" else "plan" if self.view == "plan" else "stations"
+        self.sorts[kind] = next_sort(self.sorts.get(kind), column_label(ev.label))
+        sort_table(self.query_one("#table", DataTable), self.sorts[kind])
 
     @on(DataTable.RowSelected, "#table")
     def row_enter(self) -> None:
@@ -1422,13 +1703,53 @@ class NightDX(App):
                 khz = float(v)
             except ValueError:
                 return
-            now = datetime.now(timezone.utc)
-            hits = [x for x in (self.sched.on_air(now) if self.sched else []) if abs(x.khz - khz) < 0.6]
-            e = hits[0] if hits else eibi.Entry(khz, 0, 0, "", "XUU", f"Unknown {khz:g} kHz",
-                                                "", "", "", "", "", "")
-            if not self._mission_busy():
-                self.push_screen(RecordDialog(e))
+            self.record_khz(khz)
         self.push_screen(Prompt("Record a frequency", "Frequency in kHz:", "9420"), after)
+
+    def record_khz(self, khz: float) -> None:
+        now = datetime.now(timezone.utc)
+        hits = [x for x in (self.sched.on_air(now) if self.sched else []) if abs(x.khz - khz) < 0.6]
+        e = hits[0] if hits else eibi.Entry(khz, 0, 0, "", "XUU", f"Unknown {khz:g} kHz",
+                                            "", "", "", "", "", "")
+        if not self._mission_busy():
+            self.push_screen(RecordDialog(e))
+
+    def do_listen(self) -> None:
+        if self._mission_busy():
+            return
+        e = self.selected_entry() if self.view != "countries" else None
+        if e:
+            self.push_screen(LiveDialog(e.khz))
+            return
+
+        def after(v):
+            try:
+                self.push_screen(LiveDialog(float(v.replace(",", "."))))
+            except (AttributeError, ValueError):
+                pass
+        self.push_screen(Prompt("Listen live", "Frequency in kHz:", "9420"), after)
+
+    def do_skip(self) -> None:
+        e = self.selected_entry() if self.view != "countries" else None
+        if not e:
+            self.notify("Highlight a station first (F4 night plan or F2).")
+            return
+
+        def after(key):
+            if not key:
+                return
+            s = self.settings
+            if key.lower() not in {x.lower() for x in s.mission.skip}:
+                s.mission.skip.append(key)
+                s.save()
+            running = mission.read_state().get("state") in ("waiting", "recording", "scanning")
+            self.notify(f"Skipping {key} at night" + (" (from the next mission - one is running)"
+                                                      if running else "") + ".")
+            self.render_view()
+        self.push_screen(SkipDialog(e), after)
+
+    def do_skipped(self) -> None:
+        self.push_screen(SkippedDialog(), lambda r: self.render_view())
 
     def play(self, path: str) -> None:
         self.player.play(path)

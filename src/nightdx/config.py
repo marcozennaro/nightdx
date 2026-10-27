@@ -98,6 +98,7 @@ class Mission:
     discovery: bool = True           # prefer stations you haven't recorded (see mission.py)
     discovery_min_snr: float = 5.0   # ...but only if heard at least this clearly (dB)
     rest_days: int = 7               # a station counts as "new" again after this many days
+    skip: list[str] = field(default_factory=list)   # never record: "Station@kHz" or "Station"
 
 
 @dataclass

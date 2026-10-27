@@ -250,3 +250,82 @@ class _Source:
         except subprocess.TimeoutExpired:
             self.proc.kill()
         return self.proc.stderr.read().decode(errors="replace")
+
+
+# ----------------------------------------------------------------------------- live listening
+
+class LiveDemod:
+    """The recording chain (offset mix, channel filter, envelope, audio filter) for live
+    audio, chunk by chunk, plus the signal level of each chunk and a slow AGC so weak and
+    strong stations play at a similar volume."""
+
+    def __init__(self, settings: Settings):
+        rx = settings.receiver
+        self.sr, self.rate = rx.sample_rate, settings.recording.audio_rate
+        if self.sr % self.rate:
+            raise ReceiverError(f"sample rate {self.sr} is not a multiple of audio rate {self.rate}")
+        self.dec = self.sr // self.rate
+        self.w = 2 * np.pi * rx.tune_offset_hz / self.sr
+        self.phase = 0.0
+        self.chan = signal.cheby2(10, 60, 5500, fs=self.sr, output="sos")
+        self.dc = signal.butter(2, 60, "highpass", fs=self.rate, output="sos")
+        self.aud = signal.butter(6, settings.recording.audio_bandwidth_hz, fs=self.rate, output="sos")
+        self.zc, self.zd, self.za = (signal.sosfilt_zi(f) * 0 for f in (self.chan, self.dc, self.aud))
+        self.carry = np.zeros(0, dtype=np.complex64)
+        self.gain = None
+        self.nfft = 8192
+        self.win = np.hanning(self.nfft)
+        self.freqs = np.abs(np.fft.fftshift(np.fft.fftfreq(self.nfft, 1 / self.sr)))
+
+    def process(self, block: np.ndarray) -> tuple[np.ndarray, float | None, float | None]:
+        """IQ block -> (audio float32, carrier dB above noise, modulation dB above noise).
+        The levels are None when the block is too short to measure."""
+        x = np.concatenate([self.carry, block])
+        n = len(x) - len(x) % self.dec
+        x, self.carry = x[:n], x[n:]
+        y = x * np.exp(1j * (self.phase + self.w * np.arange(n))).astype(np.complex64)
+        self.phase = (self.phase + self.w * n) % (2 * np.pi)
+        carrier = mod = None
+        if n >= self.nfft:
+            spec = np.abs(np.fft.fftshift(np.fft.fft(y[:self.nfft] * self.win))) ** 2
+            noise = np.median(spec[(self.freqs > 6000) & (self.freqs < 60000)]) or 1e-20
+            carrier = float(10 * np.log10(spec[self.freqs < 40].max() / noise))
+            mod = float(10 * np.log10(spec[(self.freqs > 200) & (self.freqs < 4500)].mean() / noise))
+        y, self.zc = signal.sosfilt(self.chan, y, zi=self.zc)
+        env = np.abs(y[::self.dec])
+        a, self.zd = signal.sosfilt(self.dc, env, zi=self.zd)
+        a, self.za = signal.sosfilt(self.aud, a, zi=self.za)
+        if len(a):
+            peak = float(np.percentile(np.abs(a), 99)) or 1e-9
+            g = 0.5 / peak
+            self.gain = g if self.gain is None else min(g, self.gain * 0.8 + g * 0.2)
+            a = np.clip(a * self.gain, -1, 1)
+        return a.astype(np.float32), carrier, mod
+
+
+def listen(settings: Settings, khz: float, stop: threading.Event, retune: threading.Event,
+           on_level=None) -> None:
+    """Play `khz` live through the computer's speakers until `stop` is set. When `retune`
+    is set, return so the caller can start again on a new frequency."""
+    import sounddevice as sd
+    rx = settings.receiver
+    demod = LiveDemod(settings)
+    source = _Source(settings, khz * 1000 + rx.tune_offset_hz, rx.sample_rate * 3600 * 12)
+    try:
+        with sd.OutputStream(samplerate=demod.rate, channels=1, dtype="float32") as out:
+            pending, have = [], 0
+            for block in source.blocks():
+                if stop.is_set() or retune.is_set():
+                    break
+                pending.append(block)               # USB blocks are small: work in 0.1 s chunks
+                have += len(block)
+                if have < rx.sample_rate // 10:
+                    continue
+                chunk, pending, have = np.concatenate(pending), [], 0
+                audio, carrier, mod = demod.process(chunk)
+                if len(audio):
+                    out.write(audio.reshape(-1, 1))
+                if on_level and carrier is not None:
+                    on_level(carrier, mod)
+    finally:
+        source.close()

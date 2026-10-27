@@ -147,6 +147,19 @@ Then press **F1** for the keys. The essentials:
 | F4 | preview tonight's plan | F8 | report |
 | F5 / Enter | record the highlighted station | F9 | settings |
 | I | why this score? | Ctrl+R | scan the bands now |
+| L | listen live to the highlighted frequency | X | skip the highlighted station in night missions |
+
+Click a column title to sort a list by it (click again to reverse, a third time for the default
+order). *Listen live* plays the station through your speakers without recording, with a signal
+meter; tune with the -/+ buttons or type a frequency, and *Record* switches to a normal
+recording. Stations you skip with **X** (on the night plan, F4, or any station list) are left
+out of night missions - on that frequency only or on all of them; *Night > Skipped stations*
+puts them back.
+
+*Settings > Receiver > Tune offset* is not a frequency correction: the HF+ is tuned that many Hz
+above the station (10 kHz by default) and NightDX shifts the signal back in software, which
+keeps the station clear of the small spike at the centre of the receiver's spectrum. You still
+hear and record the frequency you chose.
 
 The day-by-day log, reception-report buttons and QSL cards live in your browser:
 *Log > Open HTML report in browser*.

@@ -39,6 +39,18 @@ class Pick:
     reason: str = ""
 
 
+def skip_key(e: Entry, any_freq: bool = False) -> str:
+    """How a station is written in mission.skip: 'Station@6070' (that frequency) or 'Station'."""
+    return e.station if any_freq else f"{e.station}@{e.khz:g}"
+
+
+def skipped(e: Entry, skip: list[str]) -> bool:
+    if not skip:
+        return False
+    s = {x.strip().lower() for x in skip}
+    return e.station.lower() in s or skip_key(e).lower() in s
+
+
 # Discovery mode: among the stations a scan hears clearly, prefer the ones you are
 # missing. Lower tier = picked first; within a tier the loudest wins.
 TIER_NAMES = ["never recorded before", "recorded before only as noise",
@@ -120,8 +132,9 @@ class Planner:
 
     def candidates(self, t: datetime) -> list[Entry]:
         minutes = self.settings.recording.duration_s / 60 + 0.5
+        skip = self.settings.mission.skip
         return [e for e in self.sched.on_air(t, minutes)
-                if any(m(e) for m in self.matchers.values())]
+                if any(m(e) for m in self.matchers.values()) and not skipped(e, skip)]
 
     def choose(self, t: datetime, measured: dict | None = None) -> Pick | None:
         """Next target in turn; with a fresh scan, the loudest station really coming in,

@@ -276,3 +276,78 @@ def test_calibration_receiver_wide(tmp_path, monkeypatch):
     assert calibration.offset(e("Never scanned", 9500)) == g          # unknown: receiver-wide
     assert calibration.offset(e("Wild", 9500)) == g + 10              # capped deviation
     assert calibration.offset(NS(station="Local", tx_itu="I", tx_site="", target="I", khz=1170)) == 12.0
+
+
+def test_live_listening(monkeypatch):
+    """Live audio: the same AM chain as a recording, played in a stream, with a level
+    reading; it stops when asked."""
+    import sys
+    import threading
+    import types
+    import numpy as np
+    from nightdx import hfdev, receiver
+
+    stop, retune = threading.Event(), threading.Event()
+    played, levels = [], []
+
+    class FakeHF:
+        def __init__(self, sr, rx):
+            self.sr = sr
+
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *a):
+            pass
+
+        def stream(self, freq_hz, total, settle_s=0.0):
+            t = np.arange(self.sr * 3) / self.sr
+            iq = 1e-3 * (1 + 0.7 * np.sin(2 * np.pi * 1000 * t)) * np.exp(-2j * np.pi * 10_000 * t)
+            iq = (iq + 1e-6 * (np.random.randn(len(t)) + 1j * np.random.randn(len(t)))).astype(np.complex64)
+            for i in range(0, len(iq), 1024):
+                yield iq[i:i + 1024]
+            stop.set()
+
+    class FakeOut:
+        def __init__(self, **kw):
+            pass
+
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *a):
+            pass
+
+        def write(self, a):
+            played.append(a[:, 0].copy())
+
+    monkeypatch.setattr(hfdev, "HFPlus", FakeHF)
+    monkeypatch.setitem(sys.modules, "sounddevice", types.SimpleNamespace(OutputStream=FakeOut))
+    s = config.Settings()
+    s.receiver.backend = "library"
+    receiver.listen(s, 6000, stop, retune, on_level=lambda c, m: levels.append((c, m)))
+    audio = np.concatenate(played)[s.recording.audio_rate:]       # skip the AGC's first second
+    assert len(audio) > s.recording.audio_rate
+    spec = np.abs(np.fft.rfft(audio))
+    assert abs((np.argmax(spec[10:]) + 10) * s.recording.audio_rate / len(audio) - 1000) < 20
+    assert 0.2 < np.abs(audio).max() <= 1.0
+    assert levels and min(c for c, _ in levels) > 40
+
+
+def test_table_sorting_and_night_skip():
+    from rich.text import Text
+    from nightdx import mission
+    from nightdx.tui import _sort_value, next_sort
+    cells = ["12", Text(" 31*"), Text("  ?"), Text("  -"), "5%"]
+    assert sorted(cells, key=_sort_value)[:3] == ["5%", "12", Text(" 31*")]
+    assert _sort_value(Text("? Radio X"))[1] == "radio x"
+    assert next_sort(None, "Pred") == ("Pred", True)          # best first
+    assert next_sort(("Pred", True), "Pred") == ("Pred", False)
+    assert next_sort(("Pred", False), "Pred") is None         # back to the default order
+    assert next_sort(None, "Country") == ("Country", False)   # A-Z first
+
+    e = Entry(6070, 0, 1440, "", "D", "Radio Channel 292", "E", "Eu", "", "", "", "")
+    other = Entry(9670, 0, 1440, "", "D", "Radio Channel 292", "E", "Eu", "", "", "", "")
+    assert mission.skip_key(e) == "Radio Channel 292@6070"
+    assert mission.skipped(e, ["radio channel 292@6070"]) and not mission.skipped(other, ["Radio Channel 292@6070"])
+    assert mission.skipped(other, [mission.skip_key(e, any_freq=True)])
