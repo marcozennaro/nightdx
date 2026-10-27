@@ -22,6 +22,7 @@ TEMPLATE = """\
 #
 #  UTC       0000-2400 = all day, or e.g. 1900-2130
 #  Days      empty = every day, 1234567 (1 = Monday), or Mo-Fr / Sa,Su as in EiBi
+#  Station   station name (required)
 #  Country   ITU code as in EiBi (I, D, SVN, USA, ...) or the country's name
 #  Language  code (E, I, ...) or name (English, Italian, ...)
 #  Target    optional, e.g. Eu, NAm
