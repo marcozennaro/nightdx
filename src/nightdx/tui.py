@@ -454,6 +454,8 @@ class LiveDialog(Dialog):
 
     def on_mount(self) -> None:
         self.app.radio_busy = True
+        # fixed height (heading + 3 stations + "... more"), so the buttons don't jump while tuning
+        self.query_one("#liveinfo", Static).styles.height = 5
         self._show_info()
         self.run()
 
@@ -463,9 +465,9 @@ class LiveDialog(Dialog):
         hits = [e for e in (app.sched.on_air(now) if app.sched else []) if abs(e.khz - self.khz) < 0.6]
         if hits:
             info = "\n".join(f"{e.station} - {app.sched.country_name(e.itu)} - "
-                             f"{app.sched.language_name(e.lang)} ({e.time_str})" for e in hits[:4])
-            if len(hits) > 4:
-                info += f"\n... and {len(hits) - 4} more"
+                             f"{app.sched.language_name(e.lang)} ({e.time_str})" for e in hits[:3])
+            if len(hits) > 3:
+                info += f"\n... and {len(hits) - 3} more"
         else:
             info = "Nothing scheduled on this frequency now."
         self.query_one("#liveinfo", Static).update(Text(f"{self.khz:g} kHz, scheduled now:\n{info}"))

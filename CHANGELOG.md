@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.9.10 - 2026-10-28
+
+* *Listen live*: the station information has a fixed height, so the tuning buttons no longer
+  jump up and down while you step through the band (thanks, Martin).
+
 ## 0.9.9 - 2026-10-27
 
 * **Listen live** (key L, or *Record > Listen live*): plays the highlighted frequency through
